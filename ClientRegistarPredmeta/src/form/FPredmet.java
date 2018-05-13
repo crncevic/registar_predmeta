@@ -5,18 +5,24 @@
  */
 package form;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+
 /**
  *
  * @author Petar
  */
 public class FPredmet extends javax.swing.JDialog {
 
+    JFrame fMain;
+
     /**
      * Creates new form FPredmet
      */
-    public FPredmet(java.awt.Frame parent, boolean modal) {
+    public FPredmet(java.awt.Frame parent, boolean modal, FMain fMain) {
         super(parent, modal);
         initComponents();
+        this.fMain = fMain;
     }
 
     /**
@@ -75,6 +81,7 @@ public class FPredmet extends javax.swing.JDialog {
         jBtnObrisiObavezu = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jBtnUnosSadrzajaTekst = new javax.swing.JButton();
+        jBtnUnosStruktuiraniOblik = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Predmet");
@@ -154,10 +161,9 @@ public class FPredmet extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboTipNastave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBtnDodajNastavnika, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jBtnObrisiNastavnika, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -296,12 +302,21 @@ public class FPredmet extends javax.swing.JDialog {
 
         jBtnUnosSadrzajaTekst.setText("Unos u tekstualnom obliku");
 
+        jBtnUnosStruktuiraniOblik.setText("Unos u struktuiranom obliku");
+        jBtnUnosStruktuiraniOblik.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnUnosStruktuiraniOblikActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(272, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
+                .addComponent(jBtnUnosStruktuiraniOblik, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(jBtnUnosSadrzajaTekst, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
         );
@@ -309,8 +324,10 @@ public class FPredmet extends javax.swing.JDialog {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jBtnUnosSadrzajaTekst)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBtnUnosSadrzajaTekst)
+                    .addComponent(jBtnUnosStruktuiraniOblik))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -376,9 +393,8 @@ public class FPredmet extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 134, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jTxtUdzbenikId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -425,8 +441,8 @@ public class FPredmet extends javax.swing.JDialog {
                             .addComponent(jLabel11)
                             .addComponent(jTxtStudijskiIstrazivackiRad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
         pack();
@@ -448,10 +464,14 @@ public class FPredmet extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jBtnObrisiUdzbenikActionPerformed
 
+    private void jBtnUnosStruktuiraniOblikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUnosStruktuiraniOblikActionPerformed
+        JDialog fSadrzajStruktura = new FSadrzajStruktura(fMain, true);
+        fSadrzajStruktura.setVisible(true);
+    }//GEN-LAST:event_jBtnUnosStruktuiraniOblikActionPerformed
+
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<Object> JComboUdzbenik;
@@ -463,6 +483,7 @@ public class FPredmet extends javax.swing.JDialog {
     private javax.swing.JButton jBtnObrisiObavezu;
     private javax.swing.JButton jBtnObrisiUdzbenik;
     private javax.swing.JButton jBtnUnosSadrzajaTekst;
+    private javax.swing.JButton jBtnUnosStruktuiraniOblik;
     private javax.swing.JComboBox<Object> jComboIzborNastavnika;
     private javax.swing.JComboBox<Object> jComboTipNastave;
     private javax.swing.JComboBox<Object> jComboVrstaINivoStudija;

@@ -167,7 +167,7 @@ public class FMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemKonekcijaSaBazomActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        JDialog fPredmet = new FPredmet(this, true);
+        JDialog fPredmet = new FPredmet(this, true,this);
         fPredmet.setVisible(true);
 
         statusLabel.setText("Use case: Kreiranje predmeta!");
