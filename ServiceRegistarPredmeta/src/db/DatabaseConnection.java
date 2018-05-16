@@ -7,7 +7,7 @@ package db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import util.SettingsLoader;
+import settings.util.SettingsLoader;
 
 /**
  *

@@ -14,7 +14,8 @@ import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.text.IconView;
-import util.SettingsLoader;
+import settings.util.SettingsLoader;
+
 
 /**
  *

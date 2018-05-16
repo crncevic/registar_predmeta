@@ -38,4 +38,8 @@ public class Session {
     public void setSocket(Socket socket) {
         this.socket = socket;
     }
+
+    public Socket getSocket() {
+        return this.socket;
+    }
 }

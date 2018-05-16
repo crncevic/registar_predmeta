@@ -15,17 +15,20 @@ import session.Session;
  *
  * @author Petar
  */
-public class FLogin extends javax.swing.JFrame {
+public class FLogin extends javax.swing.JDialog {
 
+    FMain fMain;
     int brojacPokusaja;
 
     /**
      * Creates new form FLogin
      */
-    public FLogin() {
+    public FLogin(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         centrirajFormu();
         brojacPokusaja = 0;
+        fMain = FMain.getInstance();
     }
 
     /**
@@ -43,7 +46,7 @@ public class FLogin extends javax.swing.JFrame {
         jPassword = new javax.swing.JPasswordField();
         jBtnLogin = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Ulogujte se");
         setResizable(false);
 
@@ -116,9 +119,9 @@ public class FLogin extends javax.swing.JFrame {
 
                 if (korisnik != null) {
                     Session.getInstance().getMap().put("ulogovani_korisnik", korisnik);
+                    fMain.omoguciMenije();
+                    fMain.postaviUlogovanogKorisnika();
                     dispose();
-                    JFrame fMain = FMain.getInstance();
-                    fMain.setVisible(true);
 
                 } else {
                     brojacPokusaja++;

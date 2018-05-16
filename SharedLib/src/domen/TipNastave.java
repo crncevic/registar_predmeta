@@ -5,11 +5,13 @@
  */
 package domen;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Petar
  */
-public class TipNastave implements OpstiDomenskiObjekat {
+public class TipNastave implements OpstiDomenskiObjekat , Serializable{
 
     private int tipNastaveId;
     private String naziv;

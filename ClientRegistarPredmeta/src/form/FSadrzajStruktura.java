@@ -190,6 +190,9 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
             return;
         }
 
+        dtm.removeNodeFromParent(selektovaniCvor);
+        
+
     }//GEN-LAST:event_jBtnDeleteActionPerformed
 
     /**

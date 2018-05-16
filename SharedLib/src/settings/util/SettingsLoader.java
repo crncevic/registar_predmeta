@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package util;
+package settings.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,7 +25,7 @@ public class SettingsLoader {
 
     private void loadProperties() throws FileNotFoundException, IOException {
         try {
-            FileInputStream fis = new FileInputStream("db.properties");
+            FileInputStream fis = new FileInputStream("C:\\Users\\Petar\\Desktop\\Projektovanje softvera\\Seminarski_rad\\Projekat_PS\\SharedLib\\db.properties");
             propeties = new Properties();
             propeties.load(fis);
         } catch (FileNotFoundException fnfe) {

@@ -5,7 +5,7 @@
  */
 package form;
 
-import domen.Korisnik;     
+import domen.Korisnik;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
@@ -32,7 +32,8 @@ public class FMain extends javax.swing.JFrame {
         initComponents();
         maksimizirajFormu();
         postaviStatusBar();
-        postaviUlogovanogKorisnika();
+        onemoguciMenije();
+       
     }
 
     public static FMain getInstance() {
@@ -59,10 +60,15 @@ public class FMain extends javax.swing.JFrame {
         jMenuUdzbenik = new javax.swing.JMenu();
         jMenuKreirajUdzbenik = new javax.swing.JMenuItem();
         jMenuItemPretraziUdzbenik = new javax.swing.JMenuItem();
-        jMenuKreirajPredmet = new javax.swing.JMenu();
+        jMenuPredmet = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuPretrazi = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuAutor = new javax.swing.JMenu();
+        jMenuKonekcijaSaServerom = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuPristupSistemu = new javax.swing.JMenu();
+        jMenuItemLogin = new javax.swing.JMenuItem();
+        jMenuItemLogout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,7 +108,7 @@ public class FMain extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuUdzbenik);
 
-        jMenuKreirajPredmet.setText("Predmet");
+        jMenuPredmet.setText("Predmet");
 
         jMenuItem1.setText("Kreiraj");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -110,15 +116,47 @@ public class FMain extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenuKreirajPredmet.add(jMenuItem1);
+        jMenuPredmet.add(jMenuItem1);
 
         jMenuPretrazi.setText("Pretrazi");
-        jMenuKreirajPredmet.add(jMenuPretrazi);
+        jMenuPredmet.add(jMenuPretrazi);
 
-        jMenuBar1.add(jMenuKreirajPredmet);
+        jMenuBar1.add(jMenuPredmet);
 
-        jMenu1.setText("O autoru");
-        jMenuBar1.add(jMenu1);
+        jMenuAutor.setText("O autoru");
+        jMenuBar1.add(jMenuAutor);
+
+        jMenuKonekcijaSaServerom.setText("Konekcija");
+
+        jMenuItem2.setText("Konekcija sa serverom");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenuKonekcijaSaServerom.add(jMenuItem2);
+
+        jMenuBar1.add(jMenuKonekcijaSaServerom);
+
+        jMenuPristupSistemu.setText("Pristup sistemu");
+
+        jMenuItemLogin.setText("Login");
+        jMenuItemLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemLoginActionPerformed(evt);
+            }
+        });
+        jMenuPristupSistemu.add(jMenuItemLogin);
+
+        jMenuItemLogout.setText("Logout");
+        jMenuItemLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemLogoutActionPerformed(evt);
+            }
+        });
+        jMenuPristupSistemu.add(jMenuItemLogout);
+
+        jMenuBar1.add(jMenuPristupSistemu);
 
         setJMenuBar(jMenuBar1);
 
@@ -167,11 +205,28 @@ public class FMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemKonekcijaSaBazomActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        JDialog fPredmet = new FPredmet(this, true,this);
+        JDialog fPredmet = new FPredmet(this, true, this);
         fPredmet.setVisible(true);
 
         statusLabel.setText("Use case: Kreiranje predmeta!");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        JDialog fServerKonekcija = new FServerKonekcija(this, true, this);
+        fServerKonekcija.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItemLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLoginActionPerformed
+        JDialog fLogin = new FLogin(this, true);
+        fLogin.setVisible(true);
+    }//GEN-LAST:event_jMenuItemLoginActionPerformed
+
+    private void jMenuItemLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLogoutActionPerformed
+        if (Session.getInstance().getMap().containsKey("ulogovani_korisnik")) {
+            Session.getInstance().getMap().remove("ulogovani_korisnik");
+            onemoguciMenijeLogout();
+        }
+    }//GEN-LAST:event_jMenuItemLogoutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -180,15 +235,20 @@ public class FMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelUlogovaniKorisnik;
-    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenuAutor;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItemKonekcijaSaBazom;
+    private javax.swing.JMenuItem jMenuItemLogin;
+    private javax.swing.JMenuItem jMenuItemLogout;
     private javax.swing.JMenuItem jMenuItemPretraziUdzbenik;
+    private javax.swing.JMenu jMenuKonekcijaSaServerom;
     private javax.swing.JMenu jMenuKonfiguracija;
-    private javax.swing.JMenu jMenuKreirajPredmet;
     private javax.swing.JMenuItem jMenuKreirajUdzbenik;
+    private javax.swing.JMenu jMenuPredmet;
     private javax.swing.JMenuItem jMenuPretrazi;
+    private javax.swing.JMenu jMenuPristupSistemu;
     private javax.swing.JMenu jMenuUdzbenik;
     // End of variables declaration//GEN-END:variables
     private JPanel statusPanel;
@@ -212,7 +272,7 @@ public class FMain extends javax.swing.JFrame {
         statusPanel.add(statusLabel);
     }
 
-    private void postaviUlogovanogKorisnika() {
+    public void postaviUlogovanogKorisnika() {
         try {
             if (Session.getInstance().getMap().containsKey("ulogovani_korisnik")) {
                 Korisnik korisnik = (Korisnik) Session.getInstance().getMap().get("ulogovani_korisnik");
@@ -224,4 +284,43 @@ public class FMain extends javax.swing.JFrame {
             System.out.println("Dogodila se greska prilikom postavljanja ulogovanog korisnika. Greska:" + e.getMessage());
         }
     }
+
+    public void omoguciMenije() {
+        jMenuPredmet.setEnabled(true);
+        jMenuUdzbenik.setEnabled(true);
+        jMenuPristupSistemu.setEnabled(true);
+        jMenuKonfiguracija.setEnabled(true);
+        jMenuAutor.setEnabled(true);
+        jMenuItemLogin.setEnabled(false);
+        jMenuItemLogout.setEnabled(true);
+
+    }
+
+    private void onemoguciMenije() {
+        try {
+            jMenuPredmet.setEnabled(false);
+            jMenuUdzbenik.setEnabled(false);
+            jMenuKonfiguracija.setEnabled(false);
+            jMenuPristupSistemu.setEnabled(false);
+            jMenuAutor.setEnabled(false);
+
+        } catch (Exception e) {
+            System.out.println("Dogodila se greska prilikom onemogucivanja menija");
+        }
+    }
+
+    void omoguciPristupSistemu() {
+        jMenuPristupSistemu.setEnabled(true);
+        jMenuItemLogin.setEnabled(true);
+        jMenuItemLogout.setEnabled(false);
+    }
+
+    private void onemoguciMenijeLogout() {
+        jMenuPredmet.setEnabled(false);
+        jMenuUdzbenik.setEnabled(false);
+        jMenuKonfiguracija.setEnabled(false);
+        jMenuItemLogin.setEnabled(true);
+        jMenuItemLogout.setEnabled(false);
+    }
+
 }

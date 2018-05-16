@@ -17,7 +17,8 @@ import javax.swing.JFrame;
 public class Main {
 
     public static void main(String[] args) {
-        JFrame fLogin = new FLogin();
-        fLogin.setVisible(true);
+        JFrame fMain = FMain.getInstance();
+        fMain.setVisible(true);
+
     }
 }

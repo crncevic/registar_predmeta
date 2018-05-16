@@ -5,13 +5,21 @@
  */
 package kontroler;
 
-import db.DbBroker;
+import com.mysql.jdbc.NotImplemented;
 import domen.Autor;
 import domen.Korisnik;
 import domen.Recenzent;
 import domen.Udzbenik;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.sql.SQLException;
 import java.util.List;
+import session.Session;
+import transfer.request.RequestObject;
+import transfer.response.ResponseObject;
+import transfer.util.IOperation;
+import transfer.util.IStatus;
 
 /**
  *
@@ -20,10 +28,9 @@ import java.util.List;
 public class Kontroler {
 
     private static Kontroler instance;
-    private DbBroker dbBroker;
 
     private Kontroler() throws Exception {
-        dbBroker = DbBroker.getInstance();
+
     }
 
     public static Kontroler getInstance() throws Exception {
@@ -35,49 +42,202 @@ public class Kontroler {
 
     public List<Udzbenik> vratiSveUdzbenike() throws Exception {
 
-        return dbBroker.vratiSveUdzbenike();
+        RequestObject request = new RequestObject();
+        request.setOperation(IOperation.VRATI_SVE_UDZBENIKE);
+        Socket socket = Session.getInstance().getSocket();
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        out.writeObject(request);
+        out.flush();
+
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        ResponseObject response = (ResponseObject) in.readObject();
+        int code = response.getCode();
+
+        if (code == IStatus.OK) {
+            return (List<Udzbenik>) response.getData();
+        } else {
+            throw new Exception("Dogodila se greska u komunikaciji");
+        }
 
     }
 
     public Udzbenik kreirajUdzbenik(Udzbenik udzbenik) throws Exception {
 
-        return dbBroker.kreirajUdzbenik(udzbenik);
+        RequestObject request = new RequestObject();
+        request.setOperation(IOperation.KREIRAJ_UDZBENIK);
+        request.setData(udzbenik);
+        Socket socket = Session.getInstance().getSocket();
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        out.writeObject(request);
+        out.flush();
+
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        ResponseObject response = (ResponseObject) in.readObject();
+        int code = response.getCode();
+
+        if (code == IStatus.OK) {
+            return (Udzbenik) response.getData();
+        } else {
+            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
+        }
 
     }
 
     public Udzbenik AzurirajUdzbenik(Udzbenik udzbenik) throws Exception {
 
-        return dbBroker.azurirajUdzbenik(udzbenik);
+        RequestObject request = new RequestObject();
+        request.setOperation(IOperation.AZURIRAJ_UDZBENIK);
+        request.setData(udzbenik);
+        Socket socket = Session.getInstance().getSocket();
+
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        out.writeObject(request);
+        out.flush();
+
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        ResponseObject response = (ResponseObject) in.readObject();
+        int code = response.getCode();
+
+        if (code == IStatus.OK) {
+            return (Udzbenik) response.getData();
+        } else {
+            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
+        }
 
     }
 
     public Udzbenik pronadjiUdzbenikPoId(int id) throws Exception {
 
-        return dbBroker.pronadjiUdzbenikPoId(id);
+        RequestObject request = new RequestObject();
+        request.setOperation(IOperation.PRONADJI_UDZBENIK_PO_ID);
+        request.setData(id);
+        Socket socket = Session.getInstance().getSocket();
+
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        out.writeObject(request);
+        out.flush();
+
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        ResponseObject response = (ResponseObject) in.readObject();
+        int code = response.getCode();
+
+        if (code == IStatus.OK) {
+            return (Udzbenik) response.getData();
+        } else {
+            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
+        }
 
     }
 
     public Udzbenik pronadjiUdzbenikePoNazivu(String naziv) throws Exception {
 
-        return dbBroker.pronadjiUdzbenikPoNazivu(naziv);
+        RequestObject request = new RequestObject();
+        request.setOperation(IOperation.PRONADJI_UDZBENIK_PO_NAZIVU);
+        request.setData(naziv);
+        Socket socket = Session.getInstance().getSocket();
+
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        out.writeObject(request);
+        out.flush();
+
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        ResponseObject response = (ResponseObject) in.readObject();
+        int code = response.getCode();
+
+        if (code == IStatus.OK) {
+            return (Udzbenik) response.getData();
+        } else {
+            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
+        }
 
     }
 
     public Udzbenik ObrisiUdzbenik(int id) throws Exception {
 
-        return dbBroker.obrisiUdzbenik(id);
+        RequestObject request = new RequestObject();
+        request.setOperation(IOperation.OBRISI_UDZBENIK);
+        request.setData(id);
+        Socket socket = Session.getInstance().getSocket();
 
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        out.writeObject(request);
+        out.flush();
+
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        ResponseObject response = (ResponseObject) in.readObject();
+        int code = response.getCode();
+
+        if (code == IStatus.OK) {
+            return (Udzbenik) response.getData();
+        } else {
+            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
+        }
     }
 
-    public List<Autor> vratiSveAutoreZaUdzbenik(int udzbenikId) throws SQLException {
-        return dbBroker.vratiAutoreZaUdzbenik(udzbenikId);
+    public List<Autor> vratiSveAutoreZaUdzbenik(int udzbenikId) throws Exception {
+        RequestObject request = new RequestObject();
+        request.setOperation(IOperation.VRATI_SVE_AUTORE);
+        request.setData(udzbenikId);
+        Socket socket = Session.getInstance().getSocket();
+
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        out.writeObject(request);
+        out.flush();
+
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        ResponseObject response = (ResponseObject) in.readObject();
+        int code = response.getCode();
+
+        if (code == IStatus.OK) {
+            return (List<Autor>) response.getData();
+        } else {
+            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
+        }
     }
 
-    public List<Recenzent> vratiSveRecenzenteZaUdzbenik(int udzbenikId) throws SQLException {
-        return dbBroker.vratiRecenzenteZaUdzbenik(udzbenikId);
+    public List<Recenzent> vratiSveRecenzenteZaUdzbenik(int udzbenikId) throws Exception {
+        RequestObject request = new RequestObject();
+        request.setOperation(IOperation.VRATI_SVE_RECENZENTE);
+        request.setData(udzbenikId);
+        Socket socket = Session.getInstance().getSocket();
+
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        out.writeObject(request);
+        out.flush();
+
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        ResponseObject response = (ResponseObject) in.readObject();
+        int code = response.getCode();
+
+        if (code == IStatus.OK) {
+            return (List<Recenzent>) response.getData();
+        } else {
+            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
+        }
     }
 
     public Korisnik vratiKorisnika(String username, String password) throws Exception {
-        return dbBroker.vratiKorisnika(username, password);
+
+        RequestObject request = new RequestObject();
+        request.setOperation(IOperation.PROVERI_KORISNIKA);
+        Korisnik korisnik = new Korisnik("", "", username, password);
+        request.setData(korisnik);
+        Socket socket = Session.getInstance().getSocket();
+
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        out.writeObject(request);
+        out.flush();
+
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        ResponseObject response = (ResponseObject) in.readObject();
+        int code = response.getCode();
+
+        if (code == IStatus.OK) {
+            Korisnik korisnikFromDb = new Korisnik();
+            korisnikFromDb = (Korisnik) response.getData();
+            return korisnikFromDb;
+        } else {
+            throw new Exception("Dogodila se greska u komunikacii sa serverom");
+        }
     }
 }

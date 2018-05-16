@@ -5,11 +5,13 @@
  */
 package domen;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Petar
  */
-public class PredmetNaStudijskomProgramu implements OpstiDomenskiObjekat {
+public class PredmetNaStudijskomProgramu implements OpstiDomenskiObjekat, Serializable {
 
     private int predmetId;
     private int studijskiProgramId;

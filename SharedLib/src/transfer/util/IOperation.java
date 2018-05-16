@@ -11,4 +11,15 @@ package transfer.util;
  */
 public interface IOperation {
 
+    public static final int VRATI_SVE_UDZBENIKE = 1;
+    public static final int VRATI_SVE_AUTORE = 2;
+    public static final int VRATI_SVE_RECENZENTE = 3;
+    public static final int PROVERI_KORISNIKA = 4;
+    public static final int KREIRAJ_UDZBENIK = 5;
+    public static final int AZURIRAJ_UDZBENIK = 6;
+    public static final int PRONADJI_UDZBENIK_PO_ID = 7;
+    public static final int PRONADJI_UDZBENIK_PO_NAZIVU = 8;
+    public static final int OBRISI_UDZBENIK = 9;
+   
+    
 }
