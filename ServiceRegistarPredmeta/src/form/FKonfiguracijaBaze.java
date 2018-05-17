@@ -5,6 +5,7 @@
  */
 package form;
 
+import constants.Constants;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,19 +15,18 @@ import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.text.IconView;
-import settings.util.SettingsLoader;
-
+import db.SettingsLoader;
 
 /**
  *
  * @author Petar
  */
-public class FKonfiguracijaKonekcije extends javax.swing.JDialog {
+public class FKonfiguracijaBaze extends javax.swing.JDialog {
 
     /**
      * Creates new form FKonfiguracija
      */
-    public FKonfiguracijaKonekcije(java.awt.Frame parent, boolean modal) {
+    public FKonfiguracijaBaze(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         centrirajFormu();
@@ -172,10 +172,10 @@ public class FKonfiguracijaKonekcije extends javax.swing.JDialog {
             SettingsLoader sl = SettingsLoader.getInstance();
             Class.forName(driver);
             Connection connection = DriverManager.getConnection(url, username, password);
-            sl.setValue("driver", driver);
-            sl.setValue("url", url);
-            sl.setValue("username", username);
-            sl.setValue("password", password);
+            sl.setValue(Constants.DRIVER, driver);
+            sl.setValue(Constants.URL, url);
+            sl.setValue(Constants.USER, username);
+            sl.setValue(Constants.PASSWORD, password);
 
             JOptionPane.showMessageDialog(this, "Uspesno povezivanje sa bazom podataka!Parametri su zapamceni", "Uspesna konekcija", JOptionPane.INFORMATION_MESSAGE);
             dispose();
@@ -190,10 +190,10 @@ public class FKonfiguracijaKonekcije extends javax.swing.JDialog {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         try {
-            jTxtDriver.setText(SettingsLoader.getInstance().getValue("driver"));
-            jTxtUrl.setText(SettingsLoader.getInstance().getValue("url"));
-            jTxtUsername.setText(SettingsLoader.getInstance().getValue("user"));
-            jPassword.setText(SettingsLoader.getInstance().getValue("password"));
+            jTxtDriver.setText(SettingsLoader.getInstance().getValue(Constants.DRIVER));
+            jTxtUrl.setText(SettingsLoader.getInstance().getValue(Constants.URL));
+            jTxtUsername.setText(SettingsLoader.getInstance().getValue(Constants.USER));
+            jPassword.setText(SettingsLoader.getInstance().getValue(Constants.PASSWORD));
         } catch (Exception e) {
             System.out.println("Dogodila se greska prilikom inicijalizovanja forme za knfiguraciju konekcije.Greska: "
                     + e.getMessage());

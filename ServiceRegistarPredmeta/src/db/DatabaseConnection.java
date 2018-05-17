@@ -5,9 +5,9 @@
  */
 package db;
 
+import constants.Constants;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import settings.util.SettingsLoader;
 
 /**
  *
@@ -22,9 +22,9 @@ public class DatabaseConnection {
 
         try {
             connection = DriverManager.getConnection(
-                    SettingsLoader.getInstance().getValue("url"),
-                    SettingsLoader.getInstance().getValue("user"),
-                    SettingsLoader.getInstance().getValue("password"));
+                    SettingsLoader.getInstance().getValue(Constants.URL),
+                    SettingsLoader.getInstance().getValue(Constants.USER),
+                    SettingsLoader.getInstance().getValue(Constants.PASSWORD));
             connection.setAutoCommit(false);
             System.out.println("Konekcija uspesno uspostavljena");
         } catch (Exception e) {

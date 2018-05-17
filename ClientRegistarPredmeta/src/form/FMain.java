@@ -55,8 +55,6 @@ public class FMain extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabelUlogovaniKorisnik = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenuKonfiguracija = new javax.swing.JMenu();
-        jMenuItemKonekcijaSaBazom = new javax.swing.JMenuItem();
         jMenuUdzbenik = new javax.swing.JMenu();
         jMenuKreirajUdzbenik = new javax.swing.JMenuItem();
         jMenuItemPretraziUdzbenik = new javax.swing.JMenuItem();
@@ -75,18 +73,6 @@ public class FMain extends javax.swing.JFrame {
         jLabel1.setText("Ulogovani korisnik:");
 
         jLabelUlogovaniKorisnik.setText(" ");
-
-        jMenuKonfiguracija.setText("Konfiguracija");
-
-        jMenuItemKonekcijaSaBazom.setText("Konekcija sa bazom");
-        jMenuItemKonekcijaSaBazom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemKonekcijaSaBazomActionPerformed(evt);
-            }
-        });
-        jMenuKonfiguracija.add(jMenuItemKonekcijaSaBazom);
-
-        jMenuBar1.add(jMenuKonfiguracija);
 
         jMenuUdzbenik.setText("Udzbenik");
 
@@ -197,13 +183,6 @@ public class FMain extends javax.swing.JFrame {
         statusLabel.setText("Use case: Pretrazivanje udzbenika!");
     }//GEN-LAST:event_jMenuItemPretraziUdzbenikActionPerformed
 
-    private void jMenuItemKonekcijaSaBazomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemKonekcijaSaBazomActionPerformed
-        JDialog fKonfiguracija = new FKonfiguracijaKonekcije(this, true);
-        fKonfiguracija.setVisible(true);
-
-        statusLabel.setText("Use case: Konfiguracija!");
-    }//GEN-LAST:event_jMenuItemKonekcijaSaBazomActionPerformed
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         JDialog fPredmet = new FPredmet(this, true, this);
         fPredmet.setVisible(true);
@@ -239,12 +218,10 @@ public class FMain extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItemKonekcijaSaBazom;
     private javax.swing.JMenuItem jMenuItemLogin;
     private javax.swing.JMenuItem jMenuItemLogout;
     private javax.swing.JMenuItem jMenuItemPretraziUdzbenik;
     private javax.swing.JMenu jMenuKonekcijaSaServerom;
-    private javax.swing.JMenu jMenuKonfiguracija;
     private javax.swing.JMenuItem jMenuKreirajUdzbenik;
     private javax.swing.JMenu jMenuPredmet;
     private javax.swing.JMenuItem jMenuPretrazi;
@@ -289,7 +266,7 @@ public class FMain extends javax.swing.JFrame {
         jMenuPredmet.setEnabled(true);
         jMenuUdzbenik.setEnabled(true);
         jMenuPristupSistemu.setEnabled(true);
-        jMenuKonfiguracija.setEnabled(true);
+    
         jMenuAutor.setEnabled(true);
         jMenuItemLogin.setEnabled(false);
         jMenuItemLogout.setEnabled(true);
@@ -300,7 +277,7 @@ public class FMain extends javax.swing.JFrame {
         try {
             jMenuPredmet.setEnabled(false);
             jMenuUdzbenik.setEnabled(false);
-            jMenuKonfiguracija.setEnabled(false);
+            
             jMenuPristupSistemu.setEnabled(false);
             jMenuAutor.setEnabled(false);
 
@@ -318,7 +295,7 @@ public class FMain extends javax.swing.JFrame {
     private void onemoguciMenijeLogout() {
         jMenuPredmet.setEnabled(false);
         jMenuUdzbenik.setEnabled(false);
-        jMenuKonfiguracija.setEnabled(false);
+      
         jMenuItemLogin.setEnabled(true);
         jMenuItemLogout.setEnabled(false);
     }

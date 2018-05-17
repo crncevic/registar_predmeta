@@ -5,6 +5,9 @@
  */
 package server;
 
+import form.FServer;
+import javax.swing.JFrame;
+
 /**
  *
  * @author Petar
@@ -12,7 +15,7 @@ package server;
 public class Start {
 
     public static void main(String[] args) {
-        Server server = new Server();
-        server.start();
+        JFrame fServer = new FServer();
+        fServer.setVisible(true);
     }
 }

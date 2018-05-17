@@ -5,6 +5,7 @@
  */
 package db;
 
+import constants.Constants;
 import domen.Autor;
 import domen.Korisnik;
 import domen.Recenzent;
@@ -18,7 +19,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import settings.util.SettingsLoader;
 
 /**
  *
@@ -43,7 +43,7 @@ public class DbBroker {
 
     public void ucitajDriver() throws IOException, ClassNotFoundException {
         try {
-            Class.forName(SettingsLoader.getInstance().getValue("driver"));
+            Class.forName(SettingsLoader.getInstance().getValue(Constants.DRIVER));
         } catch (ClassNotFoundException cnfe) {
             throw new ClassNotFoundException("Nema odgovarajuceg drajvera");
         }
