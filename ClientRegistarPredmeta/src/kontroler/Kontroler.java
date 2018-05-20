@@ -8,8 +8,10 @@ package kontroler;
 import com.mysql.jdbc.NotImplemented;
 import domen.Autor;
 import domen.Korisnik;
+import domen.Predmet;
 import domen.Recenzent;
 import domen.Udzbenik;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -239,5 +241,27 @@ public class Kontroler {
         } else {
             throw new Exception("Dogodila se greska u komunikacii sa serverom");
         }
+    }
+
+    public Predmet pronadjiPredmetPoId(int id) throws IOException, ClassNotFoundException, Exception {
+        RequestObject request = new RequestObject();
+        request.setData(id);
+        request.setOperation(IOperation.PRONADJI_PREDMET_PO_ID);
+        Socket socket = Session.getInstance().getSocket();
+
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        out.writeObject(request);
+        out.flush();
+
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        ResponseObject response = (ResponseObject) in.readObject();
+        int code = response.getCode();
+
+        if (code == IStatus.OK) {
+            return (Predmet) response.getData();
+        } else {
+            throw new Exception("Dogodila se greska u komunikacii sa serverom");
+        }
+
     }
 }

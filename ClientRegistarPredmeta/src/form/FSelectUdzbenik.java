@@ -55,6 +55,7 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
         jBtnPrikazi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Pretrazivanje udzbenika");
         setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Pronadjite udzbenik po nazivu"));

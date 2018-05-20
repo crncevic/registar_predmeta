@@ -12,22 +12,25 @@ import java.io.Serializable;
  * @author Petar
  */
 public class TematskaCelina implements OpstiDomenskiObjekat, Serializable {
-
+    
+    private int tematskaCelinaId;
     private int tipNastaveId;
     private int predmetId;
-    private int stavkaNastaveId;
-    private int tematskaCelinaId;
+    
+    private TematskaCelina nadredjenaTematskaCelina;
     private String naziv;
+    private String opis;
 
     public TematskaCelina() {
     }
 
-    public TematskaCelina(int tipNastaveId, int predmetId, int stavkaNastaveId, int tematskaCelinaId, String naziv) {
+    public TematskaCelina(int tipNastaveId, int predmetId, int tematskaCelinaId, TematskaCelina nadredjenaTematskaCelina, String naziv, String opis) {
         this.tipNastaveId = tipNastaveId;
         this.predmetId = predmetId;
-        this.stavkaNastaveId = stavkaNastaveId;
         this.tematskaCelinaId = tematskaCelinaId;
+        this.nadredjenaTematskaCelina = nadredjenaTematskaCelina;
         this.naziv = naziv;
+        this.opis = opis;
     }
 
     public int getTipNastaveId() {
@@ -46,14 +49,6 @@ public class TematskaCelina implements OpstiDomenskiObjekat, Serializable {
         this.predmetId = predmetId;
     }
 
-    public int getStavkaNastaveId() {
-        return stavkaNastaveId;
-    }
-
-    public void setStavkaNastaveId(int stavkaNastaveId) {
-        this.stavkaNastaveId = stavkaNastaveId;
-    }
-
     public int getTematskaCelinaId() {
         return tematskaCelinaId;
     }
@@ -70,9 +65,25 @@ public class TematskaCelina implements OpstiDomenskiObjekat, Serializable {
         this.naziv = naziv;
     }
 
+    public TematskaCelina getNadredjenaTematskaCelina() {
+        return nadredjenaTematskaCelina;
+    }
+
+    public void setNadredjenaTematskaCelina(TematskaCelina nadredjenaTematskaCelina) {
+        this.nadredjenaTematskaCelina = nadredjenaTematskaCelina;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+
     @Override
     public String toString() {
-        return "TematskaCelina{" + "tipNastaveId=" + tipNastaveId + ", predmetId=" + predmetId + ", stavkaNastaveId=" + stavkaNastaveId + ", tematskaCelinaId=" + tematskaCelinaId + ", naziv=" + naziv + '}';
+        return "TematskaCelina{" + "tipNastaveId=" + tipNastaveId + ", predmetId=" + predmetId + ",  tematskaCelinaId=" + tematskaCelinaId + ", nadredjenaTematskaJedinicaId=" + nadredjenaTematskaCelina + ", naziv=" + naziv + ", opis=" + opis + '}';
     }
 
     @Override
@@ -82,7 +93,7 @@ public class TematskaCelina implements OpstiDomenskiObjekat, Serializable {
 
     @Override
     public String vratiVrednostiAtributa() {
-        return getTipNastaveId() + "," + getPredmetId() + "," + getStavkaNastaveId() + ",'" + getNaziv() + "'";
+        return getTematskaCelinaId()+","+ getTipNastaveId() + "," + getPredmetId() + ","+getNadredjenaTematskaCelina().getTematskaCelinaId()+"'" + getNaziv() + "','"+getOpis()+"'";
     }
 
 }

@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import server.Server;
+import thread.NitServer;
 
 /**
  *
@@ -19,15 +20,21 @@ import server.Server;
  */
 public class FServer extends javax.swing.JFrame {
 
-    Server server;
+    NitServer nitServer;
+    int port;
 
     /**
      * Creates new form FServer
      */
-    public FServer() throws IOException {
+    public FServer() {
         initComponents();
         centrirajFormu();
-        server = new Server();
+        try {
+            port = Integer.valueOf(SettingsLoader.getInstance().getValue(Constants.APPLICATION_PORT));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Nije moguce ucitati broj porta! Program se prekida!");
+            dispose();
+        }
     }
 
     /**
@@ -110,10 +117,14 @@ public class FServer extends javax.swing.JFrame {
 
     private void jBtnServerStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnServerStartActionPerformed
         try {
-            if (!server.nitServer.isAlive()) {
-                server.start();
-            }
+            if (nitServer == null || !nitServer.isAlive()) {
+                nitServer = new NitServer(port);
+                nitServer.start();
+            } else if (!nitServer.vratiSignal()) {
 
+                nitServer.pokreniNitServer();
+                nitServer.run();
+            }
             jBtnServerStart.setEnabled(false);
             jBtnServerStop.setEnabled(true);
             jMenuKonfiguracija.setEnabled(false);
@@ -132,8 +143,8 @@ public class FServer extends javax.swing.JFrame {
 
     private void jBtnServerStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnServerStopActionPerformed
         try {
-            if (server.nitServer.isAlive()) {
-                server.stop();
+            if (nitServer.vratiSignal()) {
+                nitServer.prekiniNitServer();
             }
             jBtnServerStop.setEnabled(false);
             jBtnServerStart.setEnabled(true);
@@ -164,4 +175,5 @@ public class FServer extends javax.swing.JFrame {
     private void centrirajFormu() {
         setLocationRelativeTo(null);
     }
+
 }

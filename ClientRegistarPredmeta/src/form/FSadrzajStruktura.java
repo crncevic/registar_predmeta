@@ -21,6 +21,7 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
     public FSadrzajStruktura(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        centrirajFormu();
     }
 
     /**
@@ -42,9 +43,14 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jBtnDelete = new javax.swing.JButton();
         jBtnSacuvaj = new javax.swing.JButton();
+        jBtnSacuvajOpisNJ = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaOpisNJ = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Sadrzaj - struktura");
+        setTitle("Sadrzaj  struktura");
+        setResizable(false);
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Sadrzaj");
         jTreeSadrzaj.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
@@ -79,6 +85,19 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
 
         jBtnSacuvaj.setText("Sacuvaj");
 
+        jBtnSacuvajOpisNJ.setText("Sacuvaj opis");
+        jBtnSacuvajOpisNJ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnSacuvajOpisNJActionPerformed(evt);
+            }
+        });
+
+        jTextAreaOpisNJ.setColumns(20);
+        jTextAreaOpisNJ.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaOpisNJ);
+
+        jLabel3.setText("Unesite opis za selektovanu nastavnu jedinicu:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -86,34 +105,38 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jBtnSacuvajOpisNJ)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBtnSacuvaj)
+                        .addGap(13, 13, 13))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jTxtNazivTematskeJedinice, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jBtnDodajTematskuJedinicu))
-                            .addComponent(jLabel2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTxtNazivPodtematskeJedinice, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jBtnDodajPodtematskuJedinicu)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jBtnDelete, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jBtnSacuvaj, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jBtnDelete)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jTxtNazivTematskeJedinice, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jBtnDodajTematskuJedinicu))
+                                    .addComponent(jLabel2)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTxtNazivPodtematskeJedinice, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jBtnDodajPodtematskuJedinicu))
+                                    .addComponent(jScrollPane2)))
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -126,12 +149,19 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTxtNazivPodtematskeJedinice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jBtnDodajPodtematskuJedinicu))
-                        .addGap(27, 27, 27)
+                        .addGap(18, 18, 18)
                         .addComponent(jBtnDelete)
-                        .addGap(98, 98, 98)
-                        .addComponent(jBtnSacuvaj))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jBtnSacuvaj)
+                            .addComponent(jBtnSacuvajOpisNJ))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -191,9 +221,24 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
         }
 
         dtm.removeNodeFromParent(selektovaniCvor);
-        
+
 
     }//GEN-LAST:event_jBtnDeleteActionPerformed
+
+    private void jBtnSacuvajOpisNJActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSacuvajOpisNJActionPerformed
+        DefaultTreeModel dtm = (DefaultTreeModel) jTreeSadrzaj.getModel();
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTreeSadrzaj.getLastSelectedPathComponent();
+
+        String opis = jTextAreaOpisNJ.getText().trim();
+
+        if (selectedNode == null) {
+            JOptionPane.showMessageDialog(this, "Morate selektovati nastavnu jedinicu za koju zelite da unesete opis!");
+            return;
+        } else if (opis.length() == 0) {
+            JOptionPane.showMessageDialog(this, "Opis ne moze biti prazan!");
+            return;
+        }
+    }//GEN-LAST:event_jBtnSacuvajOpisNJActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,11 +248,19 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
     private javax.swing.JButton jBtnDodajPodtematskuJedinicu;
     private javax.swing.JButton jBtnDodajTematskuJedinicu;
     private javax.swing.JButton jBtnSacuvaj;
+    private javax.swing.JButton jBtnSacuvajOpisNJ;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextAreaOpisNJ;
     private javax.swing.JTree jTreeSadrzaj;
     private javax.swing.JTextField jTxtNazivPodtematskeJedinice;
     private javax.swing.JTextField jTxtNazivTematskeJedinice;
     // End of variables declaration//GEN-END:variables
+
+    private void centrirajFormu() {
+        setLocationRelativeTo(null);
+    }
 }

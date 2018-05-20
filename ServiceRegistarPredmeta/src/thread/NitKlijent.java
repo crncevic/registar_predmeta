@@ -3,6 +3,7 @@ package thread;
 import db.DbBroker;
 import domen.Autor;
 import domen.Korisnik;
+import domen.Predmet;
 import domen.Recenzent;
 import domen.Udzbenik;
 import java.io.ObjectInputStream;
@@ -122,6 +123,7 @@ public class NitKlijent extends Thread {
                             responseObject.setMessage(e.getMessage());
                         }
                         break;
+                    
                     case IOperation.PROVERI_KORISNIKA:
                         try {
                             Korisnik korisnikRequest = (Korisnik) requestObject.getData();
@@ -133,6 +135,18 @@ public class NitKlijent extends Thread {
                             responseObject.setMessage(e.getMessage());
                         }
                         break;
+                        
+                         case IOperation.PRONADJI_PREDMET_PO_ID:
+                        try {
+                            Predmet predmet =DbBroker.getInstance().pronadjiPredmetPoId((int)requestObject.getData());
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(predmet);
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+                   
                 }
                 //posalji odgovor
 

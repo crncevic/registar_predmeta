@@ -69,6 +69,8 @@ public class FMain extends javax.swing.JFrame {
         jMenuItemLogout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Glavna forma");
+        setResizable(false);
 
         jLabel1.setText("Ulogovani korisnik:");
 

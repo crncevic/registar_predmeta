@@ -21,29 +21,32 @@ import javax.swing.JOptionPane;
  */
 public class NitServer extends Thread {
 
-    ServerSocket serverSocket;
-    List<Thread> klijenti;
-    int maxBrojKlijenata;
+    private ServerSocket serverSocket;
+    private List<Thread> klijenti;
+    private int maxBrojKlijenata;
+    private boolean signal;
 
     public NitServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         klijenti = new ArrayList<>();
         postaviMaxBrojKlijenata();
+        signal = true;
     }
 
     @Override
     public void run() {
-        while (!isInterrupted() && klijenti.size() < maxBrojKlijenata) {
-          
-            try {
-                System.out.println("Cekanje na novog klijenta");
-                Socket socket = serverSocket.accept();
-                System.out.println("Klijent se povezao na portu br:" + socket.getPort());
-                Thread klijent = new NitKlijent(socket);
-                klijenti.add(klijent);
+        while (signal) {
+            if (klijenti.size() < maxBrojKlijenata) {
+                try {
+                    System.out.println("Cekanje na novog klijenta");
+                    Socket socket = serverSocket.accept();
+                    System.out.println("Klijent se povezao na portu br:" + socket.getPort());
+                    Thread klijent = new NitKlijent(socket);
+                    klijenti.add(klijent);
 
-            } catch (IOException ex) {
-                Logger.getLogger(NitServer.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(NitServer.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
@@ -55,6 +58,18 @@ public class NitServer extends Thread {
             maxBrojKlijenata = 10;
             System.out.println("Dogodila se greska prilikom iscitavanja max broja klijenata iz fajla. Max broj klijenata je postavljen na 10");
         }
+    }
+
+    public void prekiniNitServer() {
+        signal = false;
+    }
+
+    public void pokreniNitServer() {
+        signal = true;
+    }
+
+    public boolean vratiSignal() {
+        return signal;
     }
 
 }

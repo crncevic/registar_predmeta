@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Petar
  */
-public class Predmet implements OpstiDomenskiObjekat , Serializable{
+public class Predmet implements OpstiDomenskiObjekat, Serializable {
 
     private int predmetId;
     private String naziv;
@@ -26,14 +26,16 @@ public class Predmet implements OpstiDomenskiObjekat , Serializable{
     private String uslov;
     private String vrstaINivoStudija;
     private List<Obaveza> obaveze;
-    private List<StavkaNastave> stavkeNastave;
+    private List<TematskaCelina> sadrzajTematskeCeline;
+    private String sadrzajTekst;
+
     private List<Udzbenik> udzbenici;
     private List<PredmetNaStudijskomProgramu> predmetiNaStudijskimProgramima;
 
     public Predmet() {
     }
 
-    public Predmet(String naziv, int brCasovaPredavanjaNedeljno, int brCasovaVezbiNedeljno, int ostaliCasovi, String drugiObliciNastave, String studijskiIstrazivackiRad, String cilj, String ishod, String uslov, String vrstaINivoStudija, List<Obaveza> obaveze, List<StavkaNastave> stavkeNastave, List<Udzbenik> udzbenici, List<PredmetNaStudijskomProgramu> predmetiNaStudijskimProgramima) {
+    public Predmet(String naziv, int brCasovaPredavanjaNedeljno, int brCasovaVezbiNedeljno, int ostaliCasovi, String drugiObliciNastave, String studijskiIstrazivackiRad, String cilj, String ishod, String uslov, String vrstaINivoStudija, List<Obaveza> obaveze, List<TematskaCelina> sadrzajTematskeCeline, String sadrzajTekst, List<Udzbenik> udzbenici, List<PredmetNaStudijskomProgramu> predmetiNaStudijskimProgramima) {
         this.naziv = naziv;
         this.brCasovaPredavanjaNedeljno = brCasovaPredavanjaNedeljno;
         this.brCasovaVezbiNedeljno = brCasovaVezbiNedeljno;
@@ -45,12 +47,13 @@ public class Predmet implements OpstiDomenskiObjekat , Serializable{
         this.uslov = uslov;
         this.vrstaINivoStudija = vrstaINivoStudija;
         this.obaveze = obaveze;
-        this.stavkeNastave = stavkeNastave;
+        this.sadrzajTematskeCeline = sadrzajTematskeCeline;
+        this.sadrzajTekst = sadrzajTekst;
         this.udzbenici = udzbenici;
         this.predmetiNaStudijskimProgramima = predmetiNaStudijskimProgramima;
     }
 
-    public Predmet(int predmetId, String naziv, int brCasovaPredavanjaNedeljno, int brCasovaVezbiNedeljno, int ostaliCasovi, String drugiObliciNastave, String studijskiIstrazivackiRad, String cilj, String ishod, String uslov, String vrstaINivoStudija, List<Obaveza> obaveze, List<StavkaNastave> stavkeNastave, List<Udzbenik> udzbenici, List<PredmetNaStudijskomProgramu> predmetiNaStudijskimProgramima) {
+    public Predmet(int predmetId, String naziv, int brCasovaPredavanjaNedeljno, int brCasovaVezbiNedeljno, int ostaliCasovi, String drugiObliciNastave, String studijskiIstrazivackiRad, String cilj, String ishod, String uslov, String vrstaINivoStudija, List<Obaveza> obaveze, List<TematskaCelina> sadrzajTematskeCeline, String sadrzajTekst, List<Udzbenik> udzbenici, List<PredmetNaStudijskomProgramu> predmetiNaStudijskimProgramima) {
         this.predmetId = predmetId;
         this.naziv = naziv;
         this.brCasovaPredavanjaNedeljno = brCasovaPredavanjaNedeljno;
@@ -63,7 +66,8 @@ public class Predmet implements OpstiDomenskiObjekat , Serializable{
         this.uslov = uslov;
         this.vrstaINivoStudija = vrstaINivoStudija;
         this.obaveze = obaveze;
-        this.stavkeNastave = stavkeNastave;
+        this.sadrzajTematskeCeline = sadrzajTematskeCeline;
+        this.sadrzajTekst = sadrzajTekst;
         this.udzbenici = udzbenici;
         this.predmetiNaStudijskimProgramima = predmetiNaStudijskimProgramima;
     }
@@ -160,16 +164,24 @@ public class Predmet implements OpstiDomenskiObjekat , Serializable{
         return obaveze;
     }
 
+    public List<TematskaCelina> getSadrzajTematskeCeline() {
+        return sadrzajTematskeCeline;
+    }
+
+    public void setSadrzajTematskeCeline(List<TematskaCelina> sadrzajTematskeCeline) {
+        this.sadrzajTematskeCeline = sadrzajTematskeCeline;
+    }
+
+    public String getSadrzajTekst() {
+        return sadrzajTekst;
+    }
+
+    public void setSadrzajTekst(String sadrzajTekst) {
+        this.sadrzajTekst = sadrzajTekst;
+    }
+
     public void setObaveze(List<Obaveza> obaveze) {
         this.obaveze = obaveze;
-    }
-
-    public List<StavkaNastave> getStavkeNastave() {
-        return stavkeNastave;
-    }
-
-    public void setStavkeNastave(List<StavkaNastave> stavkeNastave) {
-        this.stavkeNastave = stavkeNastave;
     }
 
     public List<Udzbenik> getUdzbenici() {
@@ -190,7 +202,7 @@ public class Predmet implements OpstiDomenskiObjekat , Serializable{
 
     @Override
     public String toString() {
-        return "Predmet{" + "predmetId=" + predmetId + ", naziv=" + naziv + ", brCasovaPredavanjaNedeljno=" + brCasovaPredavanjaNedeljno + ", brCasovaVezbiNedeljno=" + brCasovaVezbiNedeljno + ", ostaliCasovi=" + ostaliCasovi + ", drugiObliciNastave=" + drugiObliciNastave + ", studijskiIstrazivackiRad=" + studijskiIstrazivackiRad + ", cilj=" + cilj + ", ishod=" + ishod + ", uslov=" + uslov + ", vrstaINivoStudija=" + vrstaINivoStudija + ", obaveze=" + obaveze + ", stavkeNastave=" + stavkeNastave + ", udzbenici=" + udzbenici + ", predmetiNaStudijskimProgramima=" + predmetiNaStudijskimProgramima + '}';
+        return "Predmet{" + "predmetId=" + predmetId + ", naziv=" + naziv + ", brCasovaPredavanjaNedeljno=" + brCasovaPredavanjaNedeljno + ", brCasovaVezbiNedeljno=" + brCasovaVezbiNedeljno + ", ostaliCasovi=" + ostaliCasovi + ", drugiObliciNastave=" + drugiObliciNastave + ", studijskiIstrazivackiRad=" + studijskiIstrazivackiRad + ", cilj=" + cilj + ", ishod=" + ishod + ", uslov=" + uslov + ", vrstaINivoStudija=" + vrstaINivoStudija + ", obaveze=" + obaveze + ", tematskeCeline=" + sadrzajTematskeCeline + ", udzbenici=" + udzbenici + ", predmetiNaStudijskimProgramima=" + predmetiNaStudijskimProgramima + '}';
     }
 
     @Override

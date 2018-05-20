@@ -27,7 +27,7 @@ public class Server {
         nitServer = new NitServer(port);
     }
 
-    public void start() {
+    public void start() throws IOException {
         nitServer.start();
     }
 

@@ -6,6 +6,7 @@
 package server;
 
 import form.FServer;
+import java.io.IOException;
 import javax.swing.JFrame;
 
 /**
@@ -14,7 +15,7 @@ import javax.swing.JFrame;
  */
 public class Start {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         JFrame fServer = new FServer();
         fServer.setVisible(true);
     }

@@ -44,6 +44,7 @@ public class FServerKonekcija extends javax.swing.JDialog {
         jBtnKonekcija = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Konekcija sa serverom");
         setResizable(false);
 
         jLabel1.setText("Server IP:");
