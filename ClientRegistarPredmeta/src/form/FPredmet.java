@@ -22,6 +22,7 @@ public class FPredmet extends javax.swing.JDialog {
     public FPredmet(java.awt.Frame parent, boolean modal, FMain fMain) {
         super(parent, modal);
         initComponents();
+        centrirajFormu();
         this.fMain = fMain;
     }
 
@@ -605,4 +606,10 @@ public class FPredmet extends javax.swing.JDialog {
     private javax.swing.JTextField jTxtUdzbenikId;
     private javax.swing.JTextField jTxtUslov;
     // End of variables declaration//GEN-END:variables
+
+    private void centrirajFormu() {
+        setLocationRelativeTo(null);     
+    }
+
+   
 }

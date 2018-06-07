@@ -33,7 +33,7 @@ public class FMain extends javax.swing.JFrame {
         maksimizirajFormu();
         postaviStatusBar();
         onemoguciMenije();
-       
+
     }
 
     public static FMain getInstance() {
@@ -62,8 +62,6 @@ public class FMain extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuPretrazi = new javax.swing.JMenuItem();
         jMenuAutor = new javax.swing.JMenu();
-        jMenuKonekcijaSaServerom = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuPristupSistemu = new javax.swing.JMenu();
         jMenuItemLogin = new javax.swing.JMenuItem();
         jMenuItemLogout = new javax.swing.JMenuItem();
@@ -113,18 +111,6 @@ public class FMain extends javax.swing.JFrame {
 
         jMenuAutor.setText("O autoru");
         jMenuBar1.add(jMenuAutor);
-
-        jMenuKonekcijaSaServerom.setText("Konekcija");
-
-        jMenuItem2.setText("Konekcija sa serverom");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenuKonekcijaSaServerom.add(jMenuItem2);
-
-        jMenuBar1.add(jMenuKonekcijaSaServerom);
 
         jMenuPristupSistemu.setText("Pristup sistemu");
 
@@ -192,11 +178,6 @@ public class FMain extends javax.swing.JFrame {
         statusLabel.setText("Use case: Kreiranje predmeta!");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        JDialog fServerKonekcija = new FServerKonekcija(this, true, this);
-        fServerKonekcija.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
     private void jMenuItemLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLoginActionPerformed
         JDialog fLogin = new FLogin(this, true);
         fLogin.setVisible(true);
@@ -219,11 +200,9 @@ public class FMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuAutor;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItemLogin;
     private javax.swing.JMenuItem jMenuItemLogout;
     private javax.swing.JMenuItem jMenuItemPretraziUdzbenik;
-    private javax.swing.JMenu jMenuKonekcijaSaServerom;
     private javax.swing.JMenuItem jMenuKreirajUdzbenik;
     private javax.swing.JMenu jMenuPredmet;
     private javax.swing.JMenuItem jMenuPretrazi;
@@ -268,7 +247,7 @@ public class FMain extends javax.swing.JFrame {
         jMenuPredmet.setEnabled(true);
         jMenuUdzbenik.setEnabled(true);
         jMenuPristupSistemu.setEnabled(true);
-    
+
         jMenuAutor.setEnabled(true);
         jMenuItemLogin.setEnabled(false);
         jMenuItemLogout.setEnabled(true);
@@ -279,8 +258,9 @@ public class FMain extends javax.swing.JFrame {
         try {
             jMenuPredmet.setEnabled(false);
             jMenuUdzbenik.setEnabled(false);
-            
-            jMenuPristupSistemu.setEnabled(false);
+
+            jMenuPristupSistemu.setEnabled(true);
+            jMenuItemLogout.setEnabled(false);
             jMenuAutor.setEnabled(false);
 
         } catch (Exception e) {
@@ -297,7 +277,7 @@ public class FMain extends javax.swing.JFrame {
     private void onemoguciMenijeLogout() {
         jMenuPredmet.setEnabled(false);
         jMenuUdzbenik.setEnabled(false);
-      
+
         jMenuItemLogin.setEnabled(true);
         jMenuItemLogout.setEnabled(false);
     }

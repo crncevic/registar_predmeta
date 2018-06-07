@@ -1,6 +1,10 @@
 package thread;
 
 import db.DbBroker;
+import db.dao.impl.KorisnikDaoImpl;
+import db.dao.impl.OsobaUVeziSaUdzbenikomDaoImpl;
+import db.dao.impl.PredmetDaoImpl;
+import db.dao.impl.UdzbenikDaoImpl;
 import domen.OsobaUVeziSaUdzbenikom;
 import domen.Korisnik;
 import domen.Predmet;
@@ -45,7 +49,7 @@ public class NitKlijent extends Thread {
                 switch (requestObject.getOperation()) {
                     case IOperation.VRATI_SVE_UDZBENIKE:
                         try {
-                            List<Udzbenik> udzbenici = DbBroker.getInstance().vratiSveUdzbenike();
+                            List<Udzbenik> udzbenici = UdzbenikDaoImpl.getInstance().vratiSveUdzbenike();
                             responseObject.setData(udzbenici);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -55,7 +59,7 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.KREIRAJ_UDZBENIK:
                         try {
-                            Udzbenik kreiranUdzbenik = DbBroker.getInstance().kreirajUdzbenik((Udzbenik) requestObject.getData());
+                            Udzbenik kreiranUdzbenik = UdzbenikDaoImpl.getInstance().kreirajUdzbenik((Udzbenik) requestObject.getData());
                             responseObject.setData(kreiranUdzbenik);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -65,7 +69,7 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.AZURIRAJ_UDZBENIK:
                         try {
-                            Udzbenik azuriranUdzbenik = DbBroker.getInstance().azurirajUdzbenik((Udzbenik) requestObject.getData());
+                            Udzbenik azuriranUdzbenik = UdzbenikDaoImpl.getInstance().azurirajUdzbenik((Udzbenik) requestObject.getData());
                             responseObject.setData(azuriranUdzbenik);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -75,7 +79,7 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.PRONADJI_UDZBENIK_PO_ID:
                         try {
-                            Udzbenik udzbenikFromDb = DbBroker.getInstance().pronadjiUdzbenikPoId((int) requestObject.getData());
+                            Udzbenik udzbenikFromDb = UdzbenikDaoImpl.getInstance().pronadjiUdzbenikPoId((int) requestObject.getData());
                             responseObject.setData(udzbenikFromDb);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -85,7 +89,7 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.PRONADJI_UDZBENIK_PO_NAZIVU:
                         try {
-                            Udzbenik udzbenikFromDb = DbBroker.getInstance().pronadjiUdzbenikPoNazivu((String) requestObject.getData());
+                            Udzbenik udzbenikFromDb = UdzbenikDaoImpl.getInstance().pronadjiUdzbenikPoNazivu((String) requestObject.getData());
                             responseObject.setData(udzbenikFromDb);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -95,7 +99,7 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.OBRISI_UDZBENIK:
                         try {
-                            Udzbenik obrisanUdzbenik = DbBroker.getInstance().obrisiUdzbenik((int) requestObject.getData());
+                            Udzbenik obrisanUdzbenik = UdzbenikDaoImpl.getInstance().obrisiUdzbenik((int) requestObject.getData());
                             responseObject.setData(obrisanUdzbenik);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -105,7 +109,7 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.VRATI_SVE_AUTORE:
                         try {
-                            List<OsobaUVeziSaUdzbenikom> osobe = DbBroker.getInstance().vratiOsobeZaUdzbenik((int) requestObject.getData());
+                            List<OsobaUVeziSaUdzbenikom> osobe = OsobaUVeziSaUdzbenikomDaoImpl.getInstance().vratiOsobeZaUdzbenik((int) requestObject.getData());
                             List<OsobaUVeziSaUdzbenikom> autori = new ArrayList<>();
                             for (OsobaUVeziSaUdzbenikom ouvsu : osobe) {
                                 if (ouvsu.getUlogaUdzbenik().getNaziv().equalsIgnoreCase("recenzent")) {
@@ -122,7 +126,7 @@ public class NitKlijent extends Thread {
 
                     case IOperation.VRATI_SVE_RECENZENTE:
                         try {
-                            List<OsobaUVeziSaUdzbenikom> osobe = DbBroker.getInstance().vratiOsobeZaUdzbenik((int) requestObject.getData());
+                            List<OsobaUVeziSaUdzbenikom> osobe = OsobaUVeziSaUdzbenikomDaoImpl.getInstance().vratiOsobeZaUdzbenik((int) requestObject.getData());
                             List<OsobaUVeziSaUdzbenikom> recenzenti = new ArrayList<>();
                             for (OsobaUVeziSaUdzbenikom ouvsu : osobe) {
                                 if (ouvsu.getUlogaUdzbenik().getNaziv().equalsIgnoreCase("recenzent")) {
@@ -141,7 +145,7 @@ public class NitKlijent extends Thread {
                     case IOperation.PROVERI_KORISNIKA:
                         try {
                             Korisnik korisnikRequest = (Korisnik) requestObject.getData();
-                            Korisnik korisnikFromDb = DbBroker.getInstance().vratiKorisnika(korisnikRequest.getUsername(), korisnikRequest.getPassword());
+                            Korisnik korisnikFromDb = KorisnikDaoImpl.getInstance().vratiKorisnika(korisnikRequest.getUsername(), korisnikRequest.getPassword());
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(korisnikFromDb);
                         } catch (Exception e) {
@@ -152,7 +156,7 @@ public class NitKlijent extends Thread {
 
                     case IOperation.PRONADJI_PREDMET_PO_ID:
                         try {
-                            Predmet predmet = DbBroker.getInstance().pronadjiPredmetPoId((int) requestObject.getData());
+                            Predmet predmet = PredmetDaoImpl.getInstance().pronadjiPredmetPoId((int) requestObject.getData());
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmet);
                         } catch (Exception e) {
