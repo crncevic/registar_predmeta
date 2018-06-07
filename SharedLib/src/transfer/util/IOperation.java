@@ -21,5 +21,6 @@ public interface IOperation {
     public static final int PRONADJI_UDZBENIK_PO_NAZIVU = 8;
     public static final int OBRISI_UDZBENIK = 9;
     public static final int PRONADJI_PREDMET_PO_ID = 10;
+  
 
 }

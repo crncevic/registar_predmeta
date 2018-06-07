@@ -29,6 +29,7 @@ public class FServer extends javax.swing.JFrame {
     public FServer() {
         initComponents();
         centrirajFormu();
+        initForm();
         try {
             port = Integer.valueOf(SettingsLoader.getInstance().getValue(Constants.APPLICATION_PORT));
         } catch (Exception ex) {
@@ -120,10 +121,8 @@ public class FServer extends javax.swing.JFrame {
             if (nitServer == null || !nitServer.isAlive()) {
                 nitServer = new NitServer(port);
                 nitServer.start();
-            } else if (!nitServer.vratiSignal()) {
-
-                nitServer.pokreniNitServer();
-                nitServer.run();
+            } else {
+                nitServer.interrupted();
             }
             jBtnServerStart.setEnabled(false);
             jBtnServerStop.setEnabled(true);
@@ -143,8 +142,10 @@ public class FServer extends javax.swing.JFrame {
 
     private void jBtnServerStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnServerStopActionPerformed
         try {
-            if (nitServer.vratiSignal()) {
-                nitServer.prekiniNitServer();
+            if (nitServer != null || !nitServer.isInterrupted()) {
+                nitServer.getServerSocket().close();
+                nitServer.interrupt();
+                System.out.println(nitServer.isInterrupted() + "");
             }
             jBtnServerStop.setEnabled(false);
             jBtnServerStart.setEnabled(true);
@@ -174,6 +175,10 @@ public class FServer extends javax.swing.JFrame {
 
     private void centrirajFormu() {
         setLocationRelativeTo(null);
+    }
+
+    private void initForm() {
+        jBtnServerStop.setEnabled(false);
     }
 
 }

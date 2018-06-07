@@ -1,14 +1,14 @@
 package thread;
 
 import db.DbBroker;
-import domen.Autor;
+import domen.OsobaUVeziSaUdzbenikom;
 import domen.Korisnik;
 import domen.Predmet;
-import domen.Recenzent;
 import domen.Udzbenik;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import transfer.request.RequestObject;
 import transfer.response.ResponseObject;
@@ -105,7 +105,13 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.VRATI_SVE_AUTORE:
                         try {
-                            List<Autor> autori = DbBroker.getInstance().vratiAutoreZaUdzbenik((int) requestObject.getData());
+                            List<OsobaUVeziSaUdzbenikom> osobe = DbBroker.getInstance().vratiOsobeZaUdzbenik((int) requestObject.getData());
+                            List<OsobaUVeziSaUdzbenikom> autori = new ArrayList<>();
+                            for (OsobaUVeziSaUdzbenikom ouvsu : osobe) {
+                                if (ouvsu.getUlogaUdzbenik().getNaziv().equalsIgnoreCase("recenzent")) {
+                                    autori.add(ouvsu);
+                                }
+                            }
                             responseObject.setData(autori);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -113,9 +119,17 @@ public class NitKlijent extends Thread {
                             responseObject.setMessage(e.getMessage());
                         }
                         break;
+
                     case IOperation.VRATI_SVE_RECENZENTE:
                         try {
-                            List<Recenzent> recenzenti = DbBroker.getInstance().vratiRecenzenteZaUdzbenik((int) requestObject.getData());
+                            List<OsobaUVeziSaUdzbenikom> osobe = DbBroker.getInstance().vratiOsobeZaUdzbenik((int) requestObject.getData());
+                            List<OsobaUVeziSaUdzbenikom> recenzenti = new ArrayList<>();
+                            for (OsobaUVeziSaUdzbenikom ouvsu : osobe) {
+                                if (ouvsu.getUlogaUdzbenik().getNaziv().equalsIgnoreCase("recenzent")) {
+                                    recenzenti.add(ouvsu);
+                                }
+                            }
+
                             responseObject.setData(recenzenti);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -123,7 +137,7 @@ public class NitKlijent extends Thread {
                             responseObject.setMessage(e.getMessage());
                         }
                         break;
-                    
+
                     case IOperation.PROVERI_KORISNIKA:
                         try {
                             Korisnik korisnikRequest = (Korisnik) requestObject.getData();
@@ -135,10 +149,10 @@ public class NitKlijent extends Thread {
                             responseObject.setMessage(e.getMessage());
                         }
                         break;
-                        
-                         case IOperation.PRONADJI_PREDMET_PO_ID:
+
+                    case IOperation.PRONADJI_PREDMET_PO_ID:
                         try {
-                            Predmet predmet =DbBroker.getInstance().pronadjiPredmetPoId((int)requestObject.getData());
+                            Predmet predmet = DbBroker.getInstance().pronadjiPredmetPoId((int) requestObject.getData());
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmet);
                         } catch (Exception e) {
@@ -146,7 +160,7 @@ public class NitKlijent extends Thread {
                             responseObject.setMessage(e.getMessage());
                         }
                         break;
-                   
+
                 }
                 //posalji odgovor
 

@@ -5,17 +5,14 @@
  */
 package kontroler;
 
-import com.mysql.jdbc.NotImplemented;
-import domen.Autor;
+import domen.OsobaUVeziSaUdzbenikom;
 import domen.Korisnik;
 import domen.Predmet;
-import domen.Recenzent;
 import domen.Udzbenik;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.SQLException;
 import java.util.List;
 import session.Session;
 import transfer.request.RequestObject;
@@ -176,7 +173,7 @@ public class Kontroler {
         }
     }
 
-    public List<Autor> vratiSveAutoreZaUdzbenik(int udzbenikId) throws Exception {
+    public List<OsobaUVeziSaUdzbenikom> vratiSveAutoreZaUdzbenik(int udzbenikId) throws Exception {
         RequestObject request = new RequestObject();
         request.setOperation(IOperation.VRATI_SVE_AUTORE);
         request.setData(udzbenikId);
@@ -191,13 +188,13 @@ public class Kontroler {
         int code = response.getCode();
 
         if (code == IStatus.OK) {
-            return (List<Autor>) response.getData();
+            return (List<OsobaUVeziSaUdzbenikom>) response.getData();
         } else {
             throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
         }
     }
 
-    public List<Recenzent> vratiSveRecenzenteZaUdzbenik(int udzbenikId) throws Exception {
+    public List<OsobaUVeziSaUdzbenikom> vratiSveRecenzenteZaUdzbenik(int udzbenikId) throws Exception {
         RequestObject request = new RequestObject();
         request.setOperation(IOperation.VRATI_SVE_RECENZENTE);
         request.setData(udzbenikId);
@@ -212,17 +209,16 @@ public class Kontroler {
         int code = response.getCode();
 
         if (code == IStatus.OK) {
-            return (List<Recenzent>) response.getData();
+            return (List<OsobaUVeziSaUdzbenikom>) response.getData();
         } else {
             throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
         }
     }
-
     public Korisnik vratiKorisnika(String username, String password) throws Exception {
 
         RequestObject request = new RequestObject();
         request.setOperation(IOperation.PROVERI_KORISNIKA);
-        Korisnik korisnik = new Korisnik("", "", username, password);
+        Korisnik korisnik = new Korisnik(username, password);
         request.setData(korisnik);
         Socket socket = Session.getInstance().getSocket();
 

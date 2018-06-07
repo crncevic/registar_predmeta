@@ -11,30 +11,38 @@ import java.io.Serializable;
  *
  * @author Petar
  */
-public class Korisnik implements OpstiDomenskiObjekat,Serializable {
+public class Korisnik implements OpstiDomenskiObjekat, Serializable {
 
     private int korisnikId;
     private String ime;
     private String prezime;
     private String username;
     private String password;
+    private Uloga uloga;
 
     public Korisnik() {
     }
 
-    public Korisnik(int korisnikId, String ime, String prezime, String username, String password) {
+    public Korisnik(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public Korisnik(String ime, String prezime, String username, String password, Uloga uloga) {
+        this.ime = ime;
+        this.prezime = prezime;
+        this.username = username;
+        this.password = password;
+        this.uloga = uloga;
+    }
+
+    public Korisnik(int korisnikId, String ime, String prezime, String username, String password, Uloga uloga) {
         this.korisnikId = korisnikId;
         this.ime = ime;
         this.prezime = prezime;
         this.username = username;
         this.password = password;
-    }
-
-    public Korisnik(String ime, String prezime, String username, String password) {
-        this.ime = ime;
-        this.prezime = prezime;
-        this.username = username;
-        this.password = password;
+        this.uloga = uloga;
     }
 
     public int getKorisnikId() {
@@ -75,6 +83,14 @@ public class Korisnik implements OpstiDomenskiObjekat,Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Uloga getUloga() {
+        return uloga;
+    }
+
+    public void setUloga(Uloga uloga) {
+        this.uloga = uloga;
     }
 
     @Override

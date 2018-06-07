@@ -7,35 +7,37 @@ package domen;
 
 import java.io.Serializable;
 
-/**  
+/**
  *
  * @author Petar
  */
-public class Autor implements OpstiDomenskiObjekat , Serializable{
+public class OsobaUVeziSaUdzbenikom implements OpstiDomenskiObjekat, Serializable {
 
-    private int autorId;
-    private int udzbenikId;
+    private int osobaId;
     private String ime;
     private String prezime;
     private String titula;
+    private int udzbenikId;
+    private UlogaUdzbenik ulogaUdzbenik;
 
-    public Autor() {
+    public OsobaUVeziSaUdzbenikom() {
     }
 
-    public Autor(int id, int udzbenikId, String ime, String prezime, String titula) {
-        this.autorId = id;
+    public OsobaUVeziSaUdzbenikom(int osobaId, String ime, String prezime, String titula, int udzbenikId, UlogaUdzbenik ulogaUdzbenik) {
+        this.osobaId = osobaId;
         this.ime = ime;
         this.prezime = prezime;
         this.titula = titula;
         this.udzbenikId = udzbenikId;
+        this.ulogaUdzbenik = ulogaUdzbenik;
     }
 
-    public int getAutorId() {
-        return autorId;
+    public int getOsobaId() {
+        return osobaId;
     }
 
-    public void setAutorId(int autorId) {
-        this.autorId = autorId;
+    public void setOsobaId(int osobaId) {
+        this.osobaId = osobaId;
     }
 
     public String getIme() {
@@ -44,14 +46,6 @@ public class Autor implements OpstiDomenskiObjekat , Serializable{
 
     public void setIme(String ime) {
         this.ime = ime;
-    }
-
-    public int getUdzbenikId() {
-        return udzbenikId;
-    }
-
-    public void setUdzbenikId(int udzbenikId) {
-        this.udzbenikId = udzbenikId;
     }
 
     public String getPrezime() {
@@ -70,19 +64,35 @@ public class Autor implements OpstiDomenskiObjekat , Serializable{
         this.titula = titula;
     }
 
+    public UlogaUdzbenik getUlogaUdzbenik() {
+        return ulogaUdzbenik;
+    }
+
+    public void setUlogaUdzbenik(UlogaUdzbenik ulogaUdzbenik) {
+        this.ulogaUdzbenik = ulogaUdzbenik;
+    }
+
+    public int getUdzbenikId() {
+        return udzbenikId;
+    }
+
+    public void setUdzbenikId(int udzbenikId) {
+        this.udzbenikId = udzbenikId;
+    }
+
     @Override
     public String toString() {
-        return "Autor{" + "id=" + autorId + ", ime=" + ime + ", prezime=" + prezime + ", titula=" + titula + '}';
+        return "OsobaUVeziSaUdzbenikom{" + "id=" + osobaId + ", ime=" + ime + ", prezime=" + prezime + ", titula=" + titula + '}';
     }
 
     @Override
     public String vratiImeKlase() {
-        return "autor";
+        return "osoba_u_vezi_sa_udzbenikom";
     }
 
     @Override
     public String vratiVrednostiAtributa() {
-        return "" + getUdzbenikId() + ",'" + getIme() + "','" + getPrezime() + "','" + getTitula() + "'";
+        return "" + getOsobaId() + ",'" + getIme() + "','" + getPrezime() + "','" + getTitula() + "'";
     }
 
 }

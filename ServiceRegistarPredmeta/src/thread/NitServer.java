@@ -24,31 +24,33 @@ public class NitServer extends Thread {
     private ServerSocket serverSocket;
     private List<Thread> klijenti;
     private int maxBrojKlijenata;
-    private boolean signal;
 
     public NitServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         klijenti = new ArrayList<>();
         postaviMaxBrojKlijenata();
-        signal = true;
+
     }
 
     @Override
     public void run() {
-        while (signal) {
-            if (klijenti.size() < maxBrojKlijenata) {
-                try {
+
+        if (klijenti.size() < maxBrojKlijenata) {
+            try {
+                while (!isInterrupted()) {
                     System.out.println("Cekanje na novog klijenta");
                     Socket socket = serverSocket.accept();
                     System.out.println("Klijent se povezao na portu br:" + socket.getPort());
                     Thread klijent = new NitKlijent(socket);
                     klijenti.add(klijent);
-
-                } catch (IOException ex) {
-                    Logger.getLogger(NitServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+            } catch (Exception ex) {
+
             }
         }
+        System.out.println("Serverska nit prekinula sa radom!");
+
     }
 
     private void postaviMaxBrojKlijenata() {
@@ -60,16 +62,8 @@ public class NitServer extends Thread {
         }
     }
 
-    public void prekiniNitServer() {
-        signal = false;
-    }
-
-    public void pokreniNitServer() {
-        signal = true;
-    }
-
-    public boolean vratiSignal() {
-        return signal;
+    public ServerSocket getServerSocket() {
+        return serverSocket;
     }
 
 }

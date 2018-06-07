@@ -5,23 +5,18 @@
  */
 package form;
 
-import domen.Autor;
-import domen.Recenzent;
+import domen.OsobaUVeziSaUdzbenikom;
+
 import domen.Udzbenik;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.sql.Date;
+import domen.UlogaUdzbenik;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.border.BevelBorder;
 import javax.swing.table.TableModel;
 import kontroler.Kontroler;
-import table.model.AutorTableModel;
-import table.model.RecenzentTableModel;
+import table.model.OsobaUdzbenikTableModel;
 
 /**
  *
@@ -338,8 +333,8 @@ public class FUdzbenik extends javax.swing.JDialog {
 
     private void jBtnDodajAutoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDodajAutoraActionPerformed
         try {
-            AutorTableModel atm = (AutorTableModel) jTblAutori.getModel();
-            atm.dodajNovogAutora();
+            OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
+            atm.dodajNovuOsobuZaUdzbenik();
         } catch (Exception e) {
 
         }
@@ -349,7 +344,7 @@ public class FUdzbenik extends javax.swing.JDialog {
         try {
             int selectedIndex = jTblAutori.getSelectedRow();
             if (selectedIndex >= 0) {
-                AutorTableModel atm = (AutorTableModel) jTblAutori.getModel();
+                OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
                 atm.obrisiAutora(selectedIndex);
             }
         } catch (Exception e) {
@@ -425,13 +420,23 @@ public class FUdzbenik extends javax.swing.JDialog {
                 return;
             }
 
-            AutorTableModel atm = (AutorTableModel) jTblAutori.getModel();
-            List<Autor> autoriFromTbl = atm.vratiSveAutore();
-            udzbenik.setAutori(autoriFromTbl);
+            OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
+            List<OsobaUVeziSaUdzbenikom> autoriFromTbl = atm.vratiSveAutore();
+            for (OsobaUVeziSaUdzbenikom ouvsu : autoriFromTbl) {
+                ouvsu.setUlogaUdzbenik(new UlogaUdzbenik(1, "autor"));
+            }
 
-            RecenzentTableModel rtm = (RecenzentTableModel) jTblRecenzenti.getModel();
-            List<Recenzent> recenzentiFromTbl = rtm.vratiSveRecenzente();
-            udzbenik.setRecenzenti(recenzentiFromTbl);
+            OsobaUdzbenikTableModel outm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
+            List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl = outm.vratiSveRecenzente();
+            for (OsobaUVeziSaUdzbenikom ouvsu : recenzentiFromTbl) {
+                ouvsu.setUlogaUdzbenik(new UlogaUdzbenik(2, "recenzent"));
+            }
+
+            List<OsobaUVeziSaUdzbenikom> list = new ArrayList<>();
+            list.addAll(autoriFromTbl);
+            list.addAll(autoriFromTbl);
+
+            udzbenik.setOsobeUVeziSaUdzbenikom(list);
 
             Udzbenik udzbenikFromDB = Kontroler.getInstance().AzurirajUdzbenik(udzbenik);
 
@@ -522,14 +527,23 @@ public class FUdzbenik extends javax.swing.JDialog {
                 return;
             }
 
-            AutorTableModel atm = (AutorTableModel) jTblAutori.getModel();
-            List<Autor> autoriFromTbl = atm.vratiSveAutore();
-            udzbenik.setAutori(autoriFromTbl);
+            OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
+            List<OsobaUVeziSaUdzbenikom> autoriFromTbl = atm.vratiSveAutore();
+            for (OsobaUVeziSaUdzbenikom ouvsu : autoriFromTbl) {
+                ouvsu.setUlogaUdzbenik(new UlogaUdzbenik(1, "autor"));
+            }
 
-            RecenzentTableModel rtm = (RecenzentTableModel) jTblRecenzenti.getModel();
-            List<Recenzent> recenzentiFromTbl = rtm.vratiSveRecenzente();
-            udzbenik.setRecenzenti(recenzentiFromTbl);
+            OsobaUdzbenikTableModel outm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
+            List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl = outm.vratiSveRecenzente();
+            for (OsobaUVeziSaUdzbenikom ouvsu : recenzentiFromTbl) {
+                ouvsu.setUlogaUdzbenik(new UlogaUdzbenik(2, "recenzent"));
+            }
 
+            List<OsobaUVeziSaUdzbenikom> list = new ArrayList<>();
+            list.addAll(autoriFromTbl);
+            list.addAll(autoriFromTbl);
+
+            udzbenik.setOsobeUVeziSaUdzbenikom(list);
             Udzbenik udzbenikFromDB = Kontroler.getInstance().kreirajUdzbenik(udzbenik);
 
             if (udzbenikFromDB != null) {
@@ -549,8 +563,8 @@ public class FUdzbenik extends javax.swing.JDialog {
 
     private void jBtnDodajRecenzentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDodajRecenzentaActionPerformed
         try {
-            RecenzentTableModel rtm = (RecenzentTableModel) jTblRecenzenti.getModel();
-            rtm.dodajNovogRecenzenta();
+            OsobaUdzbenikTableModel rtm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
+            rtm.dodajNovuOsobuZaUdzbenik();
         } catch (Exception e) {
             System.out.println("Dogodila se greska prilikom brisanja recenzenta iz tabele");
         }
@@ -560,8 +574,8 @@ public class FUdzbenik extends javax.swing.JDialog {
         try {
             int selectedIndex = jTblRecenzenti.getSelectedRow();
             if (selectedIndex >= 0) {
-                RecenzentTableModel rtm = (RecenzentTableModel) jTblRecenzenti.getModel();
-                rtm.obrisiRecenzenta(selectedIndex);
+                OsobaUdzbenikTableModel rtm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
+                rtm.obrisiOsobuNaUdzbeniku(selectedIndex);
             }
         } catch (Exception e) {
             System.out.println("Dogodila se greska prilikom brisanja recenzenta iz tabele");
@@ -618,12 +632,13 @@ public class FUdzbenik extends javax.swing.JDialog {
 
     private void postaviTableModel() {
         try {
-            TableModel atm = new AutorTableModel(new ArrayList<>());
+            TableModel atm = new OsobaUdzbenikTableModel(new ArrayList<>());
             jTblAutori.setModel(atm);
 
-            TableModel rtm = new RecenzentTableModel(new ArrayList<>());
+            TableModel rtm = new OsobaUdzbenikTableModel(new ArrayList<>());
             jTblRecenzenti.setModel(rtm);
         } catch (Exception e) {
+            System.out.println("Dogodila se greska prilikom postavljanja table modela-a");
         }
     }
 
@@ -641,10 +656,10 @@ public class FUdzbenik extends javax.swing.JDialog {
         jTxtRedniBrojIzdanja.setText("");
         jTxtStampa.setText("");
         jTxtNaziv.setText("");
-        AutorTableModel atm = (AutorTableModel) jTblAutori.getModel();
-        atm.obrisiSveAutore();
-        RecenzentTableModel rtm = (RecenzentTableModel) jTblRecenzenti.getModel();
-        rtm.obrisiSveRecenzente();
+        OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
+        atm.obrisiSveOsobeNaUdzbeniku();
+        OsobaUdzbenikTableModel rtm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
+        rtm.obrisiSveOsobeNaUdzbeniku();
 
         jComboGodinaIzdanja.setSelectedItem(LocalDate.now().getYear());
         jBtnObrisi.setEnabled(true);
@@ -683,10 +698,10 @@ public class FUdzbenik extends javax.swing.JDialog {
             jTxtUdbzenikId.setText(udzbenik.getUdzbenikId() + "");
             jComboGodinaIzdanja.setSelectedItem(udzbenik.getGodinaIzdanja());
 
-            AutorTableModel atm = (AutorTableModel) jTblAutori.getModel();
+            OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
             atm.vratiSveAutore().clear();
 
-            RecenzentTableModel rtm = (RecenzentTableModel) jTblRecenzenti.getModel();
+            OsobaUdzbenikTableModel rtm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
             rtm.vratiSveRecenzente().clear();
 
             pripremiFormu(FormMode.VIEW);
@@ -698,12 +713,12 @@ public class FUdzbenik extends javax.swing.JDialog {
 
     private void postaviTableModelZaUdzbenik(int udzbenikId) {
         try {
-            List<Autor> autori = Kontroler.getInstance().vratiSveAutoreZaUdzbenik(udzbenikId);
-            TableModel atm = new AutorTableModel(autori);
+            List<OsobaUVeziSaUdzbenikom> autori = Kontroler.getInstance().vratiSveAutoreZaUdzbenik(udzbenikId);
+            TableModel atm = new OsobaUdzbenikTableModel(autori);
             jTblAutori.setModel(atm);
 
-            List<Recenzent> recenzenti = Kontroler.getInstance().vratiSveRecenzenteZaUdzbenik(udzbenikId);
-            TableModel rtm = new RecenzentTableModel(recenzenti);
+            List<OsobaUVeziSaUdzbenikom> recenzenti = Kontroler.getInstance().vratiSveRecenzenteZaUdzbenik(udzbenikId);
+            TableModel rtm = new OsobaUdzbenikTableModel(recenzenti);
             jTblRecenzenti.setModel(rtm);
         } catch (Exception e) {
             System.out.println("Dogodila se greska prilikom postavljanja Table model-a za ");

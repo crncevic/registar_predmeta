@@ -5,8 +5,7 @@
  */
 package table.model;
 
-import domen.Autor;
-import domen.Recenzent;
+import domen.OsobaUVeziSaUdzbenikom;
 import domen.Udzbenik;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +48,10 @@ public class UdzbenikTableModel extends AbstractTableModel {
                 return udzbenik.getNaziv();
             case 2:
                 String autori = "";
-                for (Autor autor : udzbenik.getAutori()) {
-                    autori.concat(autor.getIme() + " " + autor.getPrezime() + " " + autor.getTitula() + ",");
+                for (OsobaUVeziSaUdzbenikom osoba : udzbenik.getOsobeUVeziSaUdzbenikom()) {
+                    if (osoba.getUlogaUdzbenik().getNaziv().equalsIgnoreCase("autor")) {
+                        autori.concat(osoba.getIme() + " " + osoba.getPrezime() + " " + osoba.getTitula() + ",");
+                    }
                 }
                 return autori;
             case 3:
@@ -59,8 +60,10 @@ public class UdzbenikTableModel extends AbstractTableModel {
                 return udzbenik.getIzdavac();
             case 5:
                 String recenzenti = "";
-                for (Recenzent recenzent : udzbenik.getRecenzenti()) {
-                    recenzenti.concat(recenzent.getIme() + " " + recenzent.getPrezime() + " " + recenzent.getTitula() + ",");
+                for (OsobaUVeziSaUdzbenikom osoba : udzbenik.getOsobeUVeziSaUdzbenikom()) {
+                    if (osoba.getUlogaUdzbenik().getNaziv().equalsIgnoreCase("recenzent")) {
+                        recenzenti.concat(osoba.getIme() + " " + osoba.getPrezime() + " " + osoba.getTitula() + ",");
+                    }
                 }
                 return recenzenti;
 

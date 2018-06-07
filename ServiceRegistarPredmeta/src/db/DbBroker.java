@@ -6,14 +6,15 @@
 package db;
 
 import constants.Constants;
-import domen.Autor;
+import domen.OsobaUVeziSaUdzbenikom;
 import domen.Korisnik;
 import domen.Obaveza;
+
 import domen.Predmet;
-import domen.Recenzent;
 import domen.TematskaCelina;
 import domen.TipNastave;
 import domen.Udzbenik;
+import domen.UlogaUdzbenik;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -95,10 +96,9 @@ public class DbBroker {
                 Udzbenik udzbenik = new Udzbenik();
                 udzbenik.setUdzbenikId(rs.getInt("udzbenikId"));
                 udzbenik.setNaziv(rs.getString("naziv"));
-                udzbenik.setAutori(vratiAutoreZaUdzbenik(udzbenik.getUdzbenikId()));
+                udzbenik.setOsobeUVeziSaUdzbenikom(vratiOsobeZaUdzbenik(udzbenik.getUdzbenikId()));
                 udzbenik.setGodinaIzdanja(rs.getInt("godina_izdanja"));
                 udzbenik.setIzdavac(rs.getString("izdavac"));
-                udzbenik.setRecenzenti(vratiRecenzenteZaUdzbenik(udzbenik.getUdzbenikId()));
                 udzbenik.setStampa(rs.getString("stampa"));
                 udzbenik.setRbrIzdanja(rs.getInt("rbr_izdanja"));
                 udzbenik.setIsbn(rs.getInt("isbn"));
@@ -142,30 +142,21 @@ public class DbBroker {
             } else {
                 throw new Exception("Id is not generated!");
             }
-            String upit2 = "INSERT INTO autor(udzbenikId,ime,prezime,titula) VALUES (?,?,?,?)";
+            String upit2 = "INSERT INTO osoba_u_vezi_sa_udzbenikom(osobaId,ime,prezime,titula,ulogaId,udzbenikId) VALUES (?,?,?,?,?,?)";
             PreparedStatement ps2 = connection.prepareStatement(upit2);
-            for (Autor autor : udzbenik.getAutori()) {
-                ps2.setInt(1, udzbenikId);
-                ps2.setString(2, autor.getIme());
-                ps2.setString(3, autor.getPrezime());
-                ps2.setString(4, autor.getTitula());
+            for (OsobaUVeziSaUdzbenikom osoba : udzbenik.getOsobeUVeziSaUdzbenikom()) {
+                ps2.setInt(1, osoba.getOsobaId());
+                ps2.setString(2, osoba.getIme());
+                ps2.setString(3, osoba.getPrezime());
+                ps2.setString(4, osoba.getTitula());
+                ps2.setInt(5, osoba.getUlogaUdzbenik().getUlogaId());
+                ps2.setInt(6, osoba.getUdzbenikId());
                 ps2.executeUpdate();
-            }
-
-            String upit3 = "INSERT INTO recenzent(recenzentId,ime,prezime,titula) VALUES (?,?,?,?)";
-            PreparedStatement ps3 = connection.prepareStatement(upit3);
-            for (Recenzent recenzent : udzbenik.getRecenzenti()) {
-                ps3.setInt(1, udzbenikId);
-                ps3.setString(2, recenzent.getIme());
-                ps3.setString(3, recenzent.getPrezime());
-                ps3.setString(4, recenzent.getTitula());
-                ps3.executeUpdate();
             }
 
             commitTransakcije();
             preparedStatement.close();
             ps2.close();
-            ps3.close();
 
             return pronadjiUdzbenikPoId(udzbenikId);
         } catch (Exception e) {
@@ -189,42 +180,27 @@ public class DbBroker {
             preparedStatement.setInt(8, udzbenik.getUdzbenikId());
             preparedStatement.executeUpdate();
 
-            String upit2 = "DELETE FROM autor WHERE udzbenikId=?";
+            String upit2 = "DELETE FROM osoba_u_vezi_sa_udzbenikom WHERE udzbenikId=?";
             PreparedStatement ps2 = connection.prepareStatement(upit2);
             ps2.setInt(1, udzbenik.getUdzbenikId());
             ps2.executeUpdate();
 
-            String upit3 = "DELETE FROM recenzent WHERE udzbenikId=?";
+            String upit3 = "INSERT INTO osoba_u_vezi_sa_udzbenikom(osobaId,ime,prezime,titula,ulogaId,udzbenikId) VALUES (?,?,?,?,?,?)";
             PreparedStatement ps3 = connection.prepareStatement(upit3);
-            ps3.setInt(1, udzbenik.getUdzbenikId());
-            ps3.executeUpdate();
-
-            String upit4 = "INSERT INTO autor(udzbenikId,ime,prezime,titula) VALUES (?,?,?,?)";
-            PreparedStatement ps4 = connection.prepareStatement(upit4);
-            for (Autor autor : udzbenik.getAutori()) {
-                ps4.setInt(1, udzbenik.getUdzbenikId());
-                ps4.setString(2, autor.getIme());
-                ps4.setString(3, autor.getPrezime());
-                ps4.setString(4, autor.getTitula());
-                ps4.executeUpdate();
-            }
-
-            String upit5 = "INSERT INTO recenzent(recenzentId,ime,prezime,titula) VALUES (?,?,?,?)";
-            PreparedStatement ps5 = connection.prepareStatement(upit2);
-            for (Recenzent recenzent : udzbenik.getRecenzenti()) {
-                ps5.setInt(1, udzbenik.getUdzbenikId());
-                ps5.setString(2, recenzent.getIme());
-                ps5.setString(3, recenzent.getPrezime());
-                ps5.setString(4, recenzent.getTitula());
-                ps5.executeUpdate();
+            for (OsobaUVeziSaUdzbenikom osoba : udzbenik.getOsobeUVeziSaUdzbenikom()) {
+                ps3.setInt(1, osoba.getOsobaId());
+                ps3.setString(2, osoba.getIme());
+                ps3.setString(3, osoba.getPrezime());
+                ps3.setString(4, osoba.getTitula());
+                ps3.setInt(5, osoba.getUlogaUdzbenik().getUlogaId());
+                ps3.setInt(6, osoba.getUdzbenikId());
+                ps3.executeUpdate();
             }
 
             commitTransakcije();
             preparedStatement.close();
             ps2.close();
             ps3.close();
-            ps4.close();
-            ps5.close();
 
             System.out.println("Udzbenik je uspesno azuriran");
 
@@ -273,9 +249,9 @@ public class DbBroker {
         }
     }
 
-    public Udzbenik pronadjiUdzbenikPoId(int id) throws Exception {
+    public Udzbenik pronadjiUdzbenikPoId(int udzbenikId) throws Exception {
         try {
-            String upit = "SELECT * FROM udzbenik WHERE udzbenikId=" + id;
+            String upit = "SELECT * FROM udzbenik WHERE udzbenikId=" + udzbenikId;
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(upit);
 
@@ -283,10 +259,9 @@ public class DbBroker {
                 Udzbenik udzbenik = new Udzbenik();
                 udzbenik.setUdzbenikId(rs.getInt("udzbenikId"));
                 udzbenik.setNaziv(rs.getString("naziv"));
-                udzbenik.setAutori(vratiAutoreZaUdzbenik(id));
+                udzbenik.setOsobeUVeziSaUdzbenikom(vratiOsobeZaUdzbenik(udzbenikId));
                 udzbenik.setGodinaIzdanja(rs.getInt("godina_izdanja"));
                 udzbenik.setIzdavac(rs.getString("izdavac"));
-                udzbenik.setRecenzenti(vratiRecenzenteZaUdzbenik(id));
                 udzbenik.setStampa(rs.getString("stampa"));
                 udzbenik.setTiraz(rs.getInt("tiraz"));
                 udzbenik.setRbrIzdanja(rs.getInt("rbr_izdanja"));
@@ -300,7 +275,7 @@ public class DbBroker {
                 return null;
             }
         } catch (Exception e) {
-            throw new Exception("Dogodila se greska prilikom trazenja udzbenika sa id:" + id + " Greska: " + e.getMessage());
+            throw new Exception("Dogodila se greska prilikom trazenja udzbenika sa id:" + udzbenikId + " Greska: " + e.getMessage());
 
         }
 
@@ -317,10 +292,9 @@ public class DbBroker {
                 Udzbenik udzbenik = new Udzbenik();
                 udzbenik.setUdzbenikId(rs.getInt("udzbenikId"));
                 udzbenik.setNaziv(rs.getString("naziv"));
-                udzbenik.setAutori(vratiAutoreZaUdzbenik(udzbenik.getUdzbenikId()));
+                udzbenik.setOsobeUVeziSaUdzbenikom(vratiOsobeZaUdzbenik(udzbenik.getUdzbenikId()));
                 udzbenik.setGodinaIzdanja(rs.getInt("godina_izdanja"));
                 udzbenik.setIzdavac(rs.getString("izdavac"));
-                udzbenik.setRecenzenti(vratiRecenzenteZaUdzbenik(udzbenik.getUdzbenikId()));
                 udzbenik.setStampa(rs.getString("stampa"));
                 udzbenik.setTiraz(rs.getInt("tiraz"));
                 udzbenik.setRbrIzdanja(rs.getInt("rbr_izdanja"));
@@ -340,52 +314,32 @@ public class DbBroker {
         }
     }
 
-    public List<Autor> vratiAutoreZaUdzbenik(int udzbenikId) throws SQLException {
-        String upit = "SELECT * FROM autor WHERE udzbenikId=?";
-        List<Autor> autori = new ArrayList<>();
-        PreparedStatement ps = connection.prepareStatement(upit);
-        ps.setInt(1, udzbenikId);
+    public List<OsobaUVeziSaUdzbenikom> vratiOsobeZaUdzbenik(int udzbenikId) throws SQLException, Exception {
+        try {
+            String upit = "SELECT * FROM osoba_u_vezi_sa_udzbenikom where udzbenikId=?";
+            List<OsobaUVeziSaUdzbenikom> osobeUVeziSaUdzbenikom = new ArrayList<>();
+            PreparedStatement ps = connection.prepareStatement(upit);
+            ps.setInt(1, udzbenikId);
+            ResultSet rs = ps.executeQuery();
 
-        ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                OsobaUVeziSaUdzbenikom ouvsu = new OsobaUVeziSaUdzbenikom();
+                ouvsu.setOsobaId(rs.getInt("osobaId"));
+                ouvsu.setUdzbenikId(rs.getInt("udzbenikId"));
+                ouvsu.setIme(rs.getString("ime"));
+                ouvsu.setPrezime(rs.getString("prezime"));
+                ouvsu.setUlogaUdzbenik(nadjiUloguNaUdzbenikuZaId(rs.getInt("ulogaId")));
+                ouvsu.setTitula(rs.getString("titula"));
+                osobeUVeziSaUdzbenikom.add(ouvsu);
+            }
 
-        while (rs.next()) {
-            Autor autor = new Autor();
-            autor.setAutorId(rs.getInt("autorId"));
-            autor.setUdzbenikId(rs.getInt("udzbenikId"));
-            autor.setIme(rs.getString("ime"));
-            autor.setPrezime(rs.getString("prezime"));
-            autor.setTitula(rs.getString("titula"));
+            rs.close();
+            ps.close();
 
-            autori.add(autor);
+            return osobeUVeziSaUdzbenikom;
+        } catch (Exception ex) {
+            throw new Exception("Dogodila se greska prilikom vracanja svih osoba vezanih za udzbenik.Greska:" + ex.getMessage());
         }
-
-        ps.close();
-        return autori;
-
-    }
-
-    public List<Recenzent> vratiRecenzenteZaUdzbenik(int udzbenikId) throws SQLException {
-        String upit = "SELECT * FROM recenzent WHERE udzbenikId=?";
-        List<Recenzent> recenzenti = new ArrayList<>();
-        PreparedStatement ps = connection.prepareStatement(upit);
-        ps.setInt(1, udzbenikId);
-
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()) {
-            Recenzent recenzent = new Recenzent();
-            recenzent.setRecenzentId(rs.getInt("recenzentId"));
-            recenzent.setUdzbenikId(rs.getInt("udzbenikId"));
-            recenzent.setIme(rs.getString("ime"));
-            recenzent.setPrezime(rs.getString("prezime"));
-            recenzent.setTitula(rs.getString("titula"));
-
-            recenzenti.add(recenzent);
-        }
-
-        ps.close();
-        return recenzenti;
-
     }
 
     public Korisnik vratiKorisnika(String username, String password) throws Exception {
@@ -496,10 +450,9 @@ public class DbBroker {
                     Udzbenik udzbenik = new Udzbenik();
                     udzbenik.setUdzbenikId(rs4.getInt("udzbenikId"));
                     udzbenik.setNaziv(rs4.getString("naziv"));
-                    udzbenik.setAutori(vratiAutoreZaUdzbenik(udzbenik.getUdzbenikId()));
+                    udzbenik.setOsobeUVeziSaUdzbenikom(vratiOsobeZaUdzbenik(udzbenik.getUdzbenikId()));
                     udzbenik.setGodinaIzdanja(rs.getInt("godina_izdanja"));
                     udzbenik.setIzdavac(rs.getString("izdavac"));
-                    udzbenik.setRecenzenti(vratiRecenzenteZaUdzbenik(udzbenik.getUdzbenikId()));
                     udzbenik.setStampa(rs.getString("stampa"));
                     udzbenik.setTiraz(rs.getInt("tiraz"));
                     udzbenik.setRbrIzdanja(rs.getInt("rbr_izdanja"));
@@ -530,7 +483,87 @@ public class DbBroker {
 
     }
 
-    private TipNastave pronadjiTipNastavePoId(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private TipNastave pronadjiTipNastavePoId(int tipId) throws Exception {
+        try {
+            String upit = "SELECT * FROM tip_nastave WHERE tip_nastaveId=?";
+            PreparedStatement ps = connection.prepareStatement(upit);
+            ps.setInt(1, tipId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                TipNastave tn = new TipNastave();
+                tn.setTipNastaveId(rs.getInt("tip_nastaveId"));
+                tn.setNaziv(rs.getString("naziv"));
+
+                rs.close();
+                ps.close();
+
+                return tn;
+            }
+
+            rs.close();
+            ps.close();
+
+            return null;
+        } catch (Exception e) {
+            throw new Exception("Dogodila se greska prilikom pretrazivanja tipa nastave.Greska:" + e.getMessage());
+
+        }
+    }
+
+    private OsobaUVeziSaUdzbenikom vratiOsobuUVeziSaUdbenikomZaId(int osobaId) throws Exception {
+        try {
+            String upit = "SELECT * FROM osoba_u_vezi_sa_udzbenikom WHERE osobaId=?";
+            PreparedStatement ps = connection.prepareStatement(upit);
+            ps.setInt(1, osobaId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                OsobaUVeziSaUdzbenikom ouvsu = new OsobaUVeziSaUdzbenikom();
+                ouvsu.setOsobaId(rs.getInt("osobaId"));
+                ouvsu.setIme(rs.getString("ime"));
+                ouvsu.setPrezime(rs.getString("prezime"));
+                ouvsu.setTitula(rs.getString("titula"));
+
+                rs.close();
+                ps.close();
+
+                return ouvsu;
+            }
+
+            rs.close();
+            ps.close();
+            return null;
+        } catch (Exception ex) {
+            throw new Exception("Dogodila se greska prilikom pretrazivanja osobe koja je u vezi sa udzbenikom sa id:" + osobaId + " .Greska:" + ex.getMessage());
+        }
+    }
+
+    private UlogaUdzbenik nadjiUloguNaUdzbenikuZaId(int ulogaId) throws Exception {
+        try {
+            String upit = "SELECT * FROM uloga_udzbenik WHERE ulogaId=?";
+            PreparedStatement ps = connection.prepareStatement(upit);
+            ps.setInt(1, ulogaId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                UlogaUdzbenik ulogaUdzbenik = new UlogaUdzbenik();
+                ulogaUdzbenik.setUlogaId(rs.getInt("ulogaId"));
+                ulogaUdzbenik.setNaziv(rs.getString("naziv"));
+                rs.close();
+                ps.close();
+
+                return ulogaUdzbenik;
+            }
+            rs.close();
+            ps.close();
+
+            return null;
+        } catch (Exception e) {
+            throw new Exception("Dogodila se greska prilikom pretrazivanja uloge_udzbenik  sa id:" + ulogaId + " .Greska:" + e.getMessage());
+        }
     }
 }
