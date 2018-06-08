@@ -11,25 +11,24 @@ import java.io.Serializable;
  *
  * @author Petar
  */
-public class UlogaUdzbenik implements Serializable {
-
-    private int ulogaId;
+public class VrstaINivoStudija implements Serializable{
+    private int vrstaINivoId;
     private String naziv;
 
-    public UlogaUdzbenik() {
+    public VrstaINivoStudija() {
     }
 
-    public UlogaUdzbenik(int ulogaId, String naziv) {
-        this.ulogaId = ulogaId;
+    public VrstaINivoStudija(int vrstaINivoId, String naziv) {
+        this.vrstaINivoId = vrstaINivoId;
         this.naziv = naziv;
     }
 
-    public int getUlogaId() {
-        return ulogaId;
+    public int getVrstaINivoId() {
+        return vrstaINivoId;
     }
 
-    public void setUlogaId(int ulogaId) {
-        this.ulogaId = ulogaId;
+    public void setVrstaINivoId(int vrstaINivoId) {
+        this.vrstaINivoId = vrstaINivoId;
     }
 
     public String getNaziv() {
@@ -39,5 +38,6 @@ public class UlogaUdzbenik implements Serializable {
     public void setNaziv(String naziv) {
         this.naziv = naziv;
     }
-
+    
+    
 }

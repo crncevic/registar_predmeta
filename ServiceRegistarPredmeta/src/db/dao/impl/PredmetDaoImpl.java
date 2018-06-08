@@ -6,7 +6,6 @@
 package db.dao.impl;
 
 import db.dao.PredmetDao;
-import domen.Obaveza;
 import domen.Predmet;
 import domen.TematskaCelina;
 import domen.Udzbenik;
@@ -57,30 +56,12 @@ public class PredmetDaoImpl extends PredmetDao {
                 predmet.setCilj(rs.getString("cilj"));
                 predmet.setIshod(rs.getString("ishod"));
                 predmet.setUslov(rs.getString("uslov"));
-                predmet.setVrstaINivoStudija(rs.getString("vrsta_i_nivo_studija"));
+                predmet.setVrstaINivoStudija(VrstaINivoStudijaDaoImpl
+                        .getInstance()
+                        .vratiVrstuINivoStudijaZaId(rs.getInt("vrsta_i_nivo_studija")));
                 predmet.setSadrzajTekst(rs.getString("sadrzaj_tekst"));
 
-                // ucitavanje obaveza za predmet
-                String upit2 = "SELECT * FROM obaveza WHERE predmetId=?";
-                PreparedStatement ps2 = dbbr.getConnection().prepareStatement(upit2);
-                ps2.setInt(1, predmetId);
-                List<Obaveza> obaveze = new ArrayList<>();
-
-                ResultSet rs2 = ps2.executeQuery();
-                while (rs2.next()) {
-                    Obaveza obaveza = new Obaveza();
-                    obaveza.setObavezaId(rs2.getInt("obavezaId"));
-                    obaveza.setPredmetId(rs2.getInt("predmetId"));
-                    obaveza.setTip(rs2.getString("tip"));
-                    obaveza.setNaziv(rs2.getString("naziv"));
-                    obaveza.setBrojPoena(rs2.getInt("broj_poena"));
-
-                    obaveze.add(obaveza);
-
-                }
-
-                predmet.setObaveze(obaveze);
-
+                
                 // ucitavanje tematskih celina za predmet
                 String upit3 = "SELECT * FROM tematska_celina WHERE predmetId=?";
                 PreparedStatement ps3 = dbbr.getConnection().prepareStatement(upit3);
@@ -127,11 +108,9 @@ public class PredmetDaoImpl extends PredmetDao {
 
                 predmet.setUdzbenici(udzbenici);
                 rs.close();
-                rs2.close();
                 rs3.close();
                 rs4.close();
                 ps.close();
-                ps2.close();
                 ps3.close();
                 ps4.close();
 

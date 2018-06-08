@@ -5,11 +5,13 @@
  */
 package domen;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Petar
  */
-public class Uloga {
+public class Uloga implements Serializable{
 
     private int ulogaId;
     private String naziv;

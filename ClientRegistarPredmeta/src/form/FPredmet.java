@@ -5,8 +5,23 @@
  */
 package form;
 
+import domen.Nastavnik;
+import domen.TipNastave;
+import domen.Udzbenik;
+import domen.VrstaINivoStudija;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
+import kontroler.Kontroler;
+import renderer.NastavnikRenderer;
+import renderer.TipNastaveRenderer;
+import renderer.UdzbenikRenderer;
+import renderer.VrstaINivoStudijaRenderer;
+import table.model.NastavnikNaPredmetuTableModel;
+import transfer.util.IOperation;
 
 /**
  *
@@ -24,6 +39,12 @@ public class FPredmet extends javax.swing.JDialog {
         initComponents();
         centrirajFormu();
         this.fMain = fMain;
+        popuniVrstaINivoStudijaCombo();
+        popuniTipNastaveCombo();
+        popuniNastavniciCombo();
+        popuniUdzbeniciCombo();
+        inicijalizujTabeluNastavniciNaPredmetu();
+
     }
 
     /**
@@ -50,11 +71,8 @@ public class FPredmet extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jComboVrstaINivoStudija = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        jTxtBrCasovaPredavanja = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTxtBrCasovaVezbi = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTxtOstaliCasovi = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jTxtDrugiObliciNastave = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -75,20 +93,18 @@ public class FPredmet extends javax.swing.JDialog {
         jScrollPane4 = new javax.swing.JScrollPane();
         jTblUdzbenici = new javax.swing.JTable();
         jBtnNoviUdzbenik = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTblObaveze = new javax.swing.JTable();
-        jBtnDodajObavezu = new javax.swing.JButton();
-        jBtnObrisiObavezu = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jBtnUnosSadrzajaTekst = new javax.swing.JButton();
         jBtnUnosStruktuiraniOblik = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboTipNastaveSadrzaj = new javax.swing.JComboBox<>();
         jBtnObrisi = new javax.swing.JButton();
         jBtnSacuvaj = new javax.swing.JButton();
         jBtnAzuriraj = new javax.swing.JButton();
         jLabelRezultatPretrage = new javax.swing.JLabel();
+        jSpinnerBrCasovaPredavanjaNedeljno = new javax.swing.JSpinner();
+        jSpinnerBrCasovaVezbiNedeljno = new javax.swing.JSpinner();
+        jSpinnerOstaliCasovi = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Predmet");
@@ -168,13 +184,12 @@ public class FPredmet extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboIzborNastavnika, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboIzborNastavnika, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboTipNastave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jComboTipNastave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,6 +219,12 @@ public class FPredmet extends javax.swing.JDialog {
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Udzbenik"));
+
+        JComboUdzbenik.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JComboUdzbenikActionPerformed(evt);
+            }
+        });
 
         jBtnDodajUdzbenik.setText("+");
         jBtnDodajUdzbenik.addActionListener(new java.awt.event.ActionListener() {
@@ -239,11 +260,11 @@ public class FPredmet extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(JComboUdzbenik, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBtnNoviUdzbenik, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(JComboUdzbenik, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBtnNoviUdzbenik, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBtnDodajUdzbenik, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jBtnObrisiUdzbenik, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -265,51 +286,6 @@ public class FPredmet extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
-        );
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Obaveze"));
-
-        jTblObaveze.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane5.setViewportView(jTblObaveze);
-
-        jBtnDodajObavezu.setText("+");
-
-        jBtnObrisiObavezu.setText("-");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jBtnDodajObavezu, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(475, 475, 475)
-                        .addComponent(jBtnObrisiObavezu, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jBtnDodajObavezu)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtnObrisiObavezu))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(53, 53, 53))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Sadrzaj "));
@@ -344,7 +320,7 @@ public class FPredmet extends javax.swing.JDialog {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addGap(28, 28, 28)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jComboTipNastaveSadrzaj, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(20, 20, 20))
         );
         jPanel4Layout.setVerticalGroup(
@@ -353,7 +329,7 @@ public class FPredmet extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboTipNastaveSadrzaj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnUnosStruktuiraniOblik)
@@ -391,12 +367,17 @@ public class FPredmet extends javax.swing.JDialog {
                                     .addComponent(jLabel10))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTxtStudijskiIstrazivackiRad)
-                                    .addComponent(jTxtDrugiObliciNastave)
-                                    .addComponent(jTxtOstaliCasovi)
-                                    .addComponent(jTxtBrCasovaVezbi)
-                                    .addComponent(jTxtBrCasovaPredavanja))
-                                .addGap(71, 71, 71))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jTxtStudijskiIstrazivackiRad)
+                                            .addComponent(jTxtDrugiObliciNastave))
+                                        .addGap(155, 155, 155))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jSpinnerBrCasovaPredavanjaNedeljno, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                                            .addComponent(jSpinnerBrCasovaVezbiNedeljno)
+                                            .addComponent(jSpinnerOstaliCasovi))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 321, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -425,7 +406,6 @@ public class FPredmet extends javax.swing.JDialog {
                                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
@@ -473,15 +453,15 @@ public class FPredmet extends javax.swing.JDialog {
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(jTxtBrCasovaPredavanja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSpinnerBrCasovaPredavanjaNedeljno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(jTxtBrCasovaVezbi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSpinnerBrCasovaVezbiNedeljno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(jTxtOstaliCasovi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSpinnerOstaliCasovi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
@@ -496,8 +476,7 @@ public class FPredmet extends javax.swing.JDialog {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(203, 203, 203)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnAzuriraj)
@@ -541,10 +520,14 @@ public class FPredmet extends javax.swing.JDialog {
 
     private void jTxtUdzbenikIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtUdzbenikIdFocusLost
         try {
-            
+
         } catch (Exception e) {
         }
     }//GEN-LAST:event_jTxtUdzbenikIdFocusLost
+
+    private void JComboUdzbenikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JComboUdzbenikActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JComboUdzbenikActionPerformed
 
     /**
      * @param args the command line arguments
@@ -554,19 +537,17 @@ public class FPredmet extends javax.swing.JDialog {
     private javax.swing.JComboBox<Object> JComboUdzbenik;
     private javax.swing.JButton jBtnAzuriraj;
     private javax.swing.JButton jBtnDodajNastavnika;
-    private javax.swing.JButton jBtnDodajObavezu;
     private javax.swing.JButton jBtnDodajUdzbenik;
     private javax.swing.JButton jBtnNoviUdzbenik;
     private javax.swing.JButton jBtnObrisi;
     private javax.swing.JButton jBtnObrisiNastavnika;
-    private javax.swing.JButton jBtnObrisiObavezu;
     private javax.swing.JButton jBtnObrisiUdzbenik;
     private javax.swing.JButton jBtnSacuvaj;
     private javax.swing.JButton jBtnUnosSadrzajaTekst;
     private javax.swing.JButton jBtnUnosStruktuiraniOblik;
-    private javax.swing.JComboBox<Object> jComboBox1;
     private javax.swing.JComboBox<Object> jComboIzborNastavnika;
     private javax.swing.JComboBox<Object> jComboTipNastave;
+    private javax.swing.JComboBox<Object> jComboTipNastaveSadrzaj;
     private javax.swing.JComboBox<Object> jComboVrstaINivoStudija;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -585,31 +566,105 @@ public class FPredmet extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelRezultatPretrage;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JSpinner jSpinnerBrCasovaPredavanjaNedeljno;
+    private javax.swing.JSpinner jSpinnerBrCasovaVezbiNedeljno;
+    private javax.swing.JSpinner jSpinnerOstaliCasovi;
     private javax.swing.JTable jTblNastavnici;
-    private javax.swing.JTable jTblObaveze;
     private javax.swing.JTable jTblUdzbenici;
     private javax.swing.JTextArea jTextAreaCilj;
     private javax.swing.JTextArea jTextAreaIshod;
-    private javax.swing.JTextField jTxtBrCasovaPredavanja;
-    private javax.swing.JTextField jTxtBrCasovaVezbi;
     private javax.swing.JTextField jTxtDrugiObliciNastave;
     private javax.swing.JTextField jTxtNazivPredmeta;
-    private javax.swing.JTextField jTxtOstaliCasovi;
     private javax.swing.JTextField jTxtStudijskiIstrazivackiRad;
     private javax.swing.JTextField jTxtUdzbenikId;
     private javax.swing.JTextField jTxtUslov;
     // End of variables declaration//GEN-END:variables
 
     private void centrirajFormu() {
-        setLocationRelativeTo(null);     
+        setLocationRelativeTo(null);
     }
 
-   
+    private void popuniVrstaINivoStudijaCombo() {
+        try {
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_VRSTE_I_NIVOE_STUDIJA, null);
+            List<VrstaINivoStudija> vrsteStudija = (List<VrstaINivoStudija>) Kontroler.getInstance().primiOdgovor();
+
+            for (VrstaINivoStudija vins : vrsteStudija) {
+                jComboVrstaINivoStudija.addItem(vins);
+            }
+
+            jComboVrstaINivoStudija.setRenderer(new VrstaINivoStudijaRenderer());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    private void popuniTipNastaveCombo() {
+        try {
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_TIPOVE_NASTAVE, null);
+            List<TipNastave> tipoviNastave = (List<TipNastave>) Kontroler.getInstance().primiOdgovor();
+
+            for (TipNastave tipNastave : tipoviNastave) {
+                jComboTipNastave.addItem(tipNastave);
+                jComboTipNastaveSadrzaj.addItem(tipNastave);
+            }
+
+            jComboTipNastave.setRenderer(new TipNastaveRenderer());
+            jComboTipNastaveSadrzaj.setRenderer(new TipNastaveRenderer());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom inicijalizacije combobox-a za tipove nastave.Greska:" + e.getMessage());
+        }
+    }
+
+    private void popuniNastavniciCombo() {
+        try {
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_NASTAVNIKE, null);
+            List<Nastavnik> nastavnici = (List<Nastavnik>) Kontroler.getInstance().primiOdgovor();
+
+            for (Nastavnik nastavnik : nastavnici) {
+                jComboIzborNastavnika.addItem(nastavnik);
+            }
+
+            jComboIzborNastavnika.setRenderer(new NastavnikRenderer());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom inicijalizacije combobox-a za nastavnike.Greska:" + e.getMessage());
+
+        }
+    }
+
+    private void popuniUdzbeniciCombo() {
+        try {
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, null);
+            List<Udzbenik> udzbenici = (List<Udzbenik>) Kontroler.getInstance().primiOdgovor();
+
+            for (Udzbenik udzbenik : udzbenici) {
+                JComboUdzbenik.addItem(udzbenik);
+            }
+            JComboUdzbenik.setRenderer(new UdzbenikRenderer());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom inicijalizacije combobox-a za udzbenike.Greska:" + e.getMessage());
+
+        }
+    }
+
+    private void inicijalizujTabeluNastavniciNaPredmetu() {
+        try {
+
+            TableModel nnptm = new NastavnikNaPredmetuTableModel(new ArrayList());
+            jTblNastavnici.setModel(nnptm);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom inicijalizacije table modela za nastavnike na predmetu.Greska:" + e.getMessage());
+
+        }
+    }
+
 }

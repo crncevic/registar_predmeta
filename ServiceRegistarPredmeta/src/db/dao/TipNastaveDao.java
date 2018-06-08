@@ -6,6 +6,7 @@
 package db.dao;
 
 import domen.TipNastave;
+import java.util.List;
 
 /**
  *
@@ -18,5 +19,7 @@ public abstract class TipNastaveDao extends AbstractDao {
     }
 
     public abstract TipNastave pronadjiTipNastavePoId(int tipId) throws Exception;
+    
+    public abstract List<TipNastave> vratiSveTipoveNastave() throws Exception;
 
 }

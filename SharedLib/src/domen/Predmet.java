@@ -24,9 +24,9 @@ public class Predmet implements OpstiDomenskiObjekat, Serializable {
     private String cilj;
     private String ishod;
     private String uslov;
-    private String vrstaINivoStudija;
-    private List<Obaveza> obaveze;
+    private VrstaINivoStudija vrstaINivoStudija;
     private List<TematskaCelina> sadrzajTematskeCeline;
+    private List<Nastavnik> nastavnici;
     private String sadrzajTekst;
 
     private List<Udzbenik> udzbenici;
@@ -35,7 +35,7 @@ public class Predmet implements OpstiDomenskiObjekat, Serializable {
     public Predmet() {
     }
 
-    public Predmet(String naziv, int brCasovaPredavanjaNedeljno, int brCasovaVezbiNedeljno, int ostaliCasovi, String drugiObliciNastave, String studijskiIstrazivackiRad, String cilj, String ishod, String uslov, String vrstaINivoStudija, List<Obaveza> obaveze, List<TematskaCelina> sadrzajTematskeCeline, String sadrzajTekst, List<Udzbenik> udzbenici, List<PredmetNaStudijskomProgramu> predmetiNaStudijskimProgramima) {
+    public Predmet(String naziv, int brCasovaPredavanjaNedeljno, int brCasovaVezbiNedeljno, int ostaliCasovi, String drugiObliciNastave, String studijskiIstrazivackiRad, String cilj, String ishod, String uslov, VrstaINivoStudija vrstaINivoStudija, List<TematskaCelina> sadrzajTematskeCeline, List<Nastavnik> nastavnici, String sadrzajTekst, List<Udzbenik> udzbenici, List<PredmetNaStudijskomProgramu> predmetiNaStudijskimProgramima) {
         this.naziv = naziv;
         this.brCasovaPredavanjaNedeljno = brCasovaPredavanjaNedeljno;
         this.brCasovaVezbiNedeljno = brCasovaVezbiNedeljno;
@@ -46,14 +46,14 @@ public class Predmet implements OpstiDomenskiObjekat, Serializable {
         this.ishod = ishod;
         this.uslov = uslov;
         this.vrstaINivoStudija = vrstaINivoStudija;
-        this.obaveze = obaveze;
         this.sadrzajTematskeCeline = sadrzajTematskeCeline;
+        this.nastavnici = nastavnici;
         this.sadrzajTekst = sadrzajTekst;
         this.udzbenici = udzbenici;
         this.predmetiNaStudijskimProgramima = predmetiNaStudijskimProgramima;
     }
 
-    public Predmet(int predmetId, String naziv, int brCasovaPredavanjaNedeljno, int brCasovaVezbiNedeljno, int ostaliCasovi, String drugiObliciNastave, String studijskiIstrazivackiRad, String cilj, String ishod, String uslov, String vrstaINivoStudija, List<Obaveza> obaveze, List<TematskaCelina> sadrzajTematskeCeline, String sadrzajTekst, List<Udzbenik> udzbenici, List<PredmetNaStudijskomProgramu> predmetiNaStudijskimProgramima) {
+    public Predmet(int predmetId, String naziv, int brCasovaPredavanjaNedeljno, int brCasovaVezbiNedeljno, int ostaliCasovi, String drugiObliciNastave, String studijskiIstrazivackiRad, String cilj, String ishod, String uslov, VrstaINivoStudija vrstaINivoStudija, List<TematskaCelina> sadrzajTematskeCeline, List<Nastavnik> nastavnici, String sadrzajTekst, List<Udzbenik> udzbenici, List<PredmetNaStudijskomProgramu> predmetiNaStudijskimProgramima) {
         this.predmetId = predmetId;
         this.naziv = naziv;
         this.brCasovaPredavanjaNedeljno = brCasovaPredavanjaNedeljno;
@@ -65,8 +65,8 @@ public class Predmet implements OpstiDomenskiObjekat, Serializable {
         this.ishod = ishod;
         this.uslov = uslov;
         this.vrstaINivoStudija = vrstaINivoStudija;
-        this.obaveze = obaveze;
         this.sadrzajTematskeCeline = sadrzajTematskeCeline;
+        this.nastavnici = nastavnici;
         this.sadrzajTekst = sadrzajTekst;
         this.udzbenici = udzbenici;
         this.predmetiNaStudijskimProgramima = predmetiNaStudijskimProgramima;
@@ -152,16 +152,12 @@ public class Predmet implements OpstiDomenskiObjekat, Serializable {
         this.uslov = uslov;
     }
 
-    public String getVrstaINivoStudija() {
+    public VrstaINivoStudija getVrstaINivoStudija() {
         return vrstaINivoStudija;
     }
 
-    public void setVrstaINivoStudija(String vrstaINivoStudija) {
+    public void setVrstaINivoStudija(VrstaINivoStudija vrstaINivoStudija) {
         this.vrstaINivoStudija = vrstaINivoStudija;
-    }
-
-    public List<Obaveza> getObaveze() {
-        return obaveze;
     }
 
     public List<TematskaCelina> getSadrzajTematskeCeline() {
@@ -180,10 +176,6 @@ public class Predmet implements OpstiDomenskiObjekat, Serializable {
         this.sadrzajTekst = sadrzajTekst;
     }
 
-    public void setObaveze(List<Obaveza> obaveze) {
-        this.obaveze = obaveze;
-    }
-
     public List<Udzbenik> getUdzbenici() {
         return udzbenici;
     }
@@ -200,9 +192,17 @@ public class Predmet implements OpstiDomenskiObjekat, Serializable {
         this.predmetiNaStudijskimProgramima = predmetiNaStudijskimProgramima;
     }
 
+    public List<Nastavnik> getNastavnici() {
+        return nastavnici;
+    }
+
+    public void setNastavnici(List<Nastavnik> nastavnici) {
+        this.nastavnici = nastavnici;
+    }
+
     @Override
     public String toString() {
-        return "Predmet{" + "predmetId=" + predmetId + ", naziv=" + naziv + ", brCasovaPredavanjaNedeljno=" + brCasovaPredavanjaNedeljno + ", brCasovaVezbiNedeljno=" + brCasovaVezbiNedeljno + ", ostaliCasovi=" + ostaliCasovi + ", drugiObliciNastave=" + drugiObliciNastave + ", studijskiIstrazivackiRad=" + studijskiIstrazivackiRad + ", cilj=" + cilj + ", ishod=" + ishod + ", uslov=" + uslov + ", vrstaINivoStudija=" + vrstaINivoStudija + ", obaveze=" + obaveze + ", tematskeCeline=" + sadrzajTematskeCeline + ", udzbenici=" + udzbenici + ", predmetiNaStudijskimProgramima=" + predmetiNaStudijskimProgramima + '}';
+        return "Predmet{" + "predmetId=" + predmetId + ", naziv=" + naziv + ", brCasovaPredavanjaNedeljno=" + brCasovaPredavanjaNedeljno + ", brCasovaVezbiNedeljno=" + brCasovaVezbiNedeljno + ", ostaliCasovi=" + ostaliCasovi + ", drugiObliciNastave=" + drugiObliciNastave + ", studijskiIstrazivackiRad=" + studijskiIstrazivackiRad + ", cilj=" + cilj + ", ishod=" + ishod + ", uslov=" + uslov + ", vrstaINivoStudija=" + vrstaINivoStudija + ", tematskeCeline=" + sadrzajTematskeCeline + ", udzbenici=" + udzbenici + ", predmetiNaStudijskimProgramima=" + predmetiNaStudijskimProgramima + '}';
     }
 
     @Override

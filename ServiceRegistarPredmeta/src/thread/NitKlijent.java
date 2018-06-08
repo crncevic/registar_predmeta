@@ -2,13 +2,19 @@ package thread;
 
 import db.DbBroker;
 import db.dao.impl.KorisnikDaoImpl;
+import db.dao.impl.NastavnikDaoImpl;
 import db.dao.impl.OsobaUVeziSaUdzbenikomDaoImpl;
 import db.dao.impl.PredmetDaoImpl;
+import db.dao.impl.TipNastaveDaoImpl;
 import db.dao.impl.UdzbenikDaoImpl;
+import db.dao.impl.VrstaINivoStudijaDaoImpl;
 import domen.OsobaUVeziSaUdzbenikom;
 import domen.Korisnik;
+import domen.Nastavnik;
 import domen.Predmet;
+import domen.TipNastave;
 import domen.Udzbenik;
+import domen.VrstaINivoStudija;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -159,6 +165,37 @@ public class NitKlijent extends Thread {
                             Predmet predmet = PredmetDaoImpl.getInstance().pronadjiPredmetPoId((int) requestObject.getData());
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmet);
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+                    case IOperation.VRATI_SVE_VRSTE_I_NIVOE_STUDIJA:
+                        try {
+                            List<VrstaINivoStudija> vrste = VrstaINivoStudijaDaoImpl.getInstance().vratiSveVrsteStudija();
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(vrste);
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+                    case IOperation.VRATI_SVE_TIPOVE_NASTAVE:
+                        try {
+                            List<TipNastave> tipoviNastave = TipNastaveDaoImpl.getInstance().vratiSveTipoveNastave();
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(tipoviNastave);
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+
+                    case IOperation.VRATI_SVE_NASTAVNIKE:
+                        try {
+                            List<Nastavnik> nastavnici = NastavnikDaoImpl.getInstance().vratiSveNastavnike();
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(nastavnici);
                         } catch (Exception e) {
                             responseObject.setCode(IStatus.ERROR);
                             responseObject.setMessage(e.getMessage());

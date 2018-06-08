@@ -6,24 +6,9 @@
 package db;
 
 import constants.Constants;
-import domen.OsobaUVeziSaUdzbenikom;
-import domen.Korisnik;
-import domen.Obaveza;
-
-import domen.Predmet;
-import domen.TematskaCelina;
-import domen.TipNastave;
-import domen.Udzbenik;
-import domen.UlogaUdzbenik;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
