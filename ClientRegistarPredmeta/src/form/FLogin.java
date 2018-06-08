@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import kontroler.Kontroler;
 import session.Session;
+import transfer.util.IOperation;
 
 /**
  *
@@ -114,11 +115,15 @@ public class FLogin extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Niste uneli password!");
                     return;
                 }
+                
+                Korisnik korisnik = new Korisnik(username, password);
 
-                Korisnik korisnik = Kontroler.getInstance().vratiKorisnika(username, password);
+                 Kontroler.getInstance().posaljiZahtev(IOperation.PROVERI_KORISNIKA, korisnik);
+                 
+                 Korisnik ulogovaniKorisnik = (Korisnik) Kontroler.getInstance().primiOdgovor();
 
-                if (korisnik != null) {
-                    Session.getInstance().getMap().put("ulogovani_korisnik", korisnik);
+                if (ulogovaniKorisnik != null) {
+                    Session.getInstance().getMap().put("ulogovani_korisnik", ulogovaniKorisnik);
                     fMain.omoguciMenije();
                     fMain.postaviUlogovanogKorisnika();
                     dispose();

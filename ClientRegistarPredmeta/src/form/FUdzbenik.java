@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import kontroler.Kontroler;
 import table.model.OsobaUdzbenikTableModel;
+import transfer.util.IOperation;
 
 /**
  *
@@ -438,8 +439,8 @@ public class FUdzbenik extends javax.swing.JDialog {
 
             udzbenik.setOsobeUVeziSaUdzbenikom(list);
 
-            Udzbenik udzbenikFromDB = Kontroler.getInstance().AzurirajUdzbenik(udzbenik);
-
+            Kontroler.getInstance().posaljiZahtev(IOperation.AZURIRAJ_UDZBENIK, udzbenik);
+            Udzbenik udzbenikFromDB = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             if (udzbenikFromDB != null) {
                 JOptionPane.showMessageDialog(this, "Udzbenik je uspesno azuriran!");
             } else {
@@ -454,7 +455,8 @@ public class FUdzbenik extends javax.swing.JDialog {
     private void jBtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnObrisiActionPerformed
         try {
             int udzbenikId = Integer.parseInt(jTxtUdbzenikId.getText());
-            Udzbenik udzbenik = Kontroler.getInstance().ObrisiUdzbenik(udzbenikId);
+            Kontroler.getInstance().posaljiZahtev(IOperation.OBRISI_UDZBENIK, udzbenikId);
+            Udzbenik udzbenik = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             if (udzbenik != null) {
                 JOptionPane.showMessageDialog(this, "Udzbenik: " + udzbenik.getNaziv() + " je uspesno obrisan!");
                 resetujSvaPolja();
@@ -544,8 +546,8 @@ public class FUdzbenik extends javax.swing.JDialog {
             list.addAll(autoriFromTbl);
 
             udzbenik.setOsobeUVeziSaUdzbenikom(list);
-            Udzbenik udzbenikFromDB = Kontroler.getInstance().kreirajUdzbenik(udzbenik);
-
+            Kontroler.getInstance().posaljiZahtev(IOperation.KREIRAJ_UDZBENIK, udzbenik);
+            Udzbenik udzbenikFromDB = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             if (udzbenikFromDB != null) {
                 JOptionPane.showMessageDialog(this, "Udzbenik je uspesno kreiran!");
             } else {
@@ -688,7 +690,8 @@ public class FUdzbenik extends javax.swing.JDialog {
 
     private void pripremiFormuZaPregedanje(int udzbenikId) {
         try {
-            Udzbenik udzbenik = Kontroler.getInstance().pronadjiUdzbenikPoId(udzbenikId);
+            Kontroler.getInstance().posaljiZahtev(IOperation.PRONADJI_UDZBENIK_PO_ID, udzbenikId);
+            Udzbenik udzbenik = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             jTxtNaziv.setText(udzbenik.getNaziv());
             jTxtIzdavac.setText(udzbenik.getIzdavac());
             jTxtIsbn.setText(udzbenik.getIsbn() + "");
@@ -713,11 +716,13 @@ public class FUdzbenik extends javax.swing.JDialog {
 
     private void postaviTableModelZaUdzbenik(int udzbenikId) {
         try {
-            List<OsobaUVeziSaUdzbenikom> autori = Kontroler.getInstance().vratiSveAutoreZaUdzbenik(udzbenikId);
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_AUTORE, udzbenikId);
+            List<OsobaUVeziSaUdzbenikom> autori = (List<OsobaUVeziSaUdzbenikom>) Kontroler.getInstance().primiOdgovor();
             TableModel atm = new OsobaUdzbenikTableModel(autori);
             jTblAutori.setModel(atm);
 
-            List<OsobaUVeziSaUdzbenikom> recenzenti = Kontroler.getInstance().vratiSveRecenzenteZaUdzbenik(udzbenikId);
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_RECENZENTE, udzbenikId);
+            List<OsobaUVeziSaUdzbenikom> recenzenti = (List<OsobaUVeziSaUdzbenikom>) Kontroler.getInstance().primiOdgovor();
             TableModel rtm = new OsobaUdzbenikTableModel(recenzenti);
             jTblRecenzenti.setModel(rtm);
         } catch (Exception e) {

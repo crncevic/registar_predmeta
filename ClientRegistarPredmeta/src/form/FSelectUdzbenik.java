@@ -19,6 +19,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import kontroler.Kontroler;
 import table.model.UdzbenikTableModel;
+import transfer.util.IOperation;
 
 /**
  *
@@ -161,7 +162,8 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
 
     private void postaviTableModel() {
         try {
-            List<Udzbenik> udzbenici = Kontroler.getInstance().vratiSveUdzbenike();
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, null);
+            List<Udzbenik> udzbenici = (List<Udzbenik>) Kontroler.getInstance().primiOdgovor();
             TableModel utm = new UdzbenikTableModel(udzbenici);
             jTblUdzbenici.setModel(utm);
         } catch (Exception e) {

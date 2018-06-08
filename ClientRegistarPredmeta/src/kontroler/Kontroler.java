@@ -27,9 +27,10 @@ import transfer.util.IStatus;
 public class Kontroler {
 
     private static Kontroler instance;
+    private Socket socket;
 
     private Kontroler() throws Exception {
-
+        socket = Session.getInstance().getSocket();
     }
 
     public static Kontroler getInstance() throws Exception {
@@ -39,225 +40,32 @@ public class Kontroler {
         return instance;
     }
 
-    public List<Udzbenik> vratiSveUdzbenike() throws Exception {
+    public void posaljiZahtev(int operation, Object data) throws Exception {
 
         RequestObject request = new RequestObject();
-        request.setOperation(IOperation.VRATI_SVE_UDZBENIKE);
-        Socket socket = Session.getInstance().getSocket();
+        request.setOperation(operation);
+        request.setData(data);
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         out.writeObject(request);
         out.flush();
 
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        ResponseObject response = (ResponseObject) in.readObject();
-        int code = response.getCode();
-
-        if (code == IStatus.OK) {
-            return (List<Udzbenik>) response.getData();
-        } else {
-            throw new Exception("Dogodila se greska u komunikaciji");
-        }
-
     }
 
-    public Udzbenik kreirajUdzbenik(Udzbenik udzbenik) throws Exception {
+    public Object primiOdgovor() throws Exception {
+        try {
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+            ResponseObject response = (ResponseObject) in.readObject();
+            int code = response.getCode();
 
-        RequestObject request = new RequestObject();
-        request.setOperation(IOperation.KREIRAJ_UDZBENIK);
-        request.setData(udzbenik);
-        Socket socket = Session.getInstance().getSocket();
-        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        out.writeObject(request);
-        out.flush();
-
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        ResponseObject response = (ResponseObject) in.readObject();
-        int code = response.getCode();
-
-        if (code == IStatus.OK) {
-            return (Udzbenik) response.getData();
-        } else {
-            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
-        }
-
-    }
-
-    public Udzbenik AzurirajUdzbenik(Udzbenik udzbenik) throws Exception {
-
-        RequestObject request = new RequestObject();
-        request.setOperation(IOperation.AZURIRAJ_UDZBENIK);
-        request.setData(udzbenik);
-        Socket socket = Session.getInstance().getSocket();
-
-        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        out.writeObject(request);
-        out.flush();
-
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        ResponseObject response = (ResponseObject) in.readObject();
-        int code = response.getCode();
-
-        if (code == IStatus.OK) {
-            return (Udzbenik) response.getData();
-        } else {
-            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
-        }
-
-    }
-
-    public Udzbenik pronadjiUdzbenikPoId(int id) throws Exception {
-
-        RequestObject request = new RequestObject();
-        request.setOperation(IOperation.PRONADJI_UDZBENIK_PO_ID);
-        request.setData(id);
-        Socket socket = Session.getInstance().getSocket();
-
-        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        out.writeObject(request);
-        out.flush();
-
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        ResponseObject response = (ResponseObject) in.readObject();
-        int code = response.getCode();
-
-        if (code == IStatus.OK) {
-            return (Udzbenik) response.getData();
-        } else {
-            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
-        }
-
-    }
-
-    public Udzbenik pronadjiUdzbenikePoNazivu(String naziv) throws Exception {
-
-        RequestObject request = new RequestObject();
-        request.setOperation(IOperation.PRONADJI_UDZBENIK_PO_NAZIVU);
-        request.setData(naziv);
-        Socket socket = Session.getInstance().getSocket();
-
-        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        out.writeObject(request);
-        out.flush();
-
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        ResponseObject response = (ResponseObject) in.readObject();
-        int code = response.getCode();
-
-        if (code == IStatus.OK) {
-            return (Udzbenik) response.getData();
-        } else {
-            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
-        }
-
-    }
-
-    public Udzbenik ObrisiUdzbenik(int id) throws Exception {
-
-        RequestObject request = new RequestObject();
-        request.setOperation(IOperation.OBRISI_UDZBENIK);
-        request.setData(id);
-        Socket socket = Session.getInstance().getSocket();
-
-        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        out.writeObject(request);
-        out.flush();
-
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        ResponseObject response = (ResponseObject) in.readObject();
-        int code = response.getCode();
-
-        if (code == IStatus.OK) {
-            return (Udzbenik) response.getData();
-        } else {
-            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
+            if (code == IStatus.OK) {
+                return response.getData();
+            } else {
+                throw new Exception("Dogodila se greska u komunikaciji");
+            }
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 
-    public List<OsobaUVeziSaUdzbenikom> vratiSveAutoreZaUdzbenik(int udzbenikId) throws Exception {
-        RequestObject request = new RequestObject();
-        request.setOperation(IOperation.VRATI_SVE_AUTORE);
-        request.setData(udzbenikId);
-        Socket socket = Session.getInstance().getSocket();
-
-        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        out.writeObject(request);
-        out.flush();
-
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        ResponseObject response = (ResponseObject) in.readObject();
-        int code = response.getCode();
-
-        if (code == IStatus.OK) {
-            return (List<OsobaUVeziSaUdzbenikom>) response.getData();
-        } else {
-            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
-        }
-    }
-
-    public List<OsobaUVeziSaUdzbenikom> vratiSveRecenzenteZaUdzbenik(int udzbenikId) throws Exception {
-        RequestObject request = new RequestObject();
-        request.setOperation(IOperation.VRATI_SVE_RECENZENTE);
-        request.setData(udzbenikId);
-        Socket socket = Session.getInstance().getSocket();
-
-        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        out.writeObject(request);
-        out.flush();
-
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        ResponseObject response = (ResponseObject) in.readObject();
-        int code = response.getCode();
-
-        if (code == IStatus.OK) {
-            return (List<OsobaUVeziSaUdzbenikom>) response.getData();
-        } else {
-            throw new Exception("Dogodila se greska u komunikaciji sa serverom!");
-        }
-    }
-    public Korisnik vratiKorisnika(String username, String password) throws Exception {
-
-        RequestObject request = new RequestObject();
-        request.setOperation(IOperation.PROVERI_KORISNIKA);
-        Korisnik korisnik = new Korisnik(username, password);
-        request.setData(korisnik);
-        Socket socket = Session.getInstance().getSocket();
-
-        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        out.writeObject(request);
-        out.flush();
-
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        ResponseObject response = (ResponseObject) in.readObject();
-        int code = response.getCode();
-
-        if (code == IStatus.OK) {
-            Korisnik korisnikFromDb = new Korisnik();
-            korisnikFromDb = (Korisnik) response.getData();
-            return korisnikFromDb;
-        } else {
-            throw new Exception("Dogodila se greska u komunikacii sa serverom");
-        }
-    }
-
-    public Predmet pronadjiPredmetPoId(int id) throws IOException, ClassNotFoundException, Exception {
-        RequestObject request = new RequestObject();
-        request.setData(id);
-        request.setOperation(IOperation.PRONADJI_PREDMET_PO_ID);
-        Socket socket = Session.getInstance().getSocket();
-
-        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        out.writeObject(request);
-        out.flush();
-
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        ResponseObject response = (ResponseObject) in.readObject();
-        int code = response.getCode();
-
-        if (code == IStatus.OK) {
-            return (Predmet) response.getData();
-        } else {
-            throw new Exception("Dogodila se greska u komunikacii sa serverom");
-        }
-
-    }
+    
 }
