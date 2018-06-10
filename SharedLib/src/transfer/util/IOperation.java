@@ -24,6 +24,7 @@ public interface IOperation {
     public static final int VRATI_SVE_VRSTE_I_NIVOE_STUDIJA = 11;
     public static final int VRATI_SVE_TIPOVE_NASTAVE = 12;
     public static final int VRATI_SVE_NASTAVNIKE = 13;
-  
+    public static final int KREIRAJ_PREDMET = 14;
+    public static final int VRATI_ULOGU_UDZBENIK_PO_NAZIVU = 15;
 
 }

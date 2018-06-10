@@ -10,7 +10,6 @@ import domen.OsobaUVeziSaUdzbenikom;
 import domen.Udzbenik;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +101,7 @@ public class UdzbenikDaoImpl extends UdzbenikDao {
                 ps2.setString(3, osoba.getPrezime());
                 ps2.setString(4, osoba.getTitula());
                 ps2.setInt(5, osoba.getUlogaUdzbenik().getUlogaId());
-                ps2.setInt(6, osoba.getUdzbenikId());
+                ps2.setInt(6, udzbenikId);
                 ps2.executeUpdate();
             }
 

@@ -5,8 +5,12 @@
  */
 package session;
 
+import domen.TematskaCelina;
+import domen.TipNastave;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,9 +22,14 @@ public class Session {
     private static Session instance;
     private Map<String, Object> map;
     private Socket socket;
+    private List<TematskaCelina> tematskeCelineStruktura;
+    private String tematskeCelineTekst;
+    private TipNastave tipNastave;
 
     private Session() {
         map = new HashMap<String, Object>();
+        tematskeCelineStruktura = new ArrayList<>();
+        tematskeCelineTekst = "";
     }
 
     public static Session getInstance() {
@@ -42,4 +51,29 @@ public class Session {
     public Socket getSocket() {
         return this.socket;
     }
+
+    public void setTematskeCelineStruktura(List<TematskaCelina> tematskeCelineStruktura) {
+        this.tematskeCelineStruktura = tematskeCelineStruktura;
+    }
+
+    public List<TematskaCelina> getTematskeCelineStruktura() {
+        return tematskeCelineStruktura;
+    }
+
+    public String getTematskeCelineTekst() {
+        return tematskeCelineTekst;
+    }
+
+    public void setTematskeCelineTekst(String tematskeCelineTekst) {
+        this.tematskeCelineTekst = tematskeCelineTekst;
+    }
+
+    public TipNastave getTipNastave() {
+        return tipNastave;
+    }
+
+    public void setTipNastave(TipNastave tipNastave) {
+        this.tipNastave = tipNastave;
+    }
+
 }

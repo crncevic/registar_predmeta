@@ -5,7 +5,9 @@
  */
 package table.model;
 
+import domen.Nastavnik;
 import domen.NastavnikNaPredmetu;
+import domen.TipNastave;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -50,6 +52,28 @@ public class NastavnikNaPredmetuTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
         return columnNames[column];
+    }
+
+    public void dodajNastavnikaNaPredmet(Nastavnik nastavnik, TipNastave tipNastave) {
+        for (NastavnikNaPredmetu nastavnikNaPredmetu : nastavniciNaPredmetu) {
+            if (nastavnikNaPredmetu.getNastavnik().equals(nastavnik)
+                    && nastavnikNaPredmetu.getTipNastave().getNaziv().equalsIgnoreCase(tipNastave.getNaziv())) {
+                return;
+            }
+        }
+
+        nastavniciNaPredmetu.add(new NastavnikNaPredmetu(null, nastavnik, tipNastave));
+        fireTableDataChanged();
+
+    }
+
+    public void obrisiNastavnikaSaPredmeta(int selektovaniRed) {
+        nastavniciNaPredmetu.remove(selektovaniRed);
+        fireTableDataChanged();
+    }
+
+    public List<NastavnikNaPredmetu> getNastavniciNaPredmetu() {
+        return nastavniciNaPredmetu;
     }
 
 }

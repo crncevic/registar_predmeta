@@ -7,6 +7,7 @@ import db.dao.impl.OsobaUVeziSaUdzbenikomDaoImpl;
 import db.dao.impl.PredmetDaoImpl;
 import db.dao.impl.TipNastaveDaoImpl;
 import db.dao.impl.UdzbenikDaoImpl;
+import db.dao.impl.UlogaUdzbenikDaoImpl;
 import db.dao.impl.VrstaINivoStudijaDaoImpl;
 import domen.OsobaUVeziSaUdzbenikom;
 import domen.Korisnik;
@@ -14,6 +15,7 @@ import domen.Nastavnik;
 import domen.Predmet;
 import domen.TipNastave;
 import domen.Udzbenik;
+import domen.UlogaUdzbenik;
 import domen.VrstaINivoStudija;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -118,7 +120,7 @@ public class NitKlijent extends Thread {
                             List<OsobaUVeziSaUdzbenikom> osobe = OsobaUVeziSaUdzbenikomDaoImpl.getInstance().vratiOsobeZaUdzbenik((int) requestObject.getData());
                             List<OsobaUVeziSaUdzbenikom> autori = new ArrayList<>();
                             for (OsobaUVeziSaUdzbenikom ouvsu : osobe) {
-                                if (ouvsu.getUlogaUdzbenik().getNaziv().equalsIgnoreCase("recenzent")) {
+                                if (ouvsu.getUlogaUdzbenik().getNaziv().equalsIgnoreCase("autor")) {
                                     autori.add(ouvsu);
                                 }
                             }
@@ -196,6 +198,31 @@ public class NitKlijent extends Thread {
                             List<Nastavnik> nastavnici = NastavnikDaoImpl.getInstance().vratiSveNastavnike();
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(nastavnici);
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+
+                    case IOperation.KREIRAJ_PREDMET:
+                        try {
+                            Predmet predmet = PredmetDaoImpl.getInstance().kreirajPredmet((Predmet) requestObject.getData());
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(predmet);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+                    case IOperation.VRATI_ULOGU_UDZBENIK_PO_NAZIVU:
+                        try {
+                            UlogaUdzbenik ulogaUdzbenik = UlogaUdzbenikDaoImpl.getInstance().vratiUloguNaUdzbenikuZaNaziv((String) requestObject.getData());
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(ulogaUdzbenik);
+
                         } catch (Exception e) {
                             responseObject.setCode(IStatus.ERROR);
                             responseObject.setMessage(e.getMessage());

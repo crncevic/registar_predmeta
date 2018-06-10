@@ -6,6 +6,9 @@
 package form;
 
 import domen.Nastavnik;
+import domen.NastavnikNaPredmetu;
+import domen.Predmet;
+import domen.TematskaCelina;
 import domen.TipNastave;
 import domen.Udzbenik;
 import domen.VrstaINivoStudija;
@@ -20,31 +23,34 @@ import renderer.NastavnikRenderer;
 import renderer.TipNastaveRenderer;
 import renderer.UdzbenikRenderer;
 import renderer.VrstaINivoStudijaRenderer;
+import session.Session;
 import table.model.NastavnikNaPredmetuTableModel;
+import table.model.UdzbenikSkraceniTableModel;
 import transfer.util.IOperation;
 
 /**
  *
  * @author Petar
  */
-public class FPredmet extends javax.swing.JDialog {
+public class FPredmet extends javax.swing.JFrame {
 
     JFrame fMain;
 
     /**
      * Creates new form FPredmet
      */
-    public FPredmet(java.awt.Frame parent, boolean modal, FMain fMain) {
-        super(parent, modal);
+    public FPredmet(FMain fMain) {
         initComponents();
         centrirajFormu();
+        maksimizirajFormu();
         this.fMain = fMain;
         popuniVrstaINivoStudijaCombo();
         popuniTipNastaveCombo();
         popuniNastavniciCombo();
         popuniUdzbeniciCombo();
         inicijalizujTabeluNastavniciNaPredmetu();
-
+        inicijalizujTabeluUdzbenik();
+        onemoguciDugmad();
     }
 
     /**
@@ -57,7 +63,7 @@ public class FPredmet extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTxtUdzbenikId = new javax.swing.JTextField();
+        jTxtPredmetId = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTxtNazivPredmeta = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -111,9 +117,9 @@ public class FPredmet extends javax.swing.JDialog {
 
         jLabel1.setText("Id:");
 
-        jTxtUdzbenikId.addFocusListener(new java.awt.event.FocusAdapter() {
+        jTxtPredmetId.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTxtUdzbenikIdFocusLost(evt);
+                jTxtPredmetIdFocusLost(evt);
             }
         });
 
@@ -251,6 +257,11 @@ public class FPredmet extends javax.swing.JDialog {
         jScrollPane4.setViewportView(jTblUdzbenici);
 
         jBtnNoviUdzbenik.setText("Unesite udzbenik");
+        jBtnNoviUdzbenik.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnNoviUdzbenikActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -262,7 +273,7 @@ public class FPredmet extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(JComboUdzbenik, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jBtnNoviUdzbenik, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
+                        .addComponent(jBtnNoviUdzbenik, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,9 +325,9 @@ public class FPredmet extends javax.swing.JDialog {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jBtnUnosStruktuiraniOblik, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                        .addComponent(jBtnUnosSadrzajaTekst, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jBtnUnosStruktuiraniOblik, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addComponent(jBtnUnosSadrzajaTekst, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addGap(28, 28, 28)
@@ -371,13 +382,13 @@ public class FPredmet extends javax.swing.JDialog {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jTxtStudijskiIstrazivackiRad)
                                             .addComponent(jTxtDrugiObliciNastave))
-                                        .addGap(155, 155, 155))
+                                        .addGap(113, 113, 113))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jSpinnerBrCasovaPredavanjaNedeljno, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
                                             .addComponent(jSpinnerBrCasovaVezbiNedeljno)
                                             .addComponent(jSpinnerOstaliCasovi))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 321, Short.MAX_VALUE))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -400,20 +411,20 @@ public class FPredmet extends javax.swing.JDialog {
                                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                                                         .addComponent(jTxtUslov, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                                                         .addComponent(jTxtNazivPredmeta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                                                        .addComponent(jTxtUdzbenikId, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                                                        .addComponent(jTxtPredmetId, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                                                         .addComponent(jLabelRezultatPretrage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                                     .addComponent(jLabel11)
                                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jBtnAzuriraj)
-                        .addGap(83, 83, 83)
                         .addComponent(jBtnSacuvaj)
-                        .addGap(67, 67, 67)
+                        .addGap(75, 75, 75)
+                        .addComponent(jBtnAzuriraj)
+                        .addGap(76, 76, 76)
                         .addComponent(jBtnObrisi)))
                 .addGap(36, 36, 36))
         );
@@ -425,7 +436,7 @@ public class FPredmet extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jTxtUdzbenikId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTxtPredmetId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(1, 1, 1)
                         .addComponent(jLabelRezultatPretrage)
                         .addGap(3, 3, 3)
@@ -476,12 +487,12 @@ public class FPredmet extends javax.swing.JDialog {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(203, 203, 203)))
+                        .addGap(161, 161, 161)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBtnObrisi)
                     .addComponent(jBtnAzuriraj)
-                    .addComponent(jBtnSacuvaj)
-                    .addComponent(jBtnObrisi))
+                    .addComponent(jBtnSacuvaj))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -489,45 +500,185 @@ public class FPredmet extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtnDodajNastavnikaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDodajNastavnikaActionPerformed
-        // TODO add your handling code here:
+        try {
+            NastavnikNaPredmetuTableModel nnptm = (NastavnikNaPredmetuTableModel) jTblNastavnici.getModel();
+            Nastavnik nastavnik = (Nastavnik) jComboIzborNastavnika.getSelectedItem();
+            TipNastave tipNastave = (TipNastave) jComboTipNastave.getSelectedItem();
+
+            nnptm.dodajNastavnikaNaPredmet(nastavnik, tipNastave);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom dodavanja novog nastavnika u tabelu za predmet .Greska:" + e.getMessage());
+        }
     }//GEN-LAST:event_jBtnDodajNastavnikaActionPerformed
 
     private void jBtnObrisiNastavnikaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnObrisiNastavnikaActionPerformed
-        // TODO add your handling code here:
+        try {
+            int selektovaniRed = jTblNastavnici.getSelectedRow();
+
+            if (selektovaniRed >= 0) {
+                NastavnikNaPredmetuTableModel nnptm = (NastavnikNaPredmetuTableModel) jTblNastavnici.getModel();
+                nnptm.obrisiNastavnikaSaPredmeta(selektovaniRed);
+            } else {
+                JOptionPane.showMessageDialog(this, "Niste selektovali red brisanje");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom brisanja  nastavnika iz tabele za predmet .Greska:" + e.getMessage());
+
+        }
     }//GEN-LAST:event_jBtnObrisiNastavnikaActionPerformed
 
     private void jBtnDodajUdzbenikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDodajUdzbenikActionPerformed
-        // TODO add your handling code here:
+        try {
+            UdzbenikSkraceniTableModel ustm = (UdzbenikSkraceniTableModel) jTblUdzbenici.getModel();
+            Udzbenik udzbenik = (Udzbenik) JComboUdzbenik.getSelectedItem();
+            ustm.dodajUdzbenik(udzbenik);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom dodavanja novog udzbenika u tabelu za predmet .Greska:" + e.getMessage());
+        }
     }//GEN-LAST:event_jBtnDodajUdzbenikActionPerformed
 
     private void jBtnObrisiUdzbenikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnObrisiUdzbenikActionPerformed
-        // TODO add your handling code here:
+        try {
+            int selektovaniRed = jTblUdzbenici.getSelectedRow();
+
+            if (selektovaniRed >= 0) {
+                UdzbenikSkraceniTableModel ustm = (UdzbenikSkraceniTableModel) jTblUdzbenici.getModel();
+                ustm.obrisiNastavnikaSaPredmeta(selektovaniRed);
+            } else {
+                JOptionPane.showMessageDialog(this, "Niste selektovali red brisanje");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom brisanja  nastavnika iz tabele za predmet .Greska:" + e.getMessage());
+
+        }
     }//GEN-LAST:event_jBtnObrisiUdzbenikActionPerformed
 
     private void jBtnUnosStruktuiraniOblikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUnosStruktuiraniOblikActionPerformed
-        JDialog fSadrzajStruktura = new FSadrzajStruktura(fMain, true);
+
+        TipNastave tipNastave = (TipNastave) jComboTipNastaveSadrzaj.getSelectedItem();
+        Session.getInstance().setTipNastave(tipNastave);
+        JDialog fSadrzajStruktura = new FSadrzajStruktura(this, true);
         fSadrzajStruktura.setVisible(true);
+
     }//GEN-LAST:event_jBtnUnosStruktuiraniOblikActionPerformed
 
     private void jBtnUnosSadrzajaTekstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUnosSadrzajaTekstActionPerformed
-        JDialog fSadrzajTekst = new FSadrzajTekst(FMain.getInstance(), true);
+        JDialog fSadrzajTekst = new FSadrzajTekst(this, true);
         fSadrzajTekst.setVisible(true);
     }//GEN-LAST:event_jBtnUnosSadrzajaTekstActionPerformed
 
     private void jBtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSacuvajActionPerformed
-        // TODO add your handling code here:
+        try {
+            int predmetId;
+            try {
+                predmetId = Integer.parseInt(jTxtPredmetId.getText().trim());
+
+                if (predmetId < 0) {
+                    throw new Exception();
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "PredmetId mora biti ceo nenegativan broj!");
+                return;
+            }
+
+            String naziv = jTxtNazivPredmeta.getText().trim();
+
+            if (naziv.length() == 0) {
+                JOptionPane.showMessageDialog(this, "Morate uneti naziv predmeta!");
+                return;
+            }
+
+            String uslov = jTxtUslov.getText().trim();
+
+            String cilj = jTextAreaCilj.getText().trim();
+
+            String ishod = jTextAreaIshod.getText().trim();
+
+            VrstaINivoStudija vrstaINivoStudija = (VrstaINivoStudija) jComboVrstaINivoStudija.getSelectedItem();
+
+            int brCasovaPredavanjaNedeljno;
+            try {
+                jSpinnerBrCasovaPredavanjaNedeljno.commitEdit();
+                brCasovaPredavanjaNedeljno = (Integer) jSpinnerBrCasovaPredavanjaNedeljno.getValue();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Moguc je izbor samo brojeva!");
+                return;
+            }
+
+            int brCasovaVezbiNedeljno;
+            try {
+                jSpinnerBrCasovaVezbiNedeljno.commitEdit();
+                brCasovaVezbiNedeljno = (Integer) jSpinnerBrCasovaVezbiNedeljno.getValue();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Moguc je izbor samo brojeva!");
+                return;
+            }
+
+            int ostaliCasovi;
+            try {
+                jSpinnerOstaliCasovi.commitEdit();
+                ostaliCasovi = (Integer) jSpinnerOstaliCasovi.getValue();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Moguc je izbor samo brojeva!");
+                return;
+            }
+
+            String drugiObliciNastave = jTxtDrugiObliciNastave.getText().trim();
+
+            String studijskiIstrazivackiRad = jTxtStudijskiIstrazivackiRad.getText().trim();
+
+            List<TematskaCelina> tematskeCelineStruktura = Session.getInstance().getTematskeCelineStruktura();
+
+            String tematskeCelineTekst = Session.getInstance().getTematskeCelineTekst();
+
+            NastavnikNaPredmetuTableModel nnptm = (NastavnikNaPredmetuTableModel) jTblNastavnici.getModel();
+            List<NastavnikNaPredmetu> nastavniciNaPredmetu = nnptm.getNastavniciNaPredmetu();
+
+            UdzbenikSkraceniTableModel ustm = (UdzbenikSkraceniTableModel) jTblUdzbenici.getModel();
+            List<Udzbenik> udzbenici = ustm.getUdzbenici();
+
+            Predmet predmet = new Predmet();
+
+            predmet.setPredmetId(predmetId);
+            predmet.setNaziv(naziv);
+            predmet.setUslov(uslov);
+            predmet.setCilj(cilj);
+            predmet.setIshod(ishod);
+            predmet.setVrstaINivoStudija(vrstaINivoStudija);
+            predmet.setBrCasovaPredavanjaNedeljno(brCasovaPredavanjaNedeljno);
+            predmet.setBrCasovaVezbiNedeljno(brCasovaVezbiNedeljno);
+            predmet.setDrugiObliciNastave(drugiObliciNastave);
+            predmet.setStudijskiIstrazivackiRad(studijskiIstrazivackiRad);
+            predmet.setSadrzajTekst(tematskeCelineTekst);
+            predmet.setSadrzajTematskeCeline(tematskeCelineStruktura);
+            predmet.setNastavnici(nastavniciNaPredmetu);
+            predmet.setUdzbenici(udzbenici);
+
+            Kontroler.getInstance().posaljiZahtev(IOperation.KREIRAJ_PREDMET, predmet);
+            Predmet kreiraniPredmet = (Predmet) Kontroler.getInstance().primiOdgovor();
+
+            JOptionPane.showMessageDialog(this, "Predmet :" + kreiraniPredmet.getNaziv() + " je uspesno sacuvan u bazi podataka!");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }//GEN-LAST:event_jBtnSacuvajActionPerformed
 
-    private void jTxtUdzbenikIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtUdzbenikIdFocusLost
+    private void jTxtPredmetIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtPredmetIdFocusLost
         try {
 
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_jTxtUdzbenikIdFocusLost
+    }//GEN-LAST:event_jTxtPredmetIdFocusLost
 
     private void JComboUdzbenikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JComboUdzbenikActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JComboUdzbenikActionPerformed
+
+    private void jBtnNoviUdzbenikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnNoviUdzbenikActionPerformed
+        JDialog fUdzbenik = new FUdzbenik(this, true);
+        fUdzbenik.setVisible(true);
+    }//GEN-LAST:event_jBtnNoviUdzbenikActionPerformed
 
     /**
      * @param args the command line arguments
@@ -580,8 +731,8 @@ public class FPredmet extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextAreaIshod;
     private javax.swing.JTextField jTxtDrugiObliciNastave;
     private javax.swing.JTextField jTxtNazivPredmeta;
+    private javax.swing.JTextField jTxtPredmetId;
     private javax.swing.JTextField jTxtStudijskiIstrazivackiRad;
-    private javax.swing.JTextField jTxtUdzbenikId;
     private javax.swing.JTextField jTxtUslov;
     // End of variables declaration//GEN-END:variables
 
@@ -665,6 +816,25 @@ public class FPredmet extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom inicijalizacije table modela za nastavnike na predmetu.Greska:" + e.getMessage());
 
         }
+    }
+
+    private void inicijalizujTabeluUdzbenik() {
+        try {
+            TableModel ustm = new UdzbenikSkraceniTableModel(new ArrayList<>());
+            jTblUdzbenici.setModel(ustm);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom inicijalizacije table modela za udzbenik.Greska:" + e.getMessage());
+
+        }
+    }
+
+    private void maksimizirajFormu() {
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+    }
+
+    private void onemoguciDugmad() {
+        jBtnObrisi.setEnabled(false);
+        jBtnAzuriraj.setEnabled(false);
     }
 
 }

@@ -128,8 +128,6 @@ public class FServer extends javax.swing.JFrame {
             jBtnServerStop.setEnabled(true);
             jMenuKonfiguracija.setEnabled(false);
 
-            JOptionPane.showMessageDialog(this, "Server uspesno pokrenut ");
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Dogodila se greska kod pokretanja servera! Greska: " + e.getMessage());
         }

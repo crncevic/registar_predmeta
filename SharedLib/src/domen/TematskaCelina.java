@@ -12,11 +12,11 @@ import java.io.Serializable;
  * @author Petar
  */
 public class TematskaCelina implements OpstiDomenskiObjekat, Serializable {
-    
+
     private int tematskaCelinaId;
     private int tipNastaveId;
     private int predmetId;
-    
+
     private TematskaCelina nadredjenaTematskaCelina;
     private String naziv;
     private String opis;
@@ -83,7 +83,7 @@ public class TematskaCelina implements OpstiDomenskiObjekat, Serializable {
 
     @Override
     public String toString() {
-        return "TematskaCelina{" + "tipNastaveId=" + tipNastaveId + ", predmetId=" + predmetId + ",  tematskaCelinaId=" + tematskaCelinaId + ", nadredjenaTematskaJedinicaId=" + nadredjenaTematskaCelina + ", naziv=" + naziv + ", opis=" + opis + '}';
+        return getNaziv();
     }
 
     @Override
@@ -93,7 +93,7 @@ public class TematskaCelina implements OpstiDomenskiObjekat, Serializable {
 
     @Override
     public String vratiVrednostiAtributa() {
-        return getTematskaCelinaId()+","+ getTipNastaveId() + "," + getPredmetId() + ","+getNadredjenaTematskaCelina().getTematskaCelinaId()+"'" + getNaziv() + "','"+getOpis()+"'";
+        return getTematskaCelinaId() + "," + getTipNastaveId() + "," + getPredmetId() + "," + getNadredjenaTematskaCelina().getTematskaCelinaId() + "'" + getNaziv() + "','" + getOpis() + "'";
     }
 
 }

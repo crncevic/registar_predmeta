@@ -170,6 +170,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Sacuvaj"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnSacuvajActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jBtnSacuvajOpisNJ">
       <Properties>

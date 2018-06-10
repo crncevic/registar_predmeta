@@ -5,15 +5,23 @@
  */
 package form;
 
+import domen.TematskaCelina;
+import domen.TipNastave;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+import session.Session;
 
 /**
  *
  * @author Petar
  */
 public class FSadrzajStruktura extends javax.swing.JDialog {
+
+    private TipNastave tipNastave;
+    TematskaCelina tematskaCelina;
+    int brojac;
 
     /**
      * Creates new form FSadrzajStruktura
@@ -22,6 +30,9 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         centrirajFormu();
+        postaviKoreniElement();
+        tipNastave = Session.getInstance().getTipNastave();
+        brojac = 1;
     }
 
     /**
@@ -84,6 +95,11 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
         });
 
         jBtnSacuvaj.setText("Sacuvaj");
+        jBtnSacuvaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnSacuvajActionPerformed(evt);
+            }
+        });
 
         jBtnSacuvajOpisNJ.setText("Sacuvaj opis");
         jBtnSacuvajOpisNJ.addActionListener(new java.awt.event.ActionListener() {
@@ -171,10 +187,20 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
         DefaultTreeModel dtm = (DefaultTreeModel) jTreeSadrzaj.getModel();
         DefaultMutableTreeNode koren = (DefaultMutableTreeNode) dtm.getRoot();
 
-        String tematskaJedinica = jTxtNazivTematskeJedinice.getText();
+        String tematskaJedinicaNaziv = jTxtNazivTematskeJedinice.getText();
 
-        if (tematskaJedinica.trim().length() > 0) {
-            koren.add(new DefaultMutableTreeNode(tematskaJedinica));
+        if (tematskaJedinicaNaziv.trim().length() > 0) {
+
+            String opis = jTextAreaOpisNJ.getText().trim();
+            TematskaCelina tm = new TematskaCelina();
+            tm.setNadredjenaTematskaCelina(null);
+            tm.setNaziv(tematskaJedinicaNaziv);
+            tm.setOpis(opis);
+            tm.setTipNastaveId(tipNastave.getTipNastaveId());
+            tm.setTematskaCelinaId(brojac++);
+            DefaultMutableTreeNode dmtn = new DefaultMutableTreeNode(tm);
+            System.out.println(dmtn.getUserObject().getClass());
+            koren.add(new DefaultMutableTreeNode(tm));
             jTxtNazivTematskeJedinice.setText("");
         } else {
             JOptionPane.showMessageDialog(this, "Morate uneti naziv tematske jedinice");
@@ -191,10 +217,23 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
             return;
         }
 
+        String opis = jTextAreaOpisNJ.getText().trim();
+
         if (selektovaniCvor != null) {
             if (!selektovaniCvor.isRoot()) {
-                DefaultMutableTreeNode podtematskJedinica = new DefaultMutableTreeNode(podtematskaJedinicaNaziv);
+
+                TematskaCelina tematskaCelina = new TematskaCelina();
+                tematskaCelina.setNaziv(podtematskaJedinicaNaziv);
+                tematskaCelina.setTematskaCelinaId(brojac++);
+                tematskaCelina.setTipNastaveId(tipNastave.getTipNastaveId());
+                tematskaCelina.setOpis(opis);
+                TreePath path = new TreePath(selektovaniCvor.getParent());
+                tematskaCelina.setNadredjenaTematskaCelina((TematskaCelina) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject());
+
+                DefaultMutableTreeNode podtematskJedinica = new DefaultMutableTreeNode(tematskaCelina);
+
                 dtm.insertNodeInto(podtematskJedinica, selektovaniCvor, selektovaniCvor.getChildCount());
+                jTxtNazivPodtematskeJedinice.setText("");
             } else {
                 JOptionPane.showMessageDialog(this, "Izabrali ste koreni cvor. Morate izbrati konkretnu tematsku jedinicu! ");
             }
@@ -240,6 +279,10 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jBtnSacuvajOpisNJActionPerformed
 
+    private void jBtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSacuvajActionPerformed
+
+    }//GEN-LAST:event_jBtnSacuvajActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -262,5 +305,10 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
 
     private void centrirajFormu() {
         setLocationRelativeTo(null);
+    }
+
+    private void postaviKoreniElement() {
+        TematskaCelina tm = new TematskaCelina();
+     //   tematskaCelina
     }
 }

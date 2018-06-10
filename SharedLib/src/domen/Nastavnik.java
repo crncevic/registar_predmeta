@@ -105,4 +105,28 @@ public class Nastavnik implements OpstiDomenskiObjekat,Serializable {
         return "'" + getIme() + "','" + getPrezime() + ",'" + getZvanje() + "','" + getTelefon() + "','" + getKabinet() + "','" + getePosta() + "'";
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Nastavnik other = (Nastavnik) obj;
+        if (this.nastavnikId != other.nastavnikId) {
+            return false;
+        }
+        return true;
+    }
+
 }

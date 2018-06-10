@@ -335,9 +335,9 @@ public class FUdzbenik extends javax.swing.JDialog {
     private void jBtnDodajAutoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDodajAutoraActionPerformed
         try {
             OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
-            atm.dodajNovuOsobuZaUdzbenik();
+            atm.dodajNovuOsobuZaUdzbenik("autor");
         } catch (Exception e) {
-
+            JOptionPane.showMessageDialog(this, "Neuspesno dodavanje autora!");
         }
     }//GEN-LAST:event_jBtnDodajAutoraActionPerformed
 
@@ -448,7 +448,7 @@ public class FUdzbenik extends javax.swing.JDialog {
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Doslo je do greske prilikom azuriranja  udzbenika!");
+            JOptionPane.showMessageDialog(this, "Doslo je do greske prilikom azuriranja  udzbenika!.Greska:" + ex.getMessage());
         }
     }//GEN-LAST:event_jBtnAzurirajActionPerformed
 
@@ -531,19 +531,15 @@ public class FUdzbenik extends javax.swing.JDialog {
 
             OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
             List<OsobaUVeziSaUdzbenikom> autoriFromTbl = atm.vratiSveAutore();
-            for (OsobaUVeziSaUdzbenikom ouvsu : autoriFromTbl) {
-                ouvsu.setUlogaUdzbenik(new UlogaUdzbenik(1, "autor"));
-            }
+           
 
             OsobaUdzbenikTableModel outm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
             List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl = outm.vratiSveRecenzente();
-            for (OsobaUVeziSaUdzbenikom ouvsu : recenzentiFromTbl) {
-                ouvsu.setUlogaUdzbenik(new UlogaUdzbenik(2, "recenzent"));
-            }
+           
 
             List<OsobaUVeziSaUdzbenikom> list = new ArrayList<>();
             list.addAll(autoriFromTbl);
-            list.addAll(autoriFromTbl);
+            list.addAll(recenzentiFromTbl);
 
             udzbenik.setOsobeUVeziSaUdzbenikom(list);
             Kontroler.getInstance().posaljiZahtev(IOperation.KREIRAJ_UDZBENIK, udzbenik);
@@ -566,9 +562,10 @@ public class FUdzbenik extends javax.swing.JDialog {
     private void jBtnDodajRecenzentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDodajRecenzentaActionPerformed
         try {
             OsobaUdzbenikTableModel rtm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
-            rtm.dodajNovuOsobuZaUdzbenik();
+            rtm.dodajNovuOsobuZaUdzbenik("recenzent");
         } catch (Exception e) {
             System.out.println("Dogodila se greska prilikom brisanja recenzenta iz tabele");
+            JOptionPane.showMessageDialog(this, "Neuspesno dodavanje recenzenta!");
         }
     }//GEN-LAST:event_jBtnDodajRecenzentaActionPerformed
 
@@ -726,7 +723,7 @@ public class FUdzbenik extends javax.swing.JDialog {
             TableModel rtm = new OsobaUdzbenikTableModel(recenzenti);
             jTblRecenzenti.setModel(rtm);
         } catch (Exception e) {
-            System.out.println("Dogodila se greska prilikom postavljanja Table model-a za ");
+            System.out.println("Dogodila se greska prilikom postavljanja Table model-a ");
         }
     }
 

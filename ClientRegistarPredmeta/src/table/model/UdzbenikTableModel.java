@@ -50,7 +50,7 @@ public class UdzbenikTableModel extends AbstractTableModel {
                 String autori = "";
                 for (OsobaUVeziSaUdzbenikom osoba : udzbenik.getOsobeUVeziSaUdzbenikom()) {
                     if (osoba.getUlogaUdzbenik().getNaziv().equalsIgnoreCase("autor")) {
-                        autori.concat(osoba.getIme() + " " + osoba.getPrezime() + " " + osoba.getTitula() + ",");
+                        autori += osoba.getIme() + " " + osoba.getPrezime() + " " + osoba.getTitula() + ",";
                     }
                 }
                 return autori;
@@ -62,7 +62,7 @@ public class UdzbenikTableModel extends AbstractTableModel {
                 String recenzenti = "";
                 for (OsobaUVeziSaUdzbenikom osoba : udzbenik.getOsobeUVeziSaUdzbenikom()) {
                     if (osoba.getUlogaUdzbenik().getNaziv().equalsIgnoreCase("recenzent")) {
-                        recenzenti.concat(osoba.getIme() + " " + osoba.getPrezime() + " " + osoba.getTitula() + ",");
+                        recenzenti += osoba.getIme() + " " + osoba.getPrezime() + " " + osoba.getTitula() + ",";
                     }
                 }
                 return recenzenti;

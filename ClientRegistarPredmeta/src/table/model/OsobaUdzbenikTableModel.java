@@ -1,11 +1,14 @@
 package table.model;
 
 import domen.OsobaUVeziSaUdzbenikom;
+import domen.UlogaUdzbenik;
 
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.TableRow;
 import javax.swing.table.AbstractTableModel;
+import kontroler.Kontroler;
+import transfer.util.IOperation;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,7 +21,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class OsobaUdzbenikTableModel extends AbstractTableModel {
 
-    private List<OsobaUVeziSaUdzbenikom> osobe = new ArrayList<>();
+    private List<OsobaUVeziSaUdzbenikom> osobe ;
     private String[] columnNames = new String[]{"rb", "Ime", "Prezime", "Titula"};
 
     public OsobaUdzbenikTableModel(List<OsobaUVeziSaUdzbenikom> list) {
@@ -41,7 +44,7 @@ public class OsobaUdzbenikTableModel extends AbstractTableModel {
 
         switch (columnIndex) {
             case 0:
-                return rowIndex;
+                return rowIndex + 1;
             case 1:
                 return autor.getIme();
             case 2:
@@ -115,15 +118,20 @@ public class OsobaUdzbenikTableModel extends AbstractTableModel {
         return recenzenti;
     }
 
-    public void dodajNovuOsobuZaUdzbenik() {
+    public void dodajNovuOsobuZaUdzbenik(String uloga) throws Exception {
+        OsobaUVeziSaUdzbenikom ouvsu = new OsobaUVeziSaUdzbenikom();
+        Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_ULOGU_UDZBENIK_PO_NAZIVU, uloga);
+        UlogaUdzbenik ulogaUdzbenik = (UlogaUdzbenik) Kontroler.getInstance().primiOdgovor();
+        ouvsu.setUlogaUdzbenik(ulogaUdzbenik);
         if (osobe.isEmpty()) {
-            osobe.add(new OsobaUVeziSaUdzbenikom());
+
+            osobe.add(ouvsu);
             fireTableDataChanged();
             return;
         }
 
         if (osobe.get(osobe.size() - 1).getIme().trim().length() != 0 || osobe.get(osobe.size() - 1).getPrezime().trim().length() != 0) {
-            osobe.add(new OsobaUVeziSaUdzbenikom());
+            osobe.add(ouvsu);
             fireTableDataChanged();
         }
     }
