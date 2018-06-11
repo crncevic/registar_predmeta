@@ -145,7 +145,7 @@ public class UdzbenikDaoImpl extends UdzbenikDao {
                 ps3.setString(3, osoba.getPrezime());
                 ps3.setString(4, osoba.getTitula());
                 ps3.setInt(5, osoba.getUlogaUdzbenik().getUlogaId());
-                ps3.setInt(6, osoba.getUdzbenikId());
+                ps3.setInt(6, udzbenik.getUdzbenikId());
                 ps3.executeUpdate();
             }
 
@@ -166,39 +166,32 @@ public class UdzbenikDaoImpl extends UdzbenikDao {
     }
 
     @Override
-    public Udzbenik obrisiUdzbenik(int id) throws Exception {
+    public Udzbenik obrisiUdzbenik(int udzbenikId) throws Exception {
         try {
+            Udzbenik udzbenik = pronadjiUdzbenikPoId(udzbenikId);
+
+            String upit2 = "DELETE FROM osoba_u_vezi_sa_udzbenikom WHERE udzbenikId=?";
+            PreparedStatement ps2 = dbbr.getConnection().prepareStatement(upit2);
+            ps2.setInt(1, udzbenikId);
+            ps2.executeUpdate();
+            ps2.close();
+
+            String upit3 = "DELETE FROM udzbenik_na_predmetu WHERE udzbenikId=?";
+            PreparedStatement ps3 = dbbr.getConnection().prepareStatement(upit3);
+            ps3.setInt(1, udzbenikId);
+            ps3.executeUpdate();
+            ps3.close();
+
             String upit = "DELETE FROM udzbenik WHERE udzbenikId=?";
             PreparedStatement preparedStatement = dbbr.getConnection().prepareStatement(upit);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, udzbenikId);
+            preparedStatement.executeUpdate();
 
-            Udzbenik udzbenik = pronadjiUdzbenikPoId(id);
-
-            if (udzbenik != null) {
-                preparedStatement.executeUpdate();
-
-                String upit2 = "DELETE FROM autor WHERE udzbenikId=?";
-                PreparedStatement ps2 = dbbr.getConnection().prepareStatement(upit2);
-                ps2.setInt(1, udzbenik.getUdzbenikId());
-                ps2.executeUpdate();
-
-                String upit3 = "DELETE FROM recenzent WHERE udzbenikId=?";
-                PreparedStatement ps3 = dbbr.getConnection().prepareStatement(upit3);
-                ps3.setInt(1, udzbenik.getUdzbenikId());
-                ps3.executeUpdate();
-
-                dbbr.commitTransakcije();
-                preparedStatement.close();
-                ps2.close();
-                ps3.close();
-                return udzbenik;
-            }
-
-            throw new Exception("Udzbenik sa id:" + id + " ne postoji!");
+            return udzbenik;
 
         } catch (Exception e) {
             dbbr.rollackTransakcije();
-            throw new Exception("Dogodila se greska prilikom brisanja udzbenika sa id:" + id + " Greska: " + e.getMessage());
+            throw new Exception("Dogodila se greska prilikom brisanja udzbenika sa id:" + udzbenikId + " Greska: " + e.getMessage());
         }
     }
 

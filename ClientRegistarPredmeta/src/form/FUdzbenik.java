@@ -12,6 +12,7 @@ import domen.UlogaUdzbenik;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
@@ -435,7 +436,7 @@ public class FUdzbenik extends javax.swing.JDialog {
 
             List<OsobaUVeziSaUdzbenikom> list = new ArrayList<>();
             list.addAll(autoriFromTbl);
-            list.addAll(autoriFromTbl);
+            list.addAll(recenzentiFromTbl);
 
             udzbenik.setOsobeUVeziSaUdzbenikom(list);
 
@@ -459,7 +460,9 @@ public class FUdzbenik extends javax.swing.JDialog {
             Udzbenik udzbenik = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             if (udzbenik != null) {
                 JOptionPane.showMessageDialog(this, "Udzbenik: " + udzbenik.getNaziv() + " je uspesno obrisan!");
-                resetujSvaPolja();
+                dispose();
+                JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
+                fSelectUdzbenik.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Doslo je do greske prilikom brisanja udzbenika!");
             }
@@ -531,11 +534,9 @@ public class FUdzbenik extends javax.swing.JDialog {
 
             OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
             List<OsobaUVeziSaUdzbenikom> autoriFromTbl = atm.vratiSveAutore();
-           
 
             OsobaUdzbenikTableModel outm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
             List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl = outm.vratiSveRecenzente();
-           
 
             List<OsobaUVeziSaUdzbenikom> list = new ArrayList<>();
             list.addAll(autoriFromTbl);

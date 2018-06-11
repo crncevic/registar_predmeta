@@ -228,6 +228,45 @@ public class NitKlijent extends Thread {
                             responseObject.setMessage(e.getMessage());
                         }
                         break;
+                    case IOperation.VRATI_SVE_PREDMETE:
+                        try {
+                            List<Predmet> predmeti = PredmetDaoImpl.getInstance().vratiSvePredmete();
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(predmeti);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+                    case IOperation.AZURIRAJ_PREDMET:
+                        try {
+                            Predmet predmet = PredmetDaoImpl.getInstance().azurirajPredmet((Predmet) requestObject.getData());
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(predmet);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+                    case IOperation.OBRISI_PREDMET:
+                        try {
+                            Predmet predmet = PredmetDaoImpl.getInstance().obrisiPredmet((int) requestObject.getData());
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(predmet);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+
+                    default:
+                        responseObject.setMessage("Server nije mogao da zakljuci o kom zahtevu se radi.");
 
                 }
                 //posalji odgovor

@@ -12,10 +12,12 @@ import domen.TematskaCelina;
 import domen.TipNastave;
 import domen.Udzbenik;
 import domen.VrstaINivoStudija;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import kontroler.Kontroler;
@@ -50,7 +52,16 @@ public class FPredmet extends javax.swing.JFrame {
         popuniUdzbeniciCombo();
         inicijalizujTabeluNastavniciNaPredmetu();
         inicijalizujTabeluUdzbenik();
-        onemoguciDugmad();
+        pripremiFormu(FormMode.NEW);
+    }
+
+    public FPredmet(FMain fMain, int predmetId) {
+        initComponents();
+        centrirajFormu();
+        maksimizirajFormu();
+        this.fMain = fMain;
+        popuniFormuZaPredmet(predmetId);
+        pripremiFormu(FormMode.VIEW);
     }
 
     /**
@@ -349,6 +360,11 @@ public class FPredmet extends javax.swing.JFrame {
         );
 
         jBtnObrisi.setText("Obrisi");
+        jBtnObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnObrisiActionPerformed(evt);
+            }
+        });
 
         jBtnSacuvaj.setText("Sacuvaj");
         jBtnSacuvaj.addActionListener(new java.awt.event.ActionListener() {
@@ -358,6 +374,11 @@ public class FPredmet extends javax.swing.JFrame {
         });
 
         jBtnAzuriraj.setText("Azuriraj");
+        jBtnAzuriraj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAzurirajActionPerformed(evt);
+            }
+        });
 
         jLabelRezultatPretrage.setText(" ");
 
@@ -391,30 +412,32 @@ public class FPredmet extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel1)
-                                                .addComponent(jLabel2)
-                                                .addComponent(jLabel3)
-                                                .addComponent(jLabel4)
-                                                .addComponent(jLabel5)
-                                                .addComponent(jLabel6))
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addGap(75, 75, 75)
-                                                    .addComponent(jComboVrstaINivoStudija, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                                                        .addComponent(jTxtUslov, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                                                        .addComponent(jTxtNazivPredmeta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                                                        .addComponent(jTxtPredmetId, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                                                        .addComponent(jLabelRezultatPretrage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                                     .addComponent(jLabel11)
-                                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel6))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(66, 66, 66)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                            .addGap(10, 10, 10)
+                                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addComponent(jLabelRezultatPretrage, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jComboVrstaINivoStudija, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jTxtUslov, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jTxtPredmetId, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGap(76, 76, 76)
+                                                .addComponent(jTxtNazivPredmeta, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -444,10 +467,13 @@ public class FPredmet extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(jTxtNazivPredmeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTxtUslov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(21, 21, 21))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jTxtUslov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
@@ -457,11 +483,14 @@ public class FPredmet extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jComboVrstaINivoStudija, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel6))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboVrstaINivoStudija, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(jSpinnerBrCasovaPredavanjaNedeljno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -599,9 +628,13 @@ public class FPredmet extends javax.swing.JFrame {
             int brCasovaPredavanjaNedeljno;
             try {
                 jSpinnerBrCasovaPredavanjaNedeljno.commitEdit();
+
                 brCasovaPredavanjaNedeljno = (Integer) jSpinnerBrCasovaPredavanjaNedeljno.getValue();
+                if (brCasovaPredavanjaNedeljno < 0) {
+                    throw new Exception();
+                }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Moguc je izbor samo brojeva!");
+                JOptionPane.showMessageDialog(this, "Moguc je izbor samo nenegativnih brojeva!");
                 return;
             }
 
@@ -609,8 +642,11 @@ public class FPredmet extends javax.swing.JFrame {
             try {
                 jSpinnerBrCasovaVezbiNedeljno.commitEdit();
                 brCasovaVezbiNedeljno = (Integer) jSpinnerBrCasovaVezbiNedeljno.getValue();
+                if (brCasovaVezbiNedeljno < 0) {
+                    throw new Exception();
+                }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Moguc je izbor samo brojeva!");
+                JOptionPane.showMessageDialog(this, "Moguc je izbor samo nenegativnih brojeva!");
                 return;
             }
 
@@ -618,8 +654,11 @@ public class FPredmet extends javax.swing.JFrame {
             try {
                 jSpinnerOstaliCasovi.commitEdit();
                 ostaliCasovi = (Integer) jSpinnerOstaliCasovi.getValue();
+                if (ostaliCasovi < 0) {
+                    throw new Exception();
+                }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Moguc je izbor samo brojeva!");
+                JOptionPane.showMessageDialog(this, "Moguc je izbor samo nenegativnih brojeva!");
                 return;
             }
 
@@ -659,6 +698,10 @@ public class FPredmet extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Predmet :" + kreiraniPredmet.getNaziv() + " je uspesno sacuvan u bazi podataka!");
 
+            dispose();
+
+            JDialog fSelecetPredmet = new FSelectPredmet(fMain, true);
+            fSelecetPredmet.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
@@ -666,8 +709,40 @@ public class FPredmet extends javax.swing.JFrame {
 
     private void jTxtPredmetIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtPredmetIdFocusLost
         try {
+            int predmetId;
+            try {
 
+                String txt = jTxtPredmetId.getText().trim();
+
+                if (txt.length() == 0) {
+                    JOptionPane.showMessageDialog(this, "Molim vas unesite id za predmet!");
+                    return;
+                }
+
+                predmetId = Integer.parseInt(txt);
+
+                if (predmetId < 0) {
+                    throw new Exception();
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "PredmetId mora biti ceo nenegativan broj!");
+                return;
+            }
+
+            Kontroler.getInstance().posaljiZahtev(IOperation.PRONADJI_PREDMET_PO_ID, predmetId);
+            Predmet predmetIzBaze = (Predmet) Kontroler.getInstance().primiOdgovor();
+
+            if (predmetIzBaze != null) {
+                jLabelRezultatPretrage.setText("Predmet sa id:" + predmetId + " vec postoji.");
+                jLabelRezultatPretrage.setForeground(Color.red);
+                jTxtPredmetId.setText("");
+                jTxtPredmetId.grabFocus();
+            } else {
+                jLabelRezultatPretrage.setText(" ");
+
+            }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jTxtPredmetIdFocusLost
 
@@ -679,6 +754,135 @@ public class FPredmet extends javax.swing.JFrame {
         JDialog fUdzbenik = new FUdzbenik(this, true);
         fUdzbenik.setVisible(true);
     }//GEN-LAST:event_jBtnNoviUdzbenikActionPerformed
+
+    private void jBtnAzurirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAzurirajActionPerformed
+        try {
+            int predmetId;
+            try {
+                predmetId = Integer.parseInt(jTxtPredmetId.getText().trim());
+
+                if (predmetId < 0) {
+                    throw new Exception();
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "PredmetId mora biti ceo nenegativan broj!");
+                return;
+            }
+
+            String naziv = jTxtNazivPredmeta.getText().trim();
+
+            if (naziv.length() == 0) {
+                JOptionPane.showMessageDialog(this, "Morate uneti naziv predmeta!");
+                return;
+            }
+
+            String uslov = jTxtUslov.getText().trim();
+
+            String cilj = jTextAreaCilj.getText().trim();
+
+            String ishod = jTextAreaIshod.getText().trim();
+
+            VrstaINivoStudija vrstaINivoStudija = (VrstaINivoStudija) jComboVrstaINivoStudija.getSelectedItem();
+
+            int brCasovaPredavanjaNedeljno;
+            try {
+                jSpinnerBrCasovaPredavanjaNedeljno.commitEdit();
+
+                brCasovaPredavanjaNedeljno = (Integer) jSpinnerBrCasovaPredavanjaNedeljno.getValue();
+                if (brCasovaPredavanjaNedeljno < 0) {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Moguc je izbor samo nenegativnih brojeva!");
+                return;
+            }
+
+            int brCasovaVezbiNedeljno;
+            try {
+                jSpinnerBrCasovaVezbiNedeljno.commitEdit();
+                brCasovaVezbiNedeljno = (Integer) jSpinnerBrCasovaVezbiNedeljno.getValue();
+                if (brCasovaVezbiNedeljno < 0) {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Moguc je izbor samo nenegativnih brojeva!");
+                return;
+            }
+
+            int ostaliCasovi;
+            try {
+                jSpinnerOstaliCasovi.commitEdit();
+                ostaliCasovi = (Integer) jSpinnerOstaliCasovi.getValue();
+                if (ostaliCasovi < 0) {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Moguc je izbor samo nenegativnih brojeva!");
+                return;
+            }
+
+            String drugiObliciNastave = jTxtDrugiObliciNastave.getText().trim();
+
+            String studijskiIstrazivackiRad = jTxtStudijskiIstrazivackiRad.getText().trim();
+
+            List<TematskaCelina> tematskeCelineStruktura = Session.getInstance().getTematskeCelineStruktura();
+
+            String tematskeCelineTekst = Session.getInstance().getTematskeCelineTekst();
+
+            NastavnikNaPredmetuTableModel nnptm = (NastavnikNaPredmetuTableModel) jTblNastavnici.getModel();
+            List<NastavnikNaPredmetu> nastavniciNaPredmetu = nnptm.getNastavniciNaPredmetu();
+
+            UdzbenikSkraceniTableModel ustm = (UdzbenikSkraceniTableModel) jTblUdzbenici.getModel();
+            List<Udzbenik> udzbenici = ustm.getUdzbenici();
+
+            Predmet predmet = new Predmet();
+
+            predmet.setPredmetId(predmetId);
+            predmet.setNaziv(naziv);
+            predmet.setUslov(uslov);
+            predmet.setCilj(cilj);
+            predmet.setIshod(ishod);
+            predmet.setVrstaINivoStudija(vrstaINivoStudija);
+            predmet.setBrCasovaPredavanjaNedeljno(brCasovaPredavanjaNedeljno);
+            predmet.setBrCasovaVezbiNedeljno(brCasovaVezbiNedeljno);
+            predmet.setDrugiObliciNastave(drugiObliciNastave);
+            predmet.setStudijskiIstrazivackiRad(studijskiIstrazivackiRad);
+            predmet.setSadrzajTekst(tematskeCelineTekst);
+            predmet.setSadrzajTematskeCeline(tematskeCelineStruktura);
+            predmet.setNastavnici(nastavniciNaPredmetu);
+            predmet.setUdzbenici(udzbenici);
+
+            Kontroler.getInstance().posaljiZahtev(IOperation.AZURIRAJ_PREDMET, predmet);
+            Predmet kreiraniPredmet = (Predmet) Kontroler.getInstance().primiOdgovor();
+
+            JOptionPane.showMessageDialog(this, "Predmet : " + kreiraniPredmet.getNaziv() + " je uspesno azuriran!");
+            dispose();
+
+            JDialog fSelecetPredmet = new FSelectPredmet(fMain, true);
+            fSelecetPredmet.setVisible(true);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom azuriranja predmeta! Greska:" + e.getMessage());
+        }
+    }//GEN-LAST:event_jBtnAzurirajActionPerformed
+
+    private void jBtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnObrisiActionPerformed
+        int predmetId;
+        try {
+            predmetId = Integer.parseInt(jTxtPredmetId.getText().trim());
+
+            if (predmetId < 0) {
+                throw new Exception();
+            }
+            JDialog fPotvrdaBrisanjaPredmeta = new FPotvrdaBrisanjaPredmeta(this, true, predmetId);
+            fPotvrdaBrisanjaPredmeta.setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "PredmetId mora biti ceo nenegativan broj!");
+            return;
+        }
+
+    }//GEN-LAST:event_jBtnObrisiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -832,9 +1036,56 @@ public class FPredmet extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
-    private void onemoguciDugmad() {
-        jBtnObrisi.setEnabled(false);
-        jBtnAzuriraj.setEnabled(false);
+    private void pripremiFormu(FormMode formMode) {
+        switch (formMode) {
+            case NEW:
+                jBtnObrisi.setEnabled(false);
+                jBtnAzuriraj.setEnabled(false);
+                jBtnSacuvaj.setEnabled(true);
+                break;
+            case VIEW:
+                jBtnObrisi.setEnabled(true);
+                jBtnAzuriraj.setEnabled(true);
+                jBtnSacuvaj.setEnabled(false);
+                jTxtPredmetId.setEnabled(false);
+                break;
+
+        }
+    }
+
+    private void popuniFormuZaPredmet(int predmetId) {
+        try {
+
+            Kontroler.getInstance().posaljiZahtev(IOperation.PRONADJI_PREDMET_PO_ID, predmetId);
+            Predmet predmet = (Predmet) Kontroler.getInstance().primiOdgovor();
+
+            jTxtPredmetId.setText(String.valueOf(predmet.getPredmetId()));
+            jTxtNazivPredmeta.setText(predmet.getNaziv());
+            jSpinnerBrCasovaPredavanjaNedeljno.setValue(predmet.getBrCasovaPredavanjaNedeljno());
+            jSpinnerBrCasovaVezbiNedeljno.setValue(predmet.getBrCasovaVezbiNedeljno());
+            jSpinnerOstaliCasovi.setValue(predmet.getOstaliCasovi());
+            jTxtDrugiObliciNastave.setText(predmet.getDrugiObliciNastave());
+            jTxtStudijskiIstrazivackiRad.setText(predmet.getStudijskiIstrazivackiRad());
+            jTextAreaCilj.setText(predmet.getCilj());
+            jTextAreaIshod.setText(predmet.getIshod());
+            jTxtUslov.setText(predmet.getUslov());
+
+            TableModel utm = new UdzbenikSkraceniTableModel(predmet.getUdzbenici());
+            jTblUdzbenici.setModel(utm);
+
+            TableModel nnptm = new NastavnikNaPredmetuTableModel(predmet.getNastavnici());
+            jTblNastavnici.setModel(nnptm);
+
+            popuniTipNastaveCombo();
+            popuniNastavniciCombo();
+            popuniUdzbeniciCombo();
+            popuniVrstaINivoStudijaCombo();
+
+            jComboVrstaINivoStudija.setSelectedItem(predmet.getVrstaINivoStudija());
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom postavljanja predmeta.Greska:" + e.getMessage());
+        }
     }
 
 }

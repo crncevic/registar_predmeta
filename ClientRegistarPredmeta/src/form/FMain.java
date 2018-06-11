@@ -105,6 +105,11 @@ public class FMain extends javax.swing.JFrame {
         jMenuPredmet.add(jMenuItem1);
 
         jMenuPretrazi.setText("Pretrazi");
+        jMenuPretrazi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuPretraziActionPerformed(evt);
+            }
+        });
         jMenuPredmet.add(jMenuPretrazi);
 
         jMenuBar1.add(jMenuPredmet);
@@ -189,6 +194,11 @@ public class FMain extends javax.swing.JFrame {
             onemoguciMenijeLogout();
         }
     }//GEN-LAST:event_jMenuItemLogoutActionPerformed
+
+    private void jMenuPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPretraziActionPerformed
+        JDialog fSelectPredmet = new FSelectPredmet(this, true);
+        fSelectPredmet.setVisible(true);
+    }//GEN-LAST:event_jMenuPretraziActionPerformed
 
     /**
      * @param args the command line arguments

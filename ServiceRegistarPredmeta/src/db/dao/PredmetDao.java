@@ -6,6 +6,7 @@
 package db.dao;
 
 import domen.Predmet;
+import java.util.List;
 
 /**
  *
@@ -17,6 +18,12 @@ public abstract class PredmetDao extends AbstractDao {
         super();
     }
 
+    public abstract Predmet kreirajPredmet(Predmet predmet) throws Exception;
+
     public abstract Predmet pronadjiPredmetPoId(int predmetId) throws Exception;
+
+    public abstract List<Predmet> vratiSvePredmete() throws Exception;
+
+    public abstract Predmet azurirajPredmet(Predmet predmet) throws Exception;
 
 }

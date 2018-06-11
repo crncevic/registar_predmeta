@@ -11,7 +11,8 @@ import java.io.Serializable;
  *
  * @author Petar
  */
-public class VrstaINivoStudija implements Serializable{
+public class VrstaINivoStudija implements Serializable {
+
     private int vrstaINivoId;
     private String naziv;
 
@@ -38,6 +39,29 @@ public class VrstaINivoStudija implements Serializable{
     public void setNaziv(String naziv) {
         this.naziv = naziv;
     }
-    
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final VrstaINivoStudija other = (VrstaINivoStudija) obj;
+        if (this.vrstaINivoId != other.vrstaINivoId) {
+            return false;
+        }
+        return true;
+    }
+
 }

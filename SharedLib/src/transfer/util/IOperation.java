@@ -26,5 +26,8 @@ public interface IOperation {
     public static final int VRATI_SVE_NASTAVNIKE = 13;
     public static final int KREIRAJ_PREDMET = 14;
     public static final int VRATI_ULOGU_UDZBENIK_PO_NAZIVU = 15;
+    public static final int VRATI_SVE_PREDMETE = 16;
+    public static final int AZURIRAJ_PREDMET = 17;
+    public static final int OBRISI_PREDMET = 18;
 
 }
