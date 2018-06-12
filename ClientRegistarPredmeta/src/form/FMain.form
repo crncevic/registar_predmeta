@@ -50,10 +50,25 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuAutor">
+        <Menu class="javax.swing.JMenu" name="jMenuStudijskiProgram">
           <Properties>
-            <Property name="text" type="java.lang.String" value="O autoru"/>
+            <Property name="text" type="java.lang.String" value="Studijski program"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Dodaj predmet"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Pretrazi predmete"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuPristupSistemu">
           <Properties>
@@ -77,6 +92,11 @@
               </Events>
             </MenuItem>
           </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuAutor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="O autoru"/>
+          </Properties>
         </Menu>
       </SubComponents>
     </Menu>

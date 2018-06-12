@@ -5,6 +5,9 @@ import db.dao.impl.KorisnikDaoImpl;
 import db.dao.impl.NastavnikDaoImpl;
 import db.dao.impl.OsobaUVeziSaUdzbenikomDaoImpl;
 import db.dao.impl.PredmetDaoImpl;
+import db.dao.impl.PredmetNaStudijskomProgramuDaoImpl;
+import db.dao.impl.StatusDaoImpl;
+import db.dao.impl.StudijskiProgramDaoImpl;
 import db.dao.impl.TipNastaveDaoImpl;
 import db.dao.impl.UdzbenikDaoImpl;
 import db.dao.impl.UlogaUdzbenikDaoImpl;
@@ -13,6 +16,9 @@ import domen.OsobaUVeziSaUdzbenikom;
 import domen.Korisnik;
 import domen.Nastavnik;
 import domen.Predmet;
+import domen.PredmetNaStudijskomProgramu;
+import domen.Status;
+import domen.StudijskiProgram;
 import domen.TipNastave;
 import domen.Udzbenik;
 import domen.UlogaUdzbenik;
@@ -265,6 +271,68 @@ public class NitKlijent extends Thread {
                         }
                         break;
 
+                    case IOperation.VRATI_SVE_STATUSE:
+                        try {
+                            List<Status> statusi = StatusDaoImpl.getInstance().vratiSveStatuse();
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(statusi);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+                    case IOperation.PRONADJI_STATUS_PO_ID:
+                        try {
+                            Status status = StatusDaoImpl.getInstance().vratiStatusZaId((int) requestObject.getData());
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(status);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+
+                    case IOperation.VRATI_SVE_STUDIJSKE_PROGRAME:
+                        try {
+                            List<StudijskiProgram> studijskiProgrami = StudijskiProgramDaoImpl.getInstance().vratiSveStudijskePrograme();
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(studijskiProgrami);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+
+                    case IOperation.PRONADJI_STUDIJSKI_PROGRAM_PO_ID:
+                        try {
+                            StudijskiProgram studijskiProgram = StudijskiProgramDaoImpl.getInstance().vratiStudijkiProgramZaId((int) requestObject.getData());
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(studijskiProgram);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+                    case IOperation.KREIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU:
+                        try {
+                            PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance().kreirajPredmetNaStudijskomProgramu((PredmetNaStudijskomProgramu) requestObject.getData());
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(predmetNaStudijskomProgramu);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
                     default:
                         responseObject.setMessage("Server nije mogao da zakljuci o kom zahtevu se radi.");
 

@@ -13,42 +13,42 @@ import java.io.Serializable;
  */
 public class PredmetNaStudijskomProgramu implements OpstiDomenskiObjekat, Serializable {
 
-    private int predmetId;
-    private int studijskiProgramId;
-    private String status;
+    private Predmet predmet;
+    private StudijskiProgram studijskiProgram;
+    private Status status;
     private int espb;
 
     public PredmetNaStudijskomProgramu() {
     }
 
-    public PredmetNaStudijskomProgramu(int predmetId, int studijskiProgramId, String status, int espb) {
-        this.predmetId = predmetId;
-        this.studijskiProgramId = studijskiProgramId;
+    public PredmetNaStudijskomProgramu(Predmet predmet, StudijskiProgram studijskiProgram, Status status, int espb) {
+        this.predmet = predmet;
+        this.studijskiProgram = studijskiProgram;
         this.status = status;
         this.espb = espb;
     }
 
-    public int getPredmetId() {
-        return predmetId;
+    public Predmet getPredmet() {
+        return predmet;
     }
 
-    public void setPredmetId(int predmetId) {
-        this.predmetId = predmetId;
+    public void setPredmet(Predmet predmet) {
+        this.predmet = predmet;
     }
 
-    public int getStudijskiProgramId() {
-        return studijskiProgramId;
+    public StudijskiProgram getStudijskiProgram() {
+        return studijskiProgram;
     }
 
-    public void setStudijskiProgramId(int studijskiProgramId) {
-        this.studijskiProgramId = studijskiProgramId;
+    public void setStudijskiProgram(StudijskiProgram studijskiProgram) {
+        this.studijskiProgram = studijskiProgram;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -61,18 +61,13 @@ public class PredmetNaStudijskomProgramu implements OpstiDomenskiObjekat, Serial
     }
 
     @Override
-    public String toString() {
-        return "PredmetNaStudijskomProgramu{" + "predmetId=" + predmetId + ", studijskiProgramId=" + studijskiProgramId + ", status=" + status + ", espb=" + espb + '}';
-    }
-
-    @Override
     public String vratiImeKlase() {
         return "predmet_na_studijskom_programu";
     }
 
     @Override
     public String vratiVrednostiAtributa() {
-        return getPredmetId() + "," + getStudijskiProgramId() + ",'" + getStatus() + "'," + getEspb();
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

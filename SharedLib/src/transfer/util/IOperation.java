@@ -29,5 +29,10 @@ public interface IOperation {
     public static final int VRATI_SVE_PREDMETE = 16;
     public static final int AZURIRAJ_PREDMET = 17;
     public static final int OBRISI_PREDMET = 18;
+    public static final int VRATI_SVE_STATUSE = 19;
+    public static final int PRONADJI_STATUS_PO_ID = 20;
+    public static final int VRATI_SVE_STUDIJSKE_PROGRAME = 21;
+    public static final int PRONADJI_STUDIJSKI_PROGRAM_PO_ID = 22;
+    public static final int KREIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU = 23;
 
 }

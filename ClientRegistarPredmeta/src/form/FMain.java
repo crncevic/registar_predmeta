@@ -61,10 +61,13 @@ public class FMain extends javax.swing.JFrame {
         jMenuPredmet = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuPretrazi = new javax.swing.JMenuItem();
-        jMenuAutor = new javax.swing.JMenu();
+        jMenuStudijskiProgram = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuPristupSistemu = new javax.swing.JMenu();
         jMenuItemLogin = new javax.swing.JMenuItem();
         jMenuItemLogout = new javax.swing.JMenuItem();
+        jMenuAutor = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Glavna forma");
@@ -114,8 +117,20 @@ public class FMain extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuPredmet);
 
-        jMenuAutor.setText("O autoru");
-        jMenuBar1.add(jMenuAutor);
+        jMenuStudijskiProgram.setText("Studijski program");
+
+        jMenuItem2.setText("Dodaj predmet");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenuStudijskiProgram.add(jMenuItem2);
+
+        jMenuItem3.setText("Pretrazi predmete");
+        jMenuStudijskiProgram.add(jMenuItem3);
+
+        jMenuBar1.add(jMenuStudijskiProgram);
 
         jMenuPristupSistemu.setText("Pristup sistemu");
 
@@ -136,6 +151,9 @@ public class FMain extends javax.swing.JFrame {
         jMenuPristupSistemu.add(jMenuItemLogout);
 
         jMenuBar1.add(jMenuPristupSistemu);
+
+        jMenuAutor.setText("O autoru");
+        jMenuBar1.add(jMenuAutor);
 
         setJMenuBar(jMenuBar1);
 
@@ -200,6 +218,11 @@ public class FMain extends javax.swing.JFrame {
         fSelectPredmet.setVisible(true);
     }//GEN-LAST:event_jMenuPretraziActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        JDialog fPredmetNaSmeru = new FPredmetNaSmeru(this, true);
+        fPredmetNaSmeru.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -210,6 +233,8 @@ public class FMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuAutor;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItemLogin;
     private javax.swing.JMenuItem jMenuItemLogout;
     private javax.swing.JMenuItem jMenuItemPretraziUdzbenik;
@@ -217,6 +242,7 @@ public class FMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuPredmet;
     private javax.swing.JMenuItem jMenuPretrazi;
     private javax.swing.JMenu jMenuPristupSistemu;
+    private javax.swing.JMenu jMenuStudijskiProgram;
     private javax.swing.JMenu jMenuUdzbenik;
     // End of variables declaration//GEN-END:variables
     private JPanel statusPanel;
@@ -257,6 +283,7 @@ public class FMain extends javax.swing.JFrame {
         jMenuPredmet.setEnabled(true);
         jMenuUdzbenik.setEnabled(true);
         jMenuPristupSistemu.setEnabled(true);
+        jMenuStudijskiProgram.setEnabled(true);
 
         jMenuAutor.setEnabled(true);
         jMenuItemLogin.setEnabled(false);
@@ -268,6 +295,7 @@ public class FMain extends javax.swing.JFrame {
         try {
             jMenuPredmet.setEnabled(false);
             jMenuUdzbenik.setEnabled(false);
+            jMenuStudijskiProgram.setEnabled(false);
 
             jMenuPristupSistemu.setEnabled(true);
             jMenuItemLogout.setEnabled(false);
