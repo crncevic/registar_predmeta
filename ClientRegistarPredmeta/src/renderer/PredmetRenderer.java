@@ -19,7 +19,11 @@ public class PredmetRenderer extends JLabel implements ListCellRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(((Predmet) value).getNaziv());
+        if (value != null) {
+            setText(((Predmet) value).getNaziv());
+        } else {
+            setText("");
+        }
         return this;
     }
 

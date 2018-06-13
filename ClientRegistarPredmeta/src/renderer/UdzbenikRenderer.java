@@ -19,7 +19,11 @@ public class UdzbenikRenderer extends JLabel implements ListCellRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(((Udzbenik) value).getNaziv());
+        if (value != null) {
+            setText(((Udzbenik) value).getNaziv());
+        } else {
+            setText("");
+        }
         return this;
     }
 

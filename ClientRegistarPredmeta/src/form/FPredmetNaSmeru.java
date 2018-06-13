@@ -10,6 +10,8 @@ import domen.PredmetNaStudijskomProgramu;
 import domen.Status;
 import domen.StudijskiProgram;
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import kontroler.Kontroler;
 import renderer.PredmetRenderer;
@@ -33,6 +35,18 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
         popuniStudijskiProgramCombo();
         popuniPredmetiCombo();
         popuniStatusCombo();
+        pripremiFormu(FormMode.NEW);
+    }
+
+    public FPredmetNaSmeru(java.awt.Frame parent, boolean modal, PredmetNaStudijskomProgramu pnsp) {
+        super(parent, modal);
+        initComponents();
+        centerForm();
+        popuniStudijskiProgramCombo();
+        popuniPredmetiCombo();
+        popuniStatusCombo();
+        postaviPredmetNaStudijskomProgramu(pnsp);
+        pripremiFormu(FormMode.VIEW);
     }
 
     /**
@@ -68,6 +82,11 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
         jLabel4.setText("Status:");
 
         jBtnObrisi.setText("Obrisi");
+        jBtnObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnObrisiActionPerformed(evt);
+            }
+        });
 
         jBtnAzuriraj.setText("Azuriraj");
         jBtnAzuriraj.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +161,42 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtnAzurirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAzurirajActionPerformed
-        // TODO add your handling code here:
+        try {
+            StudijskiProgram studijskiProgram = (StudijskiProgram) jComboSmerovi.getSelectedItem();
+            Predmet predmet = (Predmet) jComboPredmeti.getSelectedItem();
+            Status status = (Status) jComboStatus.getSelectedItem();
+
+            int espb;
+
+            try {
+                jSpinnerESPB.commitEdit();
+                espb = (int) jSpinnerESPB.getValue();
+
+                if (espb < 0) {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Dozvoljeno je unos samo celih nenegaticnih brojeva!");
+                return;
+            }
+
+            PredmetNaStudijskomProgramu pnsp = new PredmetNaStudijskomProgramu(predmet, studijskiProgram, status, espb);
+
+            Kontroler.getInstance().posaljiZahtev(IOperation.AZURIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU, pnsp);
+            PredmetNaStudijskomProgramu azuriranPredmetNaStudijskomProgramu = (PredmetNaStudijskomProgramu) Kontroler.getInstance().primiOdgovor();
+
+            if (azuriranPredmetNaStudijskomProgramu != null) {
+                JOptionPane.showMessageDialog(this, "Predmet: " + predmet.getNaziv() + " je uspesno azuriran na studijskom programu:" + azuriranPredmetNaStudijskomProgramu.getStudijskiProgram().getNaziv());
+
+                dispose();
+                JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(FMain.getInstance(), true);
+                fSelectPredmetNaSmeru.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom azuriranja!");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom azuriranja!");
+        }
     }//GEN-LAST:event_jBtnAzurirajActionPerformed
 
     private void jBtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSacuvajActionPerformed
@@ -172,11 +226,59 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
 
             if (kreiranPredmetNaStudijskomProgramu != null) {
                 JOptionPane.showMessageDialog(this, "Predmet: " + predmet.getNaziv() + " je uspesno dodat na studijski program: " + studijskiProgram.getNaziv());
+
+                dispose();
+                JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(FMain.getInstance(), true);
+                fSelectPredmetNaSmeru.setVisible(true);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom azuriranja!");
             }
         } catch (Exception e) {
-
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom kreiranja!");
         }
     }//GEN-LAST:event_jBtnSacuvajActionPerformed
+
+    private void jBtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnObrisiActionPerformed
+        try {
+            StudijskiProgram studijskiProgram = (StudijskiProgram) jComboSmerovi.getSelectedItem();
+            Predmet predmet = (Predmet) jComboPredmeti.getSelectedItem();
+            Status status = (Status) jComboStatus.getSelectedItem();
+
+            int espb;
+
+            try {
+                jSpinnerESPB.commitEdit();
+                espb = (int) jSpinnerESPB.getValue();
+
+                if (espb < 0) {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Dozvoljeno je unos samo celih nenegaticnih brojeva!");
+                return;
+            }
+
+            PredmetNaStudijskomProgramu pnsp = new PredmetNaStudijskomProgramu(predmet, studijskiProgram, status, espb);
+
+            Kontroler.getInstance().posaljiZahtev(IOperation.OBRISI_PREDMET_NA_STUDIJSKOM_PROGRAMU, pnsp);
+            PredmetNaStudijskomProgramu obrisanPredmetNaStdProgramu = (PredmetNaStudijskomProgramu) Kontroler.getInstance().primiOdgovor();
+
+            if (obrisanPredmetNaStdProgramu != null) {
+                JOptionPane.showMessageDialog(this, "Predmet: " + predmet.getNaziv() + " je uspesno obrisan  sa studijskog programa: " + studijskiProgram.getNaziv());
+
+                dispose();
+                JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(FMain.getInstance(), true);
+                fSelectPredmetNaSmeru.setVisible(true);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom brisanja!");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom brisanja!");
+        }
+    }//GEN-LAST:event_jBtnObrisiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,6 +341,40 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
             }
 
             jComboStatus.setRenderer(new StatusRenderer());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    private void pripremiFormu(FormMode formMode) {
+        switch (formMode) {
+            case NEW:
+                jComboPredmeti.setEnabled(true);
+                jComboSmerovi.setEnabled(true);
+                jBtnObrisi.setEnabled(false);
+                jBtnAzuriraj.setEnabled(false);
+                jBtnSacuvaj.setEnabled(true);
+                break;
+            case VIEW:
+                jComboPredmeti.setEnabled(false);
+                jComboSmerovi.setEnabled(false);
+                jBtnObrisi.setEnabled(true);
+                jBtnAzuriraj.setEnabled(true);
+                jBtnSacuvaj.setEnabled(false);
+                break;
+
+        }
+    }
+
+    private void postaviPredmetNaStudijskomProgramu(PredmetNaStudijskomProgramu pnsp) {
+        try {
+            Kontroler.getInstance().posaljiZahtev(IOperation.PRONADJI_PREDMET_NA_STUDIJSKOM_PROGRAMU_ZA_ID, pnsp);
+            PredmetNaStudijskomProgramu predmet = (PredmetNaStudijskomProgramu) Kontroler.getInstance().primiOdgovor();
+
+            jComboPredmeti.setSelectedItem(predmet.getPredmet());
+            jComboStatus.setSelectedItem(predmet.getStatus());
+            jComboSmerovi.setSelectedItem(predmet.getStudijskiProgram());
+            jSpinnerESPB.setValue(predmet.getEspb());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }

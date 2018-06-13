@@ -215,4 +215,28 @@ public class Predmet implements OpstiDomenskiObjekat, Serializable {
         return "'" + getNaziv() + "'," + getBrCasovaPredavanjaNedeljno() + "," + getBrCasovaVezbiNedeljno() + "," + getOstaliCasovi() + ",'" + getDrugiObliciNastave() + "','" + getStudijskiIstrazivackiRad() + "','" + getCilj() + "','" + getIshod() + "','" + getUslov() + "','" + getVrstaINivoStudija() + "'";
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Predmet other = (Predmet) obj;
+        if (this.predmetId != other.predmetId) {
+            return false;
+        }
+        return true;
+    }
+
 }

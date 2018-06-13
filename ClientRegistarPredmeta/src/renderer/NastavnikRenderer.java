@@ -19,7 +19,11 @@ public class NastavnikRenderer extends JLabel implements ListCellRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(((Nastavnik) value).getIme() + " " + ((Nastavnik) value).getPrezime() + " " + ((Nastavnik) value).getZvanje());
+        if (value != null) {
+            setText(((Nastavnik) value).getIme() + " " + ((Nastavnik) value).getPrezime() + " " + ((Nastavnik) value).getZvanje());
+        } else {
+            setText("");
+        }
         return this;
     }
 

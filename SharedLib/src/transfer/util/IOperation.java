@@ -34,5 +34,9 @@ public interface IOperation {
     public static final int VRATI_SVE_STUDIJSKE_PROGRAME = 21;
     public static final int PRONADJI_STUDIJSKI_PROGRAM_PO_ID = 22;
     public static final int KREIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU = 23;
+    public static final int VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM = 24;
+    public static final int PRONADJI_PREDMET_NA_STUDIJSKOM_PROGRAMU_ZA_ID = 25;
+    public static final int AZURIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU = 26;
+    public static final int OBRISI_PREDMET_NA_STUDIJSKOM_PROGRAMU= 27;
 
 }

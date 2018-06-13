@@ -6,6 +6,7 @@
 package db.dao;
 
 import domen.PredmetNaStudijskomProgramu;
+import java.util.List;
 
 /**
  *
@@ -20,4 +21,10 @@ public abstract class PredmetNaStudijskomProgramuDao extends AbstractDao {
     public abstract PredmetNaStudijskomProgramu kreirajPredmetNaStudijskomProgramu(PredmetNaStudijskomProgramu predmetNaStudijskomProgramu) throws Exception;
 
     public abstract PredmetNaStudijskomProgramu vratiPredmetNaStudijskomProgramuZaId(int predmetId, int studijskiProgramId) throws Exception;
+
+    public abstract List<PredmetNaStudijskomProgramu> vratiPredmetZaStudijskiProgram(int i) throws Exception;
+
+    public abstract PredmetNaStudijskomProgramu azurirajPredmetNaStudijskomProgramu(PredmetNaStudijskomProgramu pnsp) throws Exception;
+
+    public abstract PredmetNaStudijskomProgramu obrisiPredmetNaStudijskomProgramu(int predmetId, int studijskiProgramId) throws Exception;
 }

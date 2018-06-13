@@ -16,6 +16,6 @@ public class Constants {
     public static final String USER = "user";
     public static final String PASSWORD = "password";
     public static final String APPLICATION_PORT = "application_port";
-     public static final String MAX_CLIENTS = "max_clients";
+    public static final String MAX_CLIENTS = "max_clients";
     
 }

@@ -333,6 +333,60 @@ public class NitKlijent extends Thread {
                             responseObject.setMessage(e.getMessage());
                         }
                         break;
+                    case IOperation.VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM:
+                        try {
+                            List<PredmetNaStudijskomProgramu> predmetiNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance()
+                                    .vratiPredmetZaStudijskiProgram((int) requestObject.getData());
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(predmetiNaStudijskomProgramu);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+
+                    case IOperation.PRONADJI_PREDMET_NA_STUDIJSKOM_PROGRAMU_ZA_ID:
+                        try {
+                            PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance()
+                                    .vratiPredmetNaStudijskomProgramuZaId(((PredmetNaStudijskomProgramu) requestObject.getData()).getStudijskiProgram().getStudijskiProgramId(), ((PredmetNaStudijskomProgramu) requestObject.getData()).getPredmet().getPredmetId());
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(predmetNaStudijskomProgramu);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+                    case IOperation.AZURIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU:
+                        try {
+                            PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance()
+                                    .azurirajPredmetNaStudijskomProgramu((PredmetNaStudijskomProgramu) requestObject.getData());
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(predmetNaStudijskomProgramu);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+
+                    case IOperation.OBRISI_PREDMET_NA_STUDIJSKOM_PROGRAMU:
+                        try {
+                            PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance()
+                                    .obrisiPredmetNaStudijskomProgramu(((PredmetNaStudijskomProgramu) requestObject.getData()).getStudijskiProgram().getStudijskiProgramId(), ((PredmetNaStudijskomProgramu) requestObject.getData()).getPredmet().getPredmetId());
+
+                            responseObject.setCode(IStatus.OK);
+                            responseObject.setData(predmetNaStudijskomProgramu);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
                     default:
                         responseObject.setMessage("Server nije mogao da zakljuci o kom zahtevu se radi.");
 

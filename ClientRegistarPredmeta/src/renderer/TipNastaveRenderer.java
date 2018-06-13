@@ -19,7 +19,11 @@ public class TipNastaveRenderer extends JLabel implements ListCellRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(((TipNastave) value).getNaziv());
+        if (value != null) {
+            setText(((TipNastave) value).getNaziv());
+        } else {
+            setText("");
+        }
         return this;
     }
 

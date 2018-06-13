@@ -19,7 +19,11 @@ public class VrstaINivoStudijaRenderer extends JLabel implements ListCellRendere
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(((VrstaINivoStudija) value).getNaziv());
+        if (value != null) {
+            setText(((VrstaINivoStudija) value).getNaziv());
+        } else {
+            setText("");
+        }
         return this;
     }
 
