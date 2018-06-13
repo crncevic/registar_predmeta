@@ -14,7 +14,7 @@ public interface IOperation {
     public static final int VRATI_SVE_UDZBENIKE = 1;
     public static final int VRATI_SVE_AUTORE = 2;
     public static final int VRATI_SVE_RECENZENTE = 3;
-    public static final int PROVERI_KORISNIKA = 4;
+    public static final int LOGIN = 4;
     public static final int KREIRAJ_UDZBENIK = 5;
     public static final int AZURIRAJ_UDZBENIK = 6;
     public static final int PRONADJI_UDZBENIK_PO_ID = 7;
@@ -37,6 +37,7 @@ public interface IOperation {
     public static final int VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM = 24;
     public static final int PRONADJI_PREDMET_NA_STUDIJSKOM_PROGRAMU_ZA_ID = 25;
     public static final int AZURIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU = 26;
-    public static final int OBRISI_PREDMET_NA_STUDIJSKOM_PROGRAMU= 27;
+    public static final int OBRISI_PREDMET_NA_STUDIJSKOM_PROGRAMU = 27;
+    public static final int LOGOUT = 28;
 
 }

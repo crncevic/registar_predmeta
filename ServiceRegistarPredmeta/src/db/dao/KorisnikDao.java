@@ -6,6 +6,7 @@
 package db.dao;
 
 import domen.Korisnik;
+import java.util.List;
 
 /**
  *
@@ -18,4 +19,6 @@ public abstract class KorisnikDao extends AbstractDao {
     }
 
     public abstract Korisnik vratiKorisnika(String username, String password) throws Exception;
+
+    public abstract List<Korisnik> vratiSveKorisnike() throws Exception;
 }

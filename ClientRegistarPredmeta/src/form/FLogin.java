@@ -115,12 +115,12 @@ public class FLogin extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Niste uneli password!");
                     return;
                 }
-                
+
                 Korisnik korisnik = new Korisnik(username, password);
 
-                 Kontroler.getInstance().posaljiZahtev(IOperation.PROVERI_KORISNIKA, korisnik);
-                 
-                 Korisnik ulogovaniKorisnik = (Korisnik) Kontroler.getInstance().primiOdgovor();
+                Kontroler.getInstance().posaljiZahtev(IOperation.LOGIN, korisnik);
+
+                Korisnik ulogovaniKorisnik = (Korisnik) Kontroler.getInstance().primiOdgovor();
 
                 if (ulogovaniKorisnik != null) {
                     Session.getInstance().getMap().put("ulogovani_korisnik", ulogovaniKorisnik);

@@ -12,10 +12,13 @@ import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
+import kontroler.Kontroler;
 import session.Session;
+import transfer.util.IOperation;
 
 /**
  *
@@ -212,9 +215,16 @@ public class FMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemLoginActionPerformed
 
     private void jMenuItemLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLogoutActionPerformed
-        if (Session.getInstance().getMap().containsKey("ulogovani_korisnik")) {
-            Session.getInstance().getMap().remove("ulogovani_korisnik");
-            onemoguciMenijeLogout();
+        try {
+            if (Session.getInstance().getMap().containsKey("ulogovani_korisnik")) {
+                Korisnik korisnik = (Korisnik) Session.getInstance().getMap().get("ulogovani_korisnik");
+                Kontroler.getInstance().posaljiZahtev(IOperation.LOGOUT, korisnik);
+                Session.getInstance().getMap().remove("ulogovani_korisnik");
+                jLabelUlogovaniKorisnik.setText("");
+                onemoguciMenijeLogout();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }//GEN-LAST:event_jMenuItemLogoutActionPerformed
 
@@ -328,6 +338,9 @@ public class FMain extends javax.swing.JFrame {
 
         jMenuItemLogin.setEnabled(true);
         jMenuItemLogout.setEnabled(false);
+
+        jMenuStudijskiProgram.setEnabled(false);
+        jMenuAutor.setEnabled(false);
     }
 
 }

@@ -19,6 +19,7 @@ public class Korisnik implements OpstiDomenskiObjekat, Serializable {
     private String username;
     private String password;
     private Uloga uloga;
+    private String status;
 
     public Korisnik() {
     }
@@ -96,6 +97,14 @@ public class Korisnik implements OpstiDomenskiObjekat, Serializable {
     @Override
     public String toString() {
         return "Korisnik{" + "korisnikId=" + korisnikId + ", ime=" + ime + ", prezime=" + prezime + ", username=" + username + ", password=" + password + '}';
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

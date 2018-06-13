@@ -9,6 +9,8 @@ import db.dao.KorisnikDao;
 import domen.Korisnik;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -56,9 +58,39 @@ public class KorisnikDaoImpl extends KorisnikDao {
                 return null;
             }
         } catch (Exception e) {
-            throw e;
+
+            throw new Exception("Dogodila se greska prilikom pretrazivanja korisnika.Greska: " + e.getMessage());
         }
 
+    }
+
+    @Override
+    public List<Korisnik> vratiSveKorisnike() throws Exception {
+        try {
+            String upit = "SELECT * FROM korisnik";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
+            List<Korisnik> korisnici = new ArrayList<>();
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Korisnik korisnik = new Korisnik();
+                korisnik.setKorisnikId(rs.getInt("korisnikId"));
+                korisnik.setIme(rs.getString("ime"));
+                korisnik.setPrezime(rs.getString("prezime"));
+                korisnik.setUsername(rs.getString("username"));
+                korisnik.setPassword(rs.getString("password"));
+
+                korisnici.add(korisnik);
+            }
+
+            rs.close();
+            ps.close();
+
+            return korisnici;
+        } catch (Exception e) {
+            throw new Exception("Dogodila se greska prilikom vracanja svih korisnika.Greska: " + e.getMessage());
+        }
     }
 
 }

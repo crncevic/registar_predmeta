@@ -28,6 +28,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import session.Session;
 import transfer.request.RequestObject;
 import transfer.response.ResponseObject;
 import transfer.util.IOperation;
@@ -156,10 +157,13 @@ public class NitKlijent extends Thread {
                         }
                         break;
 
-                    case IOperation.PROVERI_KORISNIKA:
+                    case IOperation.LOGIN:
                         try {
                             Korisnik korisnikRequest = (Korisnik) requestObject.getData();
                             Korisnik korisnikFromDb = KorisnikDaoImpl.getInstance().vratiKorisnika(korisnikRequest.getUsername(), korisnikRequest.getPassword());
+                            if (korisnikFromDb != null) {
+                                Session.getInstance().getMap().put(korisnikFromDb.getUsername(), korisnikFromDb);
+                            }
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(korisnikFromDb);
                         } catch (Exception e) {
@@ -381,6 +385,24 @@ public class NitKlijent extends Thread {
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmetNaStudijskomProgramu);
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
+
+                    case IOperation.LOGOUT:
+                        try {
+                            Korisnik korisnik = (Korisnik) Session.getInstance().getMap().get(((Korisnik) requestObject.getData()).getUsername());
+                            if (korisnik != null) {
+                                Session.getInstance().getMap().remove(korisnik.getUsername());
+                                requestObject.setData(korisnik);
+                                responseObject.setCode(IStatus.OK);
+                            } else {
+                                responseObject.setCode(IStatus.ERROR);
+                                responseObject.setData(null);
+                            }
 
                         } catch (Exception e) {
                             responseObject.setCode(IStatus.ERROR);

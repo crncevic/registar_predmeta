@@ -7,11 +7,20 @@ package form;
 
 import constants.Constants;
 import db.SettingsLoader;
+import db.dao.impl.KorisnikDaoImpl;
+import domen.Korisnik;
+import java.awt.Color;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.sql.DriverManager;
+import java.util.List;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 import server.Server;
+import table.model.KorisnikStatusTableModel;
+import thread.NitProveraStatusa;
 import thread.NitServer;
 
 /**
@@ -23,6 +32,9 @@ public class FServer extends javax.swing.JFrame {
     NitServer nitServer;
     int port;
 
+    String msgStop = "Server nije pokrenut";
+    String msgStart = "Server je pokrenut";
+
     /**
      * Creates new form FServer
      */
@@ -30,6 +42,8 @@ public class FServer extends javax.swing.JFrame {
         initComponents();
         centrirajFormu();
         initForm();
+        postaviTableModel();
+
         try {
             port = Integer.valueOf(SettingsLoader.getInstance().getValue(Constants.APPLICATION_PORT));
         } catch (Exception ex) {
@@ -49,6 +63,10 @@ public class FServer extends javax.swing.JFrame {
 
         jBtnServerStart = new javax.swing.JButton();
         jBtnServerStop = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabelStatus = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTblKorisniciStatus = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuKonfiguracija = new javax.swing.JMenu();
         jMenuItemKonekcijaSaBazom = new javax.swing.JMenuItem();
@@ -69,6 +87,18 @@ public class FServer extends javax.swing.JFrame {
                 jBtnServerStopActionPerformed(evt);
             }
         });
+
+        jLabel1.setText("Status:");
+
+        jTblKorisniciStatus.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(jTblKorisniciStatus);
 
         jMenuKonfiguracija.setText("Konfiguracija");
 
@@ -98,19 +128,33 @@ public class FServer extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jBtnServerStart)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
-                .addComponent(jBtnServerStop)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jBtnServerStart)
+                        .addGap(27, 27, 27)
+                        .addComponent(jBtnServerStop)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(204, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabelStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnServerStart)
                     .addComponent(jBtnServerStop))
-                .addGap(37, 37, 37))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
 
         pack();
@@ -118,6 +162,15 @@ public class FServer extends javax.swing.JFrame {
 
     private void jBtnServerStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnServerStartActionPerformed
         try {
+            try {
+                DriverManager.getConnection(SettingsLoader.getInstance().getValue(Constants.URL),
+                        SettingsLoader.getInstance().getValue(Constants.USER),
+                        SettingsLoader.getInstance().getValue(Constants.PASSWORD));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Nije moguce konektovati se na bazu podataka! Server nece biti startovan", "Greska", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             if (nitServer == null || !nitServer.isAlive()) {
                 nitServer = new NitServer(port);
                 nitServer.start();
@@ -127,6 +180,8 @@ public class FServer extends javax.swing.JFrame {
             jBtnServerStart.setEnabled(false);
             jBtnServerStop.setEnabled(true);
             jMenuKonfiguracija.setEnabled(false);
+            jLabelStatus.setText(msgStart);
+            jLabelStatus.setForeground(Color.GREEN);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Dogodila se greska kod pokretanja servera! Greska: " + e.getMessage());
@@ -148,6 +203,9 @@ public class FServer extends javax.swing.JFrame {
             jBtnServerStop.setEnabled(false);
             jBtnServerStart.setEnabled(true);
             jMenuKonfiguracija.setEnabled(true);
+
+            jLabelStatus.setText(msgStop);
+            jLabelStatus.setForeground(Color.RED);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom zaustavljanja servera.");
         }
@@ -165,10 +223,14 @@ public class FServer extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnServerStart;
     private javax.swing.JButton jBtnServerStop;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelStatus;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItemKonekcijaSaBazom;
     private javax.swing.JMenuItem jMenuItemServer;
     private javax.swing.JMenu jMenuKonfiguracija;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTblKorisniciStatus;
     // End of variables declaration//GEN-END:variables
 
     private void centrirajFormu() {
@@ -177,6 +239,25 @@ public class FServer extends javax.swing.JFrame {
 
     private void initForm() {
         jBtnServerStop.setEnabled(false);
+        jLabelStatus.setText(msgStop);
+        jLabelStatus.setForeground(Color.RED);
+    }
+
+    private void postaviTableModel() {
+        try {
+            List<Korisnik> korisnici = KorisnikDaoImpl.getInstance().vratiSveKorisnike();
+            for (Korisnik korisnik : korisnici) {
+                korisnik.setStatus("nije aktivan");
+            }
+            KorisnikStatusTableModel kstm = new KorisnikStatusTableModel(korisnici);
+            jTblKorisniciStatus.setModel(kstm);
+
+            NitProveraStatusa nps = new NitProveraStatusa(kstm);
+            nps.start();
+
+        } catch (Exception e) {
+
+        }
     }
 
 }

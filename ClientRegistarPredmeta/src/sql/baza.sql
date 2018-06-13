@@ -51,12 +51,13 @@ CREATE TABLE `korisnik` (
   PRIMARY KEY (`korisnikId`),
   KEY `ulogaId` (`ulogaId`),
   CONSTRAINT `korisnik_ibfk_2` FOREIGN KEY (`ulogaId`) REFERENCES `uloga` (`ulogaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `korisnik` */
 
 insert  into `korisnik`(`korisnikId`,`ime`,`prezime`,`username`,`password`,`ulogaId`) values 
-(1,'petar','crncevic','petar','petar',NULL);
+(1,'petar','crncevic','petar','petar',NULL),
+(2,'ana','anic','ana','ana',NULL);
 
 /*Table structure for table `nastavnik` */
 
@@ -100,7 +101,7 @@ CREATE TABLE `nastavnik_na_predmetu` (
 /*Data for the table `nastavnik_na_predmetu` */
 
 insert  into `nastavnik_na_predmetu`(`nastavnikId`,`predmetId`,`tipNastaveId`) values 
-(1,444,1);
+(1,1,1);
 
 /*Table structure for table `obaveza` */
 
@@ -135,7 +136,7 @@ CREATE TABLE `osoba_u_vezi_sa_udzbenikom` (
   KEY `udzbenikId` (`udzbenikId`),
   CONSTRAINT `osoba_u_vezi_sa_udzbenikom_ibfk_1` FOREIGN KEY (`ulogaId`) REFERENCES `uloga_udzbenik` (`ulogaId`),
   CONSTRAINT `osoba_u_vezi_sa_udzbenikom_ibfk_2` FOREIGN KEY (`udzbenikId`) REFERENCES `udzbenik` (`udzbenikId`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 /*Data for the table `osoba_u_vezi_sa_udzbenikom` */
 
@@ -143,7 +144,10 @@ insert  into `osoba_u_vezi_sa_udzbenikom`(`osobaId`,`ime`,`prezime`,`titula`,`ul
 (1,'Gordana','Jakic','docent',NULL,NULL),
 (2,'Jelena','Adjelkovic','Adjelkovic',NULL,NULL),
 (6,'Petar','Crncevic','saradnik u nastavi',1,23),
-(7,'Petar','Crncevic','saradnik u nastavi',1,23);
+(7,'Petar','Crncevic','saradnik u nastavi',1,23),
+(8,'GOrdana','Jakic','docent',1,24),
+(9,'Marko ','Markovski ','re. profesor ',2,24),
+(13,'Marenda','Markovic','Markovic',2,24);
 
 /*Table structure for table `predmet` */
 
@@ -170,7 +174,7 @@ CREATE TABLE `predmet` (
 /*Data for the table `predmet` */
 
 insert  into `predmet`(`predmetId`,`naziv`,`br_casova_predavanja_nedeljno`,`br_casova_vezbi_nedeljno`,`ostali_casovi`,`drugi_oblici_nastave`,`studijski_istrazivacki_rad`,`cilj`,`ishod`,`uslov`,`vrsta_i_nivo_studija`,`sadrzaj_tekst`) values 
-(444,'strukture podataka',2,2,0,'','','da','da','da',2,'');
+(1,'programski jezici',0,0,0,'','','da naucite programirati','','programiranje 1',2,'');
 
 /*Table structure for table `predmet_na_studijskom_programu` */
 
@@ -178,16 +182,38 @@ DROP TABLE IF EXISTS `predmet_na_studijskom_programu`;
 
 CREATE TABLE `predmet_na_studijskom_programu` (
   `predmetId` int(11) NOT NULL,
-  `studijski_programId` int(11) DEFAULT NULL,
-  `status` varchar(100) DEFAULT NULL,
+  `studijski_programId` int(11) NOT NULL,
   `espb` int(2) DEFAULT NULL,
-  PRIMARY KEY (`predmetId`),
+  `statusId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`predmetId`,`studijski_programId`),
+  KEY `statusId` (`statusId`),
   KEY `studijski_programId` (`studijski_programId`),
   CONSTRAINT `predmet_na_studijskom_programu_ibfk_1` FOREIGN KEY (`predmetId`) REFERENCES `predmet` (`predmetId`),
-  CONSTRAINT `predmet_na_studijskom_programu_ibfk_2` FOREIGN KEY (`studijski_programId`) REFERENCES `studijski_program` (`studijskiProgramId`)
+  CONSTRAINT `predmet_na_studijskom_programu_ibfk_3` FOREIGN KEY (`statusId`) REFERENCES `status` (`statusId`),
+  CONSTRAINT `predmet_na_studijskom_programu_ibfk_4` FOREIGN KEY (`studijski_programId`) REFERENCES `studijski_program` (`studijskiProgramId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `predmet_na_studijskom_programu` */
+
+insert  into `predmet_na_studijskom_programu`(`predmetId`,`studijski_programId`,`espb`,`statusId`) values 
+(1,2,6,1);
+
+/*Table structure for table `status` */
+
+DROP TABLE IF EXISTS `status`;
+
+CREATE TABLE `status` (
+  `statusId` int(11) NOT NULL AUTO_INCREMENT,
+  `naziv` varchar(100) NOT NULL,
+  PRIMARY KEY (`statusId`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+/*Data for the table `status` */
+
+insert  into `status`(`statusId`,`naziv`) values 
+(1,'obavezan'),
+(2,'alternativni'),
+(3,'izborni');
 
 /*Table structure for table `studijski_program` */
 
@@ -200,6 +226,14 @@ CREATE TABLE `studijski_program` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `studijski_program` */
+
+insert  into `studijski_program`(`studijskiProgramId`,`naziv`) values 
+(1,'Softversko inzenjerstvo i racunarske nauke'),
+(2,'Informacioni sistemi i tehnologije'),
+(3,'Operacioni menadzment'),
+(4,'Opsti menadzment'),
+(5,'Menadzment kvaliteta i standardizacija'),
+(6,'Elektronsko poslovanje i upravljanje sistemima');
 
 /*Table structure for table `tematska_celina` */
 
@@ -257,7 +291,7 @@ CREATE TABLE `udzbenik` (
   PRIMARY KEY (`udzbenikId`),
   KEY `predmetId` (`predmetId`),
   CONSTRAINT `udzbenik_ibfk_1` FOREIGN KEY (`predmetId`) REFERENCES `predmet` (`predmetId`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 /*Data for the table `udzbenik` */
 
@@ -274,7 +308,8 @@ insert  into `udzbenik`(`udzbenikId`,`predmetId`,`naziv`,`godina_izdanja`,`izdav
 (16,NULL,'Engleski 1',2018,'FON','Newspress',2,500,3232546),
 (18,NULL,'kreiraj',2018,'','',0,0,0),
 (19,NULL,'kreiraj2',2018,'','',0,0,0),
-(23,NULL,'analiza podataka',2018,'fon','newspress Smederevo',1,12000,245242323);
+(23,NULL,'analiza podataka',2018,'fon','newspress Smederevo',1,12000,245242323),
+(24,NULL,'engleski 3',2018,'fon','gordana stampala',2,32,1232345);
 
 /*Table structure for table `udzbenik_na_predmetu` */
 
@@ -292,7 +327,7 @@ CREATE TABLE `udzbenik_na_predmetu` (
 /*Data for the table `udzbenik_na_predmetu` */
 
 insert  into `udzbenik_na_predmetu`(`udzbenikId`,`predmetId`) values 
-(1,444);
+(1,1);
 
 /*Table structure for table `uloga` */
 

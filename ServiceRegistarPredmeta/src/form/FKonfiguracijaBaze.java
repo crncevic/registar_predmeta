@@ -195,7 +195,7 @@ public class FKonfiguracijaBaze extends javax.swing.JDialog {
             jTxtUsername.setText(SettingsLoader.getInstance().getValue(Constants.USER));
             jPassword.setText(SettingsLoader.getInstance().getValue(Constants.PASSWORD));
         } catch (Exception e) {
-            System.out.println("Dogodila se greska prilikom inicijalizovanja forme za knfiguraciju konekcije.Greska: "
+            System.out.println("Dogodila se greska prilikom inicijalizovanja forme za konfiguraciju konekcije.Greska: "
                     + e.getMessage());
         }
     }//GEN-LAST:event_formWindowActivated
