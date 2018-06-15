@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
@@ -444,6 +445,11 @@ public class FUdzbenik extends javax.swing.JDialog {
             Udzbenik udzbenikFromDB = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             if (udzbenikFromDB != null) {
                 JOptionPane.showMessageDialog(this, "Udzbenik je uspesno azuriran!");
+
+                dispose();
+
+                JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
+                fSelectUdzbenik.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Doslo je do greske prilikom azuriranja  udzbenika!");
             }
@@ -547,6 +553,11 @@ public class FUdzbenik extends javax.swing.JDialog {
             Udzbenik udzbenikFromDB = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             if (udzbenikFromDB != null) {
                 JOptionPane.showMessageDialog(this, "Udzbenik je uspesno kreiran!");
+
+                dispose();
+
+                JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
+                fSelectUdzbenik.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Doslo je do greske prilikom kreiranja  udzbenika!");
             }
