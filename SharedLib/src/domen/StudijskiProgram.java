@@ -6,6 +6,7 @@
 package domen;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
 
 /**
  *
@@ -77,6 +78,31 @@ public class StudijskiProgram implements OpstiDomenskiObjekat, Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String vratiUslovZaNadjiSlog() {
+        return "studijskiProgramId=" + getStudijskiProgramId();
+    }
+
+    @Override
+    public String vratiUslovZaNadjiSlogove() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String postaviVrednostAtributa() {
+        return "naziv='" + getNaziv() + "'";
+    }
+
+    @Override
+    public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws Exception {
+        return new StudijskiProgram(rs.getInt("studijskiProgramId"), rs.getString("naziv"));
+    }
+
+    @Override
+    public String vratiNaziveAtributaZaKreiraj() {
+        return "naziv";
     }
 
 }

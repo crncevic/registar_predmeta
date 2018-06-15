@@ -62,34 +62,13 @@ public class StudijskiProgramDaoImpl extends StudijskiProgramDao {
     @Override
     public StudijskiProgram vratiStudijkiProgramZaId(int studijskiProgramId) throws Exception {
         try {
-
-            String upit = "SELECT * FROM studijski_program WHERE studijskiProgramId=?";
-            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
-            ps.setInt(1, studijskiProgramId);
-
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                StudijskiProgram studijskiProgram = new StudijskiProgram();
-                studijskiProgram.setStudijskiProgramId(rs.getInt("studijskiProgramId"));
-                studijskiProgram.setNaziv(rs.getString("naziv"));
-
-                rs.close();
-                ps.close();
-
-                return studijskiProgram;
-            }
-
-            rs.close();
-            ps.close();
-
-            return null;
+            StudijskiProgram studijskiProgram = new StudijskiProgram();
+            studijskiProgram.setStudijskiProgramId(studijskiProgramId);
+            return (StudijskiProgram) dbbr.vratiPoId(studijskiProgram);
 
         } catch (Exception e) {
             throw new Exception("Dogodila se greska prilikom vracanja studijskog programa sa id:" + studijskiProgramId + ". Greska:" + e.getMessage());
         }
     }
-
-   
 
 }

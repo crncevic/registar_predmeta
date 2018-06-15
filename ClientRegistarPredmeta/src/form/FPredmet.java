@@ -37,6 +37,7 @@ import transfer.util.IOperation;
 public class FPredmet extends javax.swing.JFrame {
 
     JFrame fMain;
+    private Predmet predmetZaPregledanje;
 
     /**
      * Creates new form FPredmet
@@ -533,8 +534,9 @@ public class FPredmet extends javax.swing.JFrame {
             NastavnikNaPredmetuTableModel nnptm = (NastavnikNaPredmetuTableModel) jTblNastavnici.getModel();
             Nastavnik nastavnik = (Nastavnik) jComboIzborNastavnika.getSelectedItem();
             TipNastave tipNastave = (TipNastave) jComboTipNastave.getSelectedItem();
+            
 
-            nnptm.dodajNastavnikaNaPredmet(nastavnik, tipNastave);
+            nnptm.dodajNastavnikaNaPredmet(nastavnik, tipNastave,predmetZaPregledanje);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom dodavanja novog nastavnika u tabelu za predmet .Greska:" + e.getMessage());
         }
@@ -1082,6 +1084,7 @@ public class FPredmet extends javax.swing.JFrame {
             popuniVrstaINivoStudijaCombo();
 
             jComboVrstaINivoStudija.setSelectedItem(predmet.getVrstaINivoStudija());
+            predmetZaPregledanje = predmet;
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom postavljanja predmeta.Greska:" + e.getMessage());

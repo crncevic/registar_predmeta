@@ -67,6 +67,7 @@ public class KorisnikDaoImpl extends KorisnikDao {
     @Override
     public List<Korisnik> vratiSveKorisnike() throws Exception {
         try {
+           
             String upit = "SELECT * FROM korisnik";
             PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
             List<Korisnik> korisnici = new ArrayList<>();

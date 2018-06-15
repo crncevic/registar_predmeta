@@ -6,6 +6,8 @@
 package domen;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -115,6 +117,31 @@ public class Korisnik implements OpstiDomenskiObjekat, Serializable {
     @Override
     public String vratiVrednostiAtributa() {
         return "'" + getIme() + "','" + getPrezime() + "','" + getUsername() + "','" + getPassword() + "'";
+    }
+
+    @Override
+    public String vratiUslovZaNadjiSlog() {
+        return "korisnikId=" + getKorisnikId();
+    }
+
+    @Override
+    public String vratiUslovZaNadjiSlogove() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String postaviVrednostAtributa() {
+        return "ime='" + getIme() + "', prezime='" + getPrezime() + "','" + getUsername() + "','" + getPassword() + "'," + getUloga().getUlogaId();
+    }
+
+    @Override
+    public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws SQLException {
+        return new Korisnik(rs.getInt("korisnikId"), rs.getString("ime"), rs.getString("prezime"), rs.getString("username"), rs.getString("password"), null);
+    }
+
+    @Override
+    public String vratiNaziveAtributaZaKreiraj() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

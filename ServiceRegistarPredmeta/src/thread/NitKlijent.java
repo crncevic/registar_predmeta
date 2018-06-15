@@ -354,7 +354,7 @@ public class NitKlijent extends Thread {
                     case IOperation.PRONADJI_PREDMET_NA_STUDIJSKOM_PROGRAMU_ZA_ID:
                         try {
                             PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance()
-                                    .vratiPredmetNaStudijskomProgramuZaId(((PredmetNaStudijskomProgramu) requestObject.getData()).getStudijskiProgram().getStudijskiProgramId(), ((PredmetNaStudijskomProgramu) requestObject.getData()).getPredmet().getPredmetId());
+                                    .vratiPredmetNaStudijskomProgramuZaId(((PredmetNaStudijskomProgramu) requestObject.getData()).getPredmet().getPredmetId(),((PredmetNaStudijskomProgramu) requestObject.getData()).getStudijskiProgram().getStudijskiProgramId());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmetNaStudijskomProgramu);
@@ -381,7 +381,7 @@ public class NitKlijent extends Thread {
                     case IOperation.OBRISI_PREDMET_NA_STUDIJSKOM_PROGRAMU:
                         try {
                             PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance()
-                                    .obrisiPredmetNaStudijskomProgramu(((PredmetNaStudijskomProgramu) requestObject.getData()).getStudijskiProgram().getStudijskiProgramId(), ((PredmetNaStudijskomProgramu) requestObject.getData()).getPredmet().getPredmetId());
+                                    .obrisiPredmetNaStudijskomProgramu( ((PredmetNaStudijskomProgramu) requestObject.getData()).getPredmet().getPredmetId(),((PredmetNaStudijskomProgramu) requestObject.getData()).getStudijskiProgram().getStudijskiProgramId());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmetNaStudijskomProgramu);
