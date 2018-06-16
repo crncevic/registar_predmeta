@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import server.Server;
 import table.model.KorisnikStatusTableModel;
+import thread.NitKlijent;
 import thread.NitProveraStatusa;
 import thread.NitServer;
 
@@ -195,6 +196,12 @@ public class FServer extends javax.swing.JFrame {
 
     private void jBtnServerStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnServerStopActionPerformed
         try {
+
+            for (NitKlijent klijent : nitServer.getKlijenti()) {
+                klijent.getSocket().close();
+                klijent.interrupt();
+            }
+
             if (nitServer != null || !nitServer.isInterrupted()) {
                 nitServer.getServerSocket().close();
                 nitServer.interrupt();

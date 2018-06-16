@@ -21,7 +21,7 @@ import transfer.util.IOperation;
  */
 public class OsobaUdzbenikTableModel extends AbstractTableModel {
 
-    private List<OsobaUVeziSaUdzbenikom> osobe ;
+    private List<OsobaUVeziSaUdzbenikom> osobe;
     private String[] columnNames = new String[]{"rb", "Ime", "Prezime", "Titula"};
 
     public OsobaUdzbenikTableModel(List<OsobaUVeziSaUdzbenikom> list) {
@@ -67,11 +67,56 @@ public class OsobaUdzbenikTableModel extends AbstractTableModel {
 
         switch (columnIndex) {
             case 1:
-                autor.setIme((String) aValue);
+                String ime = ((String) aValue).trim();
+
+                if (ime.length() == 0) {
+                    return;
+                }
+
+                char[] niz = ime.toCharArray();
+
+                for (char c : niz) {
+                    if (!Character.isAlphabetic(c) && c != '-') {
+                        return;
+                    }
+                }
+
+                autor.setIme(ime);
+                break;
             case 2:
-                autor.setPrezime((String) aValue);
+
+                String prezime = ((String) aValue).trim();
+
+                if (prezime.length() == 0) {
+                    return;
+                }
+
+                char[] niz2 = prezime.toCharArray();
+
+                for (char c : niz2) {
+                    if (!Character.isAlphabetic(c) && c != '-') {
+                        return;
+                    }
+                }
+                autor.setPrezime(prezime);
+                break;
             case 3:
-                autor.setTitula((String) aValue);
+                String titula = ((String) aValue).trim();
+
+                if (titula.length() == 0) {
+                    return;
+                }
+
+                char[] niz3 = titula.toCharArray();
+
+                for (char c : niz3) {
+                    if (!Character.isAlphabetic(c) && c != '-') {
+                        return;
+                    }
+                }
+
+                autor.setTitula(titula);
+                break;
             default:
         }
 

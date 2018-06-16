@@ -57,6 +57,7 @@ public class FMain extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabelUlogovaniKorisnik = new javax.swing.JLabel();
+        jBtnLogout = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuUdzbenik = new javax.swing.JMenu();
         jMenuKreirajUdzbenik = new javax.swing.JMenuItem();
@@ -69,7 +70,7 @@ public class FMain extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuPristupSistemu = new javax.swing.JMenu();
         jMenuItemLogin = new javax.swing.JMenuItem();
-        jMenuItemLogout = new javax.swing.JMenuItem();
+        jMenuItemKonektujSe = new javax.swing.JMenuItem();
         jMenuAutor = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -79,6 +80,13 @@ public class FMain extends javax.swing.JFrame {
         jLabel1.setText("Ulogovani korisnik:");
 
         jLabelUlogovaniKorisnik.setText(" ");
+
+        jBtnLogout.setText("Logout");
+        jBtnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnLogoutActionPerformed(evt);
+            }
+        });
 
         jMenuUdzbenik.setText("Udzbenik");
 
@@ -150,13 +158,14 @@ public class FMain extends javax.swing.JFrame {
         });
         jMenuPristupSistemu.add(jMenuItemLogin);
 
-        jMenuItemLogout.setText("Logout");
-        jMenuItemLogout.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemKonektujSe.setText("Konektuj se");
+        jMenuItemKonektujSe.setEnabled(false);
+        jMenuItemKonektujSe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemLogoutActionPerformed(evt);
+                jMenuItemKonektujSeActionPerformed(evt);
             }
         });
-        jMenuPristupSistemu.add(jMenuItemLogout);
+        jMenuPristupSistemu.add(jMenuItemKonektujSe);
 
         jMenuBar1.add(jMenuPristupSistemu);
 
@@ -169,11 +178,13 @@ public class FMain extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(1150, 1150, 1150)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelUlogovaniKorisnik, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBtnLogout)
+                    .addComponent(jLabelUlogovaniKorisnik, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -182,7 +193,9 @@ public class FMain extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabelUlogovaniKorisnik))
-                .addGap(265, 265, 265))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtnLogout)
+                .addContainerGap())
         );
 
         pack();
@@ -209,25 +222,6 @@ public class FMain extends javax.swing.JFrame {
         statusLabel.setText("Use case: Kreiranje predmeta!");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jMenuItemLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLoginActionPerformed
-        JDialog fLogin = new FLogin(this, true);
-        fLogin.setVisible(true);
-    }//GEN-LAST:event_jMenuItemLoginActionPerformed
-
-    private void jMenuItemLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLogoutActionPerformed
-        try {
-            if (Session.getInstance().getMap().containsKey("ulogovani_korisnik")) {
-                Korisnik korisnik = (Korisnik) Session.getInstance().getMap().get("ulogovani_korisnik");
-                Kontroler.getInstance().posaljiZahtev(IOperation.LOGOUT, korisnik);
-                Session.getInstance().getMap().remove("ulogovani_korisnik");
-                jLabelUlogovaniKorisnik.setText("");
-                onemoguciMenijeLogout();
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
-    }//GEN-LAST:event_jMenuItemLogoutActionPerformed
-
     private void jMenuPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPretraziActionPerformed
         JDialog fSelectPredmet = new FSelectPredmet(this, true);
         fSelectPredmet.setVisible(true);
@@ -243,11 +237,42 @@ public class FMain extends javax.swing.JFrame {
         fSelectPredmetNaSmeru.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jBtnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnLogoutActionPerformed
+        try {
+            if (Session.getInstance().getMap().containsKey("ulogovani_korisnik")) {
+                Korisnik korisnik = (Korisnik) Session.getInstance().getMap().get("ulogovani_korisnik");
+                Kontroler.getInstance().posaljiZahtev(IOperation.LOGOUT, korisnik);
+                Korisnik k = (Korisnik) Kontroler.getInstance().primiOdgovor();
+                if (k != null) {
+                    Session.getInstance().getMap().remove("ulogovani_korisnik");
+                    jLabelUlogovaniKorisnik.setText("");
+                    onemoguciMenijeLogout();
+                    JOptionPane.showMessageDialog(this, "Dovidjenja " + k.getIme());
+                } else {
+                    JOptionPane.showMessageDialog(this, "Neuspesan logout !");
+                }
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }//GEN-LAST:event_jBtnLogoutActionPerformed
+
+    private void jMenuItemKonektujSeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemKonektujSeActionPerformed
+        JDialog fServerKonekcija = new FServerKonekcija(this, true, this);
+        fServerKonekcija.setVisible(true);
+    }//GEN-LAST:event_jMenuItemKonektujSeActionPerformed
+
+    private void jMenuItemLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLoginActionPerformed
+        JDialog fLogin = new FLogin(this, true);
+        fLogin.setVisible(true);
+    }//GEN-LAST:event_jMenuItemLoginActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnLogout;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelUlogovaniKorisnik;
     private javax.swing.JMenu jMenuAutor;
@@ -255,8 +280,8 @@ public class FMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItemKonektujSe;
     private javax.swing.JMenuItem jMenuItemLogin;
-    private javax.swing.JMenuItem jMenuItemLogout;
     private javax.swing.JMenuItem jMenuItemPretraziUdzbenik;
     private javax.swing.JMenuItem jMenuKreirajUdzbenik;
     private javax.swing.JMenu jMenuPredmet;
@@ -300,26 +325,34 @@ public class FMain extends javax.swing.JFrame {
     }
 
     public void omoguciMenije() {
-        jMenuPredmet.setEnabled(true);
-        jMenuUdzbenik.setEnabled(true);
-        jMenuPristupSistemu.setEnabled(true);
-        jMenuStudijskiProgram.setEnabled(true);
+        if (Session.getInstance().getSocket() != null && !Session.getInstance().getSocket().isClosed()) {
+            jMenuPredmet.setEnabled(true);
+            jMenuUdzbenik.setEnabled(true);
+            jMenuPristupSistemu.setEnabled(true);
+            jMenuStudijskiProgram.setEnabled(true);
 
-        jMenuAutor.setEnabled(true);
-        jMenuItemLogin.setEnabled(false);
-        jMenuItemLogout.setEnabled(true);
+            jMenuAutor.setEnabled(true);
+            jMenuItemLogin.setEnabled(false);
+            jBtnLogout.setEnabled(true);
+        } else {
+            omoguceSamoKonekcijuNaServer();
+        }
 
     }
 
     private void onemoguciMenije() {
         try {
-            jMenuPredmet.setEnabled(false);
-            jMenuUdzbenik.setEnabled(false);
-            jMenuStudijskiProgram.setEnabled(false);
+            if (Session.getInstance().getSocket() != null && !Session.getInstance().getSocket().isClosed()) {
+                jMenuPredmet.setEnabled(false);
+                jMenuUdzbenik.setEnabled(false);
+                jMenuStudijskiProgram.setEnabled(false);
 
-            jMenuPristupSistemu.setEnabled(true);
-            jMenuItemLogout.setEnabled(false);
-            jMenuAutor.setEnabled(false);
+                jMenuPristupSistemu.setEnabled(true);
+                jBtnLogout.setEnabled(false);
+                jMenuAutor.setEnabled(false);
+            } else {
+                omoguceSamoKonekcijuNaServer();
+            }
 
         } catch (Exception e) {
             System.out.println("Dogodila se greska prilikom onemogucivanja menija");
@@ -327,20 +360,47 @@ public class FMain extends javax.swing.JFrame {
     }
 
     void omoguciPristupSistemu() {
-        jMenuPristupSistemu.setEnabled(true);
-        jMenuItemLogin.setEnabled(true);
-        jMenuItemLogout.setEnabled(false);
+        if (Session.getInstance().getSocket() != null && !Session.getInstance().getSocket().isClosed()) {
+            jMenuPristupSistemu.setEnabled(true);
+            jMenuItemLogin.setEnabled(true);
+            jMenuItemKonektujSe.setEnabled(false);
+            jBtnLogout.setEnabled(false);
+        } else {
+            omoguceSamoKonekcijuNaServer();
+        }
     }
 
     private void onemoguciMenijeLogout() {
+        if (Session.getInstance().getSocket() != null && !Session.getInstance().getSocket().isClosed()) {
+            jMenuPredmet.setEnabled(false);
+            jMenuUdzbenik.setEnabled(false);
+
+            jMenuItemLogin.setEnabled(true);
+            jBtnLogout.setEnabled(false);
+
+            jMenuStudijskiProgram.setEnabled(false);
+            jMenuAutor.setEnabled(false);
+            jMenuItemKonektujSe.setEnabled(false);
+        } else {
+            omoguceSamoKonekcijuNaServer();
+        }
+    }
+
+    public JLabel getUlogovaniKorisnikLabel() {
+        return jLabelUlogovaniKorisnik;
+    }
+
+    public void omoguceSamoKonekcijuNaServer() {
         jMenuPredmet.setEnabled(false);
         jMenuUdzbenik.setEnabled(false);
-
-        jMenuItemLogin.setEnabled(true);
-        jMenuItemLogout.setEnabled(false);
-
         jMenuStudijskiProgram.setEnabled(false);
         jMenuAutor.setEnabled(false);
+
+        jMenuPristupSistemu.setEnabled(true);
+        jMenuItemLogin.setEnabled(false);
+        jBtnLogout.setEnabled(false);
+        jMenuItemKonektujSe.setEnabled(true);
+
     }
 
 }

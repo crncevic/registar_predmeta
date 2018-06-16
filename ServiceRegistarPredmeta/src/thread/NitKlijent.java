@@ -354,7 +354,7 @@ public class NitKlijent extends Thread {
                     case IOperation.PRONADJI_PREDMET_NA_STUDIJSKOM_PROGRAMU_ZA_ID:
                         try {
                             PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance()
-                                    .vratiPredmetNaStudijskomProgramuZaId(((PredmetNaStudijskomProgramu) requestObject.getData()).getPredmet().getPredmetId(),((PredmetNaStudijskomProgramu) requestObject.getData()).getStudijskiProgram().getStudijskiProgramId());
+                                    .vratiPredmetNaStudijskomProgramuZaId(((PredmetNaStudijskomProgramu) requestObject.getData()).getPredmet().getPredmetId(), ((PredmetNaStudijskomProgramu) requestObject.getData()).getStudijskiProgram().getStudijskiProgramId());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmetNaStudijskomProgramu);
@@ -381,7 +381,7 @@ public class NitKlijent extends Thread {
                     case IOperation.OBRISI_PREDMET_NA_STUDIJSKOM_PROGRAMU:
                         try {
                             PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance()
-                                    .obrisiPredmetNaStudijskomProgramu( ((PredmetNaStudijskomProgramu) requestObject.getData()).getPredmet().getPredmetId(),((PredmetNaStudijskomProgramu) requestObject.getData()).getStudijskiProgram().getStudijskiProgramId());
+                                    .obrisiPredmetNaStudijskomProgramu(((PredmetNaStudijskomProgramu) requestObject.getData()).getPredmet().getPredmetId(), ((PredmetNaStudijskomProgramu) requestObject.getData()).getStudijskiProgram().getStudijskiProgramId());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmetNaStudijskomProgramu);
@@ -397,7 +397,7 @@ public class NitKlijent extends Thread {
                             Korisnik korisnik = (Korisnik) Session.getInstance().getMap().get(((Korisnik) requestObject.getData()).getUsername());
                             if (korisnik != null) {
                                 Session.getInstance().getMap().remove(korisnik.getUsername());
-                                requestObject.setData(korisnik);
+                                responseObject.setData(korisnik);
                                 responseObject.setCode(IStatus.OK);
                             } else {
                                 responseObject.setCode(IStatus.ERROR);
@@ -422,5 +422,9 @@ public class NitKlijent extends Thread {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public Socket getSocket() {
+        return socket;
     }
 }

@@ -8,6 +8,7 @@ package db.dao.impl;
 import db.dao.PredmetDao;
 import domen.NastavnikNaPredmetu;
 import domen.Predmet;
+import domen.PredmetNaStudijskomProgramu;
 import domen.TematskaCelina;
 import domen.Udzbenik;
 import domen.UdzbenikNaPredmetu;
@@ -99,11 +100,11 @@ public class PredmetDaoImpl extends PredmetDao {
 
                 predmetFromDb.setNastavnici(nastavniciNaPredmetu);
 
-               // rs3.close();
+                // rs3.close();
                 rs4.close();
                 rs5.close();
 
-              //  ps3.close();
+                //  ps3.close();
                 ps4.close();
                 ps5.close();
 
@@ -317,6 +318,11 @@ public class PredmetDaoImpl extends PredmetDao {
 //            TematskaCelina tc = new TematskaCelina();
 //            tc.setPredmet(predmet);
 //            dbbr.obrisi(tc);
+            String upit = "DELETE FROM predmet_na_studijskom_programu WHERE predmetId=?";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
+            ps.setInt(1, predmetId);
+
+            ps.executeUpdate();
 
             dbbr.obrisi(predmet);
 

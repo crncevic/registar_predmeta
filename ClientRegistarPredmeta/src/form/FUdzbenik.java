@@ -435,6 +435,11 @@ public class FUdzbenik extends javax.swing.JDialog {
                 ouvsu.setUlogaUdzbenik(new UlogaUdzbenik(2, "recenzent"));
             }
 
+            if (proveriDaLiJeUObeListe(autoriFromTbl, recenzentiFromTbl)) {
+                JOptionPane.showMessageDialog(this, "Osoba ne moze biti recenzent i autor u isto vreme!");
+                return;
+            }
+
             List<OsobaUVeziSaUdzbenikom> list = new ArrayList<>();
             list.addAll(autoriFromTbl);
             list.addAll(recenzentiFromTbl);
@@ -543,6 +548,11 @@ public class FUdzbenik extends javax.swing.JDialog {
 
             OsobaUdzbenikTableModel outm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
             List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl = outm.vratiSveRecenzente();
+
+            if (proveriDaLiJeUObeListe(autoriFromTbl, recenzentiFromTbl)) {
+                JOptionPane.showMessageDialog(this, "Osoba ne moze biti recenzent i autor u isto vreme!");
+                return;
+            }
 
             List<OsobaUVeziSaUdzbenikom> list = new ArrayList<>();
             list.addAll(autoriFromTbl);
@@ -737,6 +747,26 @@ public class FUdzbenik extends javax.swing.JDialog {
         } catch (Exception e) {
             System.out.println("Dogodila se greska prilikom postavljanja Table model-a ");
         }
+    }
+
+    private boolean proveriDaLiJeUObeListe(List<OsobaUVeziSaUdzbenikom> autoriFromTbl, List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl) {
+
+        for (OsobaUVeziSaUdzbenikom r : recenzentiFromTbl) {
+
+            for (OsobaUVeziSaUdzbenikom a : autoriFromTbl) {
+
+                if (r.getIme().equalsIgnoreCase(a.getIme()) && r.getPrezime().equalsIgnoreCase(a.getPrezime()) && r.getTitula().equalsIgnoreCase(a.getTitula())) {
+
+                    return true;
+
+                }
+
+            }
+
+        }
+
+        return false;
+
     }
 
 }
