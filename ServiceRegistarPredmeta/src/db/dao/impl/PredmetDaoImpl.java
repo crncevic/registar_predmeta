@@ -37,7 +37,7 @@ public class PredmetDaoImpl extends PredmetDao {
     }
 
     @Override
-    public Predmet pronadjiPredmetPoId(int predmetId) throws Exception {
+    public synchronized Predmet pronadjiPredmetPoId(int predmetId) throws Exception {
         try {
 
             Predmet predmet = new Predmet();
@@ -122,7 +122,7 @@ public class PredmetDaoImpl extends PredmetDao {
     }
 
     @Override
-    public Predmet kreirajPredmet(Predmet predmet) throws Exception {
+    public synchronized Predmet kreirajPredmet(Predmet predmet) throws Exception {
         try {
             int predmetId = dbbr.kreiraj(predmet);
             predmet.setPredmetId(predmetId);
@@ -160,7 +160,7 @@ public class PredmetDaoImpl extends PredmetDao {
     }
 
     @Override
-    public List<Predmet> vratiSvePredmete() throws Exception {
+    public synchronized List<Predmet> vratiSvePredmete() throws Exception {
         try {
 
             String upit = "SELECT * FROM predmet";
@@ -249,7 +249,7 @@ public class PredmetDaoImpl extends PredmetDao {
     }
 
     @Override
-    public Predmet azurirajPredmet(Predmet predmet) throws Exception {
+    public synchronized Predmet azurirajPredmet(Predmet predmet) throws Exception {
         try {
 
             dbbr.azuriraj(predmet);
@@ -301,7 +301,7 @@ public class PredmetDaoImpl extends PredmetDao {
         }
     }
 
-    public Predmet obrisiPredmet(int predmetId) throws Exception {
+    public synchronized Predmet obrisiPredmet(int predmetId) throws Exception {
         Predmet predmet;
         try {
 

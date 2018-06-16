@@ -32,7 +32,7 @@ public class StatusDaoImpl extends StatusDao {
     }
 
     @Override
-    public List<Status> vratiSveStatuse() throws Exception {
+    public synchronized List<Status> vratiSveStatuse() throws Exception {
         try {
             String upit = "SELECT * FROM status";
             PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
@@ -59,7 +59,7 @@ public class StatusDaoImpl extends StatusDao {
     }
 
     @Override
-    public Status vratiStatusZaId(int statusId) throws Exception {
+    public synchronized Status vratiStatusZaId(int statusId) throws Exception {
         try {
             Status s = new Status();
             s.setStatusId(statusId);

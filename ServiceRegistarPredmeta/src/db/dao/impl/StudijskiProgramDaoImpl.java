@@ -33,7 +33,7 @@ public class StudijskiProgramDaoImpl extends StudijskiProgramDao {
     }
 
     @Override
-    public List<StudijskiProgram> vratiSveStudijskePrograme() throws Exception {
+    public synchronized List<StudijskiProgram> vratiSveStudijskePrograme() throws Exception {
         try {
             String upit = "SELECT * FROM studijski_program";
             PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
@@ -60,7 +60,7 @@ public class StudijskiProgramDaoImpl extends StudijskiProgramDao {
     }
 
     @Override
-    public StudijskiProgram vratiStudijkiProgramZaId(int studijskiProgramId) throws Exception {
+    public synchronized StudijskiProgram vratiStudijkiProgramZaId(int studijskiProgramId) throws Exception {
         try {
             StudijskiProgram studijskiProgram = new StudijskiProgram();
             studijskiProgram.setStudijskiProgramId(studijskiProgramId);

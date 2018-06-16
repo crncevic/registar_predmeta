@@ -24,7 +24,7 @@ public class KorisnikDaoImpl extends KorisnikDao {
         super();
     }
 
-    public static KorisnikDaoImpl getInstance() throws Exception {
+    public  static KorisnikDaoImpl getInstance() throws Exception {
         if (instance == null) {
             instance = new KorisnikDaoImpl();
         }
@@ -32,7 +32,7 @@ public class KorisnikDaoImpl extends KorisnikDao {
     }
 
     @Override
-    public Korisnik vratiKorisnika(String username, String password) throws Exception {
+    public synchronized Korisnik vratiKorisnika(String username, String password) throws Exception {
 
         try {
             String query = "SELECT * FROM korisnik WHERE username=? AND password=?";
@@ -65,7 +65,7 @@ public class KorisnikDaoImpl extends KorisnikDao {
     }
 
     @Override
-    public List<Korisnik> vratiSveKorisnike() throws Exception {
+    public synchronized List<Korisnik> vratiSveKorisnike() throws Exception {
         try {
            
             String upit = "SELECT * FROM korisnik";

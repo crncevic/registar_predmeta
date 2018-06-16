@@ -30,7 +30,7 @@ public class UlogaUdzbenikDaoImpl extends UlogaUdzbenikDao {
     }
 
     @Override
-    public UlogaUdzbenik nadjiUloguNaUdzbenikuZaId(int ulogaId) throws Exception {
+    public synchronized UlogaUdzbenik nadjiUloguNaUdzbenikuZaId(int ulogaId) throws Exception {
         try {
             UlogaUdzbenik uu = new UlogaUdzbenik();
             uu.setUlogaId(ulogaId);
@@ -40,7 +40,7 @@ public class UlogaUdzbenikDaoImpl extends UlogaUdzbenikDao {
         }
     }
 
-    public UlogaUdzbenik vratiUloguNaUdzbenikuZaNaziv(String naziv) throws Exception {
+    public synchronized UlogaUdzbenik vratiUloguNaUdzbenikuZaNaziv(String naziv) throws Exception {
 
         try {
             String upit = "SELECT * FROM uloga_udzbenik WHERE naziv=?";

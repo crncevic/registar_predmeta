@@ -170,6 +170,16 @@ public class FMain extends javax.swing.JFrame {
         jMenuBar1.add(jMenuPristupSistemu);
 
         jMenuAutor.setText("O autoru");
+        jMenuAutor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuAutorMouseClicked(evt);
+            }
+        });
+        jMenuAutor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuAutorActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(jMenuAutor);
 
         setJMenuBar(jMenuBar1);
@@ -225,16 +235,22 @@ public class FMain extends javax.swing.JFrame {
     private void jMenuPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPretraziActionPerformed
         JDialog fSelectPredmet = new FSelectPredmet(this, true);
         fSelectPredmet.setVisible(true);
+        statusLabel.setText("Use case: Pretrazivanje predmeta!");
+
     }//GEN-LAST:event_jMenuPretraziActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         JDialog fPredmetNaSmeru = new FPredmetNaSmeru(this, true);
         fPredmetNaSmeru.setVisible(true);
+
+        statusLabel.setText("Use case: Kreiranje predmeta na studijskom programu!");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(this, true);
         fSelectPredmetNaSmeru.setVisible(true);
+
+        statusLabel.setText("Use case: Pretrazivanje predmeta na studijskom programu!");
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jBtnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnLogoutActionPerformed
@@ -266,6 +282,14 @@ public class FMain extends javax.swing.JFrame {
         JDialog fLogin = new FLogin(this, true);
         fLogin.setVisible(true);
     }//GEN-LAST:event_jMenuItemLoginActionPerformed
+
+    private void jMenuAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAutorActionPerformed
+
+    }//GEN-LAST:event_jMenuAutorActionPerformed
+
+    private void jMenuAutorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuAutorMouseClicked
+        JOptionPane.showMessageDialog(this, "Autor ove aplikacije je Petar Crnčević, student četvrte godine.", "Autor", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jMenuAutorMouseClicked
 
     /**
      * @param args the command line arguments

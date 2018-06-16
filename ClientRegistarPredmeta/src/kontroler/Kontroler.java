@@ -70,7 +70,7 @@ public class Kontroler {
             if (code == IStatus.OK) {
                 return response.getData();
             } else {
-                throw new Exception("Dogodila se greska u komunikaciji");
+                throw new Exception("Greska:" + response.getMessage());
             }
         } catch (Exception ex) {
             throw ex;

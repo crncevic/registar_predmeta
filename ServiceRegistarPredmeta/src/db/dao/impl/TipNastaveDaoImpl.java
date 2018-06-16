@@ -32,7 +32,7 @@ public class TipNastaveDaoImpl extends TipNastaveDao {
     }
 
     @Override
-    public TipNastave pronadjiTipNastavePoId(int tipId) throws Exception {
+    public synchronized TipNastave pronadjiTipNastavePoId(int tipId) throws Exception {
         try {
             TipNastave tipNastave = new TipNastave();
             tipNastave.setTipNastaveId(tipId);
@@ -45,7 +45,7 @@ public class TipNastaveDaoImpl extends TipNastaveDao {
     }
 
     @Override
-    public List<TipNastave> vratiSveTipoveNastave() throws Exception {
+    public synchronized List<TipNastave> vratiSveTipoveNastave() throws Exception {
         try {
             String upit = "SELECT * FROM tip_nastave";
             PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);

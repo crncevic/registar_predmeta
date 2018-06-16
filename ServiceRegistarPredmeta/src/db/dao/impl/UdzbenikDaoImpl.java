@@ -35,7 +35,7 @@ public class UdzbenikDaoImpl extends UdzbenikDao {
     }
 
     @Override
-    public List<Udzbenik> vratiSveUdzbenike() throws Exception {
+    public synchronized List<Udzbenik> vratiSveUdzbenike() throws Exception {
         try {
             String upit = "SELECT * FROM udzbenik";
             List<Udzbenik> udzbenici = new ArrayList<>();
@@ -63,12 +63,12 @@ public class UdzbenikDaoImpl extends UdzbenikDao {
 
         } catch (Exception e) {
 
-            throw e;
+            throw new Exception("Dogodila se greska prilikom vracanja svih udzbenika. Greska:" + e.getMessage());
         }
     }
 
     @Override
-    public Udzbenik kreirajUdzbenik(Udzbenik udzbenik) throws Exception {
+    public synchronized Udzbenik kreirajUdzbenik(Udzbenik udzbenik) throws Exception {
         try {
 
             int udzbenikId = dbbr.kreiraj(udzbenik);
@@ -88,7 +88,7 @@ public class UdzbenikDaoImpl extends UdzbenikDao {
     }
 
     @Override
-    public Udzbenik azurirajUdzbenik(Udzbenik udzbenik) throws Exception {
+    public synchronized Udzbenik azurirajUdzbenik(Udzbenik udzbenik) throws Exception {
         try {
             dbbr.azuriraj(udzbenik);
 
@@ -113,7 +113,7 @@ public class UdzbenikDaoImpl extends UdzbenikDao {
     }
 
     @Override
-    public Udzbenik obrisiUdzbenik(int udzbenikId) throws Exception {
+    public synchronized Udzbenik obrisiUdzbenik(int udzbenikId) throws Exception {
         try {
             Udzbenik udzbenik = pronadjiUdzbenikPoId(udzbenikId);
 
@@ -136,7 +136,7 @@ public class UdzbenikDaoImpl extends UdzbenikDao {
     }
 
     @Override
-    public Udzbenik pronadjiUdzbenikPoId(int udzbenikId) throws Exception {
+    public synchronized Udzbenik pronadjiUdzbenikPoId(int udzbenikId) throws Exception {
         try {
             Udzbenik udzbenik = new Udzbenik();
             udzbenik.setUdzbenikId(udzbenikId);
@@ -148,7 +148,7 @@ public class UdzbenikDaoImpl extends UdzbenikDao {
     }
 
     @Override
-    public Udzbenik pronadjiUdzbenikPoNazivu(String naziv) throws Exception {
+    public synchronized Udzbenik pronadjiUdzbenikPoNazivu(String naziv) throws Exception {
         try {
             String upit = "SELECT * FROM udzbenik WHERE naziv='" + naziv + "'";
             PreparedStatement preparedStatement = dbbr.getConnection().prepareStatement(upit);

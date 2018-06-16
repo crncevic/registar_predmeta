@@ -32,7 +32,7 @@ public class NastavnikDaoImpl extends NastavnikDao {
     }
 
     @Override
-    public List<Nastavnik> vratiSveNastavnike() throws Exception {
+    public synchronized List<Nastavnik> vratiSveNastavnike() throws Exception {
         try {
             String upit = "SELECT * FROM nastavnik";
             PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
@@ -55,7 +55,7 @@ public class NastavnikDaoImpl extends NastavnikDao {
     }
 
     @Override
-    public Nastavnik vratiNastavnikaZaId(int nastavnikId) throws Exception {
+    public synchronized Nastavnik vratiNastavnikaZaId(int nastavnikId) throws Exception {
         try {
             Nastavnik nastavnik = new Nastavnik();
             nastavnik.setNastavnikId(nastavnikId);

@@ -34,7 +34,7 @@ public class PredmetNaStudijskomProgramuDaoImpl extends PredmetNaStudijskomProgr
     }
 
     @Override
-    public PredmetNaStudijskomProgramu kreirajPredmetNaStudijskomProgramu(PredmetNaStudijskomProgramu predmetNaStudijskomProgramu) throws Exception {
+    public synchronized PredmetNaStudijskomProgramu kreirajPredmetNaStudijskomProgramu(PredmetNaStudijskomProgramu predmetNaStudijskomProgramu) throws Exception {
         try {
             dbbr.kreiraj(predmetNaStudijskomProgramu);
 
@@ -48,7 +48,7 @@ public class PredmetNaStudijskomProgramuDaoImpl extends PredmetNaStudijskomProgr
     }
 
     @Override
-    public PredmetNaStudijskomProgramu vratiPredmetNaStudijskomProgramuZaId(int predmetId, int studijskiProgramId) throws Exception {
+    public synchronized PredmetNaStudijskomProgramu vratiPredmetNaStudijskomProgramuZaId(int predmetId, int studijskiProgramId) throws Exception {
         try {
 
             Predmet p = new Predmet();
@@ -64,7 +64,7 @@ public class PredmetNaStudijskomProgramuDaoImpl extends PredmetNaStudijskomProgr
     }
 
     @Override
-    public List<PredmetNaStudijskomProgramu> vratiPredmetZaStudijskiProgram(int studijskiProgramId) throws Exception {
+    public synchronized List<PredmetNaStudijskomProgramu> vratiPredmetZaStudijskiProgram(int studijskiProgramId) throws Exception {
         try {
 
             String upit = "SELECT * FROM predmet_na_studijskom_programu WHERE studijski_programId=?";
@@ -95,7 +95,7 @@ public class PredmetNaStudijskomProgramuDaoImpl extends PredmetNaStudijskomProgr
     }
 
     @Override
-    public PredmetNaStudijskomProgramu azurirajPredmetNaStudijskomProgramu(PredmetNaStudijskomProgramu pnsp) throws Exception {
+    public synchronized PredmetNaStudijskomProgramu azurirajPredmetNaStudijskomProgramu(PredmetNaStudijskomProgramu pnsp) throws Exception {
         try {
             dbbr.azuriraj(pnsp);
 
@@ -109,7 +109,7 @@ public class PredmetNaStudijskomProgramuDaoImpl extends PredmetNaStudijskomProgr
     }
 
     @Override
-    public PredmetNaStudijskomProgramu obrisiPredmetNaStudijskomProgramu(int predmetId, int studijskiProgramId) throws Exception {
+    public synchronized PredmetNaStudijskomProgramu obrisiPredmetNaStudijskomProgramu(int predmetId, int studijskiProgramId) throws Exception {
         try {
             PredmetNaStudijskomProgramu pnsp = vratiPredmetNaStudijskomProgramuZaId(predmetId, studijskiProgramId);
 

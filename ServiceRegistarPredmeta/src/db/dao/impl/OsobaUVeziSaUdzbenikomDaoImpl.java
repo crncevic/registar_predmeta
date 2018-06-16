@@ -35,7 +35,7 @@ public class OsobaUVeziSaUdzbenikomDaoImpl extends OsobaUVeziSaUdzbenikomDao {
     }
 
     @Override
-    public List<OsobaUVeziSaUdzbenikom> vratiOsobeZaUdzbenik(int udzbenikId) throws SQLException, Exception {
+    public synchronized List<OsobaUVeziSaUdzbenikom> vratiOsobeZaUdzbenik(int udzbenikId) throws SQLException, Exception {
         try {
 
             String upit = "SELECT * FROM osoba_u_vezi_sa_udzbenikom where udzbenikId=?";
@@ -60,7 +60,7 @@ public class OsobaUVeziSaUdzbenikomDaoImpl extends OsobaUVeziSaUdzbenikomDao {
     }
 
     @Override
-    public OsobaUVeziSaUdzbenikom vratiOsobuUVeziSaUdbenikomZaId(int osobaId) throws Exception {
+    public synchronized OsobaUVeziSaUdzbenikom vratiOsobuUVeziSaUdbenikomZaId(int osobaId) throws Exception {
         try {
             String upit = "SELECT * FROM osoba_u_vezi_sa_udzbenikom WHERE osobaId=?";
             PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);

@@ -101,6 +101,10 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="O autoru"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenuAutorMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuAutorActionPerformed"/>
+          </Events>
         </Menu>
       </SubComponents>
     </Menu>

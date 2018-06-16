@@ -32,19 +32,19 @@ public class VrstaINivoStudijaDaoImpl extends VrstaINivoStudijaDao {
     }
 
     @Override
-    public VrstaINivoStudija vratiVrstuINivoStudijaZaId(int vrstaId) throws Exception {
+    public synchronized VrstaINivoStudija vratiVrstuINivoStudijaZaId(int vrstaId) throws Exception {
         try {
             VrstaINivoStudija vins = new VrstaINivoStudija();
             vins.setVrstaINivoId(vrstaId);
             return (VrstaINivoStudija) dbbr.vratiPoId(vins);
         } catch (Exception ex) {
             System.out.println("Dogodila se greska prilikom vracanja vrste i nivoa studija za id:" + vrstaId);
-            throw ex;
+            throw new Exception("Dogodila se greska prilikom vracanja vrste i nivoa studija za id:" + vrstaId + ". Greska:" + ex.getMessage());
         }
     }
 
     @Override
-    public List<VrstaINivoStudija> vratiSveVrsteStudija() throws Exception {
+    public synchronized List<VrstaINivoStudija> vratiSveVrsteStudija() throws Exception {
         try {
             String upit = "SELECT * FROM vrsta_i_nivo_studija";
             PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
@@ -66,8 +66,7 @@ public class VrstaINivoStudijaDaoImpl extends VrstaINivoStudijaDao {
 
             return vrste;
         } catch (Exception e) {
-            System.out.println("Dogodila se greska prilikom vracanja svih vrsta i nivoa studija");
-            throw e;
+            throw new Exception("Dogodila se greska prilikom vracanja svih vrsta i nivoa studija. Greska:" + e.getMessage());
         }
     }
 }

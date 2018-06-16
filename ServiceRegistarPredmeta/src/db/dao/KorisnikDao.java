@@ -18,7 +18,7 @@ public abstract class KorisnikDao extends AbstractDao {
         super();
     }
 
-    public abstract Korisnik vratiKorisnika(String username, String password) throws Exception;
+    public  abstract Korisnik vratiKorisnika(String username, String password) throws Exception;
 
     public abstract List<Korisnik> vratiSveKorisnike() throws Exception;
 }
