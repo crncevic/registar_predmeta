@@ -6,12 +6,14 @@
 package domen;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
  * @author Petar
  */
-public class Katedra implements OpstiDomenskiObjekat,Serializable {
+public class Katedra implements OpstiDomenskiObjekat, Serializable {
 
     private int katedraId;
     private String naziv;
@@ -83,6 +85,31 @@ public class Katedra implements OpstiDomenskiObjekat,Serializable {
     @Override
     public String vratiVrednostiAtributa() {
         return "'" + getNaziv() + "'," + getSef().getNastavnikId() + "," + getZamenikSefa().getNastavnikId() + "," + getSekretar().getNastavnikId();
+    }
+
+    @Override
+    public String vratiUslovZaNadjiSlog() {
+        return "katedraId=" + getKatedraId();
+    }
+
+    @Override
+    public String vratiUslovZaNadjiSlogove() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String postaviVrednostAtributa() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String vratiNaziveAtributaZaKreiraj() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
 public class NitServer extends Thread {
 
     private ServerSocket serverSocket;
-    private List<NitKlijent> klijenti;
+    private List<Thread> klijenti;
     private int maxBrojKlijenata;
 
     public NitServer(int port) throws IOException {
@@ -41,7 +41,7 @@ public class NitServer extends Thread {
                     System.out.println("Cekanje na novog klijenta");
                     Socket socket = serverSocket.accept();
                     System.out.println("Klijent se povezao na portu br:" + socket.getPort());
-                    NitKlijent klijent = new NitKlijent(socket);
+                    Thread klijent = new NitKlijent(socket);
                     klijenti.add(klijent);
                 }
 
@@ -64,10 +64,6 @@ public class NitServer extends Thread {
 
     public ServerSocket getServerSocket() {
         return serverSocket;
-    }
-
-    public List<NitKlijent> getClients() {
-        return klijenti;
     }
 
 }

@@ -6,12 +6,13 @@
 package domen;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
 
 /**
  *
  * @author Petar
  */
-public class Nastavnik implements OpstiDomenskiObjekat,Serializable {
+public class Nastavnik implements OpstiDomenskiObjekat, Serializable {
 
     private int nastavnikId;
     private String ime;
@@ -127,6 +128,31 @@ public class Nastavnik implements OpstiDomenskiObjekat,Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String vratiUslovZaNadjiSlog() {
+        return "nastavnikId=" + getNastavnikId();
+    }
+
+    @Override
+    public String vratiUslovZaNadjiSlogove() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String postaviVrednostAtributa() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws Exception {
+        return new Nastavnik(rs.getInt("nastavnikId"), rs.getString("ime"), rs.getString("prezime"), rs.getString("ePosta"), rs.getString("kabinet"), rs.getString("telefon"), rs.getString("zvanje"));
+    }
+
+    @Override
+    public String vratiNaziveAtributaZaKreiraj() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

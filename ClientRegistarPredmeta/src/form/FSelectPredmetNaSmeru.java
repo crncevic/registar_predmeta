@@ -7,7 +7,6 @@ package form;
 
 import domen.PredmetNaStudijskomProgramu;
 import domen.StudijskiProgram;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -208,12 +207,8 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
             StudijskiProgram sp = (StudijskiProgram) jComboStudijskiProgram.getSelectedItem();
             Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM, sp.getStudijskiProgramId());
             List<PredmetNaStudijskomProgramu> predmetiNaStudijskomProgramu = (List<PredmetNaStudijskomProgramu>) Kontroler.getInstance().primiOdgovor();
-            TableModel pnsp;
-            if (predmetiNaStudijskomProgramu != null) {
-                pnsp = new PredmetNaStudijskomProgramuTableModel(predmetiNaStudijskomProgramu);
-            } else {
-                pnsp = new PredmetNaStudijskomProgramuTableModel(new ArrayList<PredmetNaStudijskomProgramu>());
-            }
+
+            TableModel pnsp = new PredmetNaStudijskomProgramuTableModel(predmetiNaStudijskomProgramu);
             jTblPredmetiNaSmeru.setModel(pnsp);
 
         } catch (Exception e) {

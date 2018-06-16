@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
@@ -444,6 +445,11 @@ public class FUdzbenik extends javax.swing.JDialog {
             Udzbenik udzbenikFromDB = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             if (udzbenikFromDB != null) {
                 JOptionPane.showMessageDialog(this, "Udzbenik je uspesno azuriran!");
+
+                dispose();
+
+                JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
+                fSelectUdzbenik.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Doslo je do greske prilikom azuriranja  udzbenika!");
             }
@@ -538,11 +544,6 @@ public class FUdzbenik extends javax.swing.JDialog {
             OsobaUdzbenikTableModel outm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
             List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl = outm.vratiSveRecenzente();
 
-            if (proveriDaLiJeUObeListe(autoriFromTbl, recenzentiFromTbl)) {
-                JOptionPane.showMessageDialog(this, "Osoba ne moze biti u isto vreme i autor i recenzent!");
-                return;
-            }
-
             List<OsobaUVeziSaUdzbenikom> list = new ArrayList<>();
             list.addAll(autoriFromTbl);
             list.addAll(recenzentiFromTbl);
@@ -552,6 +553,11 @@ public class FUdzbenik extends javax.swing.JDialog {
             Udzbenik udzbenikFromDB = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             if (udzbenikFromDB != null) {
                 JOptionPane.showMessageDialog(this, "Udzbenik je uspesno kreiran!");
+
+                dispose();
+
+                JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
+                fSelectUdzbenik.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Doslo je do greske prilikom kreiranja  udzbenika!");
             }
@@ -731,17 +737,6 @@ public class FUdzbenik extends javax.swing.JDialog {
         } catch (Exception e) {
             System.out.println("Dogodila se greska prilikom postavljanja Table model-a ");
         }
-    }
-
-    private boolean proveriDaLiJeUObeListe(List<OsobaUVeziSaUdzbenikom> autoriFromTbl, List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl) {
-        for (OsobaUVeziSaUdzbenikom r : recenzentiFromTbl) {
-            for (OsobaUVeziSaUdzbenikom a : autoriFromTbl) {
-                if (r.getIme().equalsIgnoreCase(a.getIme()) && r.getPrezime().equalsIgnoreCase(a.getPrezime()) && r.getTitula().equalsIgnoreCase(a.getTitula())) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
 }
