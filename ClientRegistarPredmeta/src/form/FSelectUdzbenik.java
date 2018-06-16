@@ -8,6 +8,7 @@ package form;
 import domen.Udzbenik;
 import java.awt.Dimension;
 import java.awt.Window;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -164,7 +165,12 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
         try {
             Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, null);
             List<Udzbenik> udzbenici = (List<Udzbenik>) Kontroler.getInstance().primiOdgovor();
-            TableModel utm = new UdzbenikTableModel(udzbenici);
+            TableModel utm;
+            if (udzbenici != null) {
+                utm = new UdzbenikTableModel(udzbenici);
+            } else {
+                utm = new UdzbenikTableModel(new ArrayList<>());
+            }
             jTblUdzbenici.setModel(utm);
         } catch (Exception e) {
             System.out.println("Dogodila se greska prilikom postavljanja table modela!");
@@ -176,16 +182,18 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
     }
 
     private void promeniSirinuKolona() {
-        jTblUdzbenici.getColumnModel().getColumn(0).setPreferredWidth(10);
-        jTblUdzbenici.getColumnModel().getColumn(1).setPreferredWidth(100);
-        jTblUdzbenici.getColumnModel().getColumn(2).setPreferredWidth(200);
-        jTblUdzbenici.getColumnModel().getColumn(3).setPreferredWidth(20);
-        jTblUdzbenici.getColumnModel().getColumn(4).setPreferredWidth(60);
-        jTblUdzbenici.getColumnModel().getColumn(5).setPreferredWidth(200);
-        jTblUdzbenici.getColumnModel().getColumn(6).setPreferredWidth(50);
-        jTblUdzbenici.getColumnModel().getColumn(7).setPreferredWidth(10);
-        jTblUdzbenici.getColumnModel().getColumn(8).setPreferredWidth(15);
-        jTblUdzbenici.getColumnModel().getColumn(9).setPreferredWidth(80);
+        if (jTblUdzbenici.getColumnModel().getColumn(0) != null) {
+            jTblUdzbenici.getColumnModel().getColumn(0).setPreferredWidth(10);
+            jTblUdzbenici.getColumnModel().getColumn(1).setPreferredWidth(100);
+            jTblUdzbenici.getColumnModel().getColumn(2).setPreferredWidth(200);
+            jTblUdzbenici.getColumnModel().getColumn(3).setPreferredWidth(20);
+            jTblUdzbenici.getColumnModel().getColumn(4).setPreferredWidth(60);
+            jTblUdzbenici.getColumnModel().getColumn(5).setPreferredWidth(200);
+            jTblUdzbenici.getColumnModel().getColumn(6).setPreferredWidth(50);
+            jTblUdzbenici.getColumnModel().getColumn(7).setPreferredWidth(10);
+            jTblUdzbenici.getColumnModel().getColumn(8).setPreferredWidth(15);
+            jTblUdzbenici.getColumnModel().getColumn(9).setPreferredWidth(80);
+        }
 
     }
 

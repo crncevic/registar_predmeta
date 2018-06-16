@@ -6,7 +6,6 @@
 package domen;
 
 import java.io.Serializable;
-import java.sql.ResultSet;
 import java.util.List;
 
 /**
@@ -46,7 +45,7 @@ public class Udzbenik implements OpstiDomenskiObjekat, Serializable {
         this.osobeUVeziSaUdzbenikom = autori;
         this.godinaIzdanja = godinaIzdanja;
         this.izdavac = izdavac;
-
+        
         this.stampa = stampa;
         this.rbrIzdanja = rbrIzdanja;
         this.tiraz = tiraz;
@@ -93,6 +92,8 @@ public class Udzbenik implements OpstiDomenskiObjekat, Serializable {
         this.izdavac = izdavac;
     }
 
+    
+
     public String getStampa() {
         return stampa;
     }
@@ -138,31 +139,6 @@ public class Udzbenik implements OpstiDomenskiObjekat, Serializable {
     @Override
     public String vratiVrednostiAtributa() {
         return "'" + getNaziv() + "'," + getGodinaIzdanja() + ",'" + getIzdavac() + "','" + getStampa() + "'," + getRbrIzdanja() + "," + getTiraz() + "," + getIsbn();
-    }
-
-    @Override
-    public String vratiUslovZaNadjiSlog() {
-        return "udzbenikId=" + getUdzbenikId();
-    }
-
-    @Override
-    public String vratiUslovZaNadjiSlogove() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String postaviVrednostAtributa() {
-        return "naziv='" + getNaziv() + "',godina_izdanja=" + getGodinaIzdanja() + ",izdavac='" + getIzdavac() + "',stampa='" + getStampa() + "',rbr_izdanja=" + getRbrIzdanja() + ",tiraz=" + getTiraz() + ",isbn=" + getIsbn();
-    }
-
-    @Override
-    public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws Exception {
-        return new Udzbenik(rs.getInt("udzbenikId"), rs.getString("naziv"), null, rs.getInt("godina_izdanja"), rs.getString("izdavac"), rs.getString("stampa"), rs.getInt("rbr_izdanja"), rs.getInt("tiraz"), rs.getInt("isbn"));
-    }
-
-    @Override
-    public String vratiNaziveAtributaZaKreiraj() {
-        return "naziv,godina_izdanja,izdavac,stampa,rbr_izdanja,tiraz,isbn";
     }
 
 }

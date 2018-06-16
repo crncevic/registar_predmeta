@@ -39,11 +39,14 @@ public class NastavnikNaPredmetuDaoImpl extends NastavnikNaPredmetuDao {
 
         if (rs.next()) {
             NastavnikNaPredmetu nnp = new NastavnikNaPredmetu();
+            nnp.setPredmet(PredmetDaoImpl.getInstance().pronadjiPredmetPoId(rs.getInt("predmetId")));
+            nnp.setTipNastave(TipNastaveDaoImpl.getInstance().pronadjiTipNastavePoId(rs.getInt("tipNastaveId")));
+            nnp.setNastavnik(NastavnikDaoImpl.getInstance().vratiNastavnikaZaId(rs.getInt("nastavnikId")));
 
             rs.close();
             ps.close();
 
-            return (NastavnikNaPredmetu) nnp.napraviDomenskiObjekat(rs);
+            return nnp;
         }
 
         rs.close();

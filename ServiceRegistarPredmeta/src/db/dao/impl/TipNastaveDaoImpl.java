@@ -34,10 +34,27 @@ public class TipNastaveDaoImpl extends TipNastaveDao {
     @Override
     public TipNastave pronadjiTipNastavePoId(int tipId) throws Exception {
         try {
-            TipNastave tipNastave = new TipNastave();
-            tipNastave.setTipNastaveId(tipId);
+            String upit = "SELECT * FROM tip_nastave WHERE tip_nastaveId=?";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
+            ps.setInt(1, tipId);
 
-            return (TipNastave) dbbr.vratiPoId(tipNastave);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                TipNastave tn = new TipNastave();
+                tn.setTipNastaveId(rs.getInt("tip_nastaveId"));
+                tn.setNaziv(rs.getString("naziv"));
+
+                rs.close();
+                ps.close();
+
+                return tn;
+            }
+
+            rs.close();
+            ps.close();
+
+            return null;
         } catch (Exception e) {
             throw new Exception("Dogodila se greska prilikom pretrazivanja tipa nastave.Greska:" + e.getMessage());
 

@@ -5,11 +5,7 @@
  */
 package domen;
 
-import db.dao.impl.PredmetDaoImpl;
-import db.dao.impl.StatusDaoImpl;
-import db.dao.impl.StudijskiProgramDaoImpl;
 import java.io.Serializable;
-import java.sql.ResultSet;
 
 /**
  *
@@ -71,34 +67,7 @@ public class PredmetNaStudijskomProgramu implements OpstiDomenskiObjekat, Serial
 
     @Override
     public String vratiVrednostiAtributa() {
-        return getPredmet().getPredmetId() + "," + getStudijskiProgram().getStudijskiProgramId() + "," + getEspb() + "," + getStatus().getStatusId();
-    }
-
-    @Override
-    public String vratiUslovZaNadjiSlog() {
-        return "predmetId=" + getPredmet().getPredmetId() + " AND studijski_programId=" + getStudijskiProgram().getStudijskiProgramId();
-    }
-
-    @Override
-    public String vratiUslovZaNadjiSlogove() {
-        return "studijski_programId=" + getStudijskiProgram().getStudijskiProgramId();
-    }
-
-    @Override
-    public String postaviVrednostAtributa() {
-        return "espb=" + getEspb() + ",statusId=" + getStatus().getStatusId();
-    }
-
-    @Override
-    public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws Exception {
-        return new PredmetNaStudijskomProgramu(PredmetDaoImpl.getInstance().pronadjiPredmetPoId(rs.getInt("predmetId")),
-                StudijskiProgramDaoImpl.getInstance().vratiStudijkiProgramZaId(rs.getInt("studijski_programId")),
-                StatusDaoImpl.getInstance().vratiStatusZaId(rs.getInt("statusId")), rs.getInt("espb"));
-    }
-
-    @Override
-    public String vratiNaziveAtributaZaKreiraj() {
-        return "predmetId,studijski_programId,espb,statusId";
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

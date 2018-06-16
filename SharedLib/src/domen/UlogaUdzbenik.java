@@ -6,13 +6,12 @@
 package domen;
 
 import java.io.Serializable;
-import java.sql.ResultSet;
 
 /**
  *
  * @author Petar
  */
-public class UlogaUdzbenik implements Serializable, OpstiDomenskiObjekat {
+public class UlogaUdzbenik implements Serializable {
 
     private int ulogaId;
     private String naziv;
@@ -41,38 +40,4 @@ public class UlogaUdzbenik implements Serializable, OpstiDomenskiObjekat {
         this.naziv = naziv;
     }
 
-    @Override
-    public String vratiImeKlase() {
-        return "uloga_udzbenik";
-    }
-
-    @Override
-    public String vratiVrednostiAtributa() {
-        return "'" + getNaziv() + "'";
-    }
-
-    @Override
-    public String vratiUslovZaNadjiSlog() {
-        return "ulogaId=" + getUlogaId();
-    }
-
-    @Override
-    public String vratiUslovZaNadjiSlogove() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String postaviVrednostAtributa() {
-        return "naziv='" + getNaziv() + "'";
-    }
-
-    @Override
-    public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws Exception {
-     return new UlogaUdzbenik(rs.getInt("ulogaId"), rs.getString("naziv"));
-    }
-
-    @Override
-    public String vratiNaziveAtributaZaKreiraj() {
-          return "naziv";
-    }
 }

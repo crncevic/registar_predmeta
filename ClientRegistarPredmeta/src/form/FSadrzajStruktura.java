@@ -196,7 +196,7 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
             tm.setNadredjenaTematskaCelina(null);
             tm.setNaziv(tematskaJedinicaNaziv);
             tm.setOpis(opis);
-            // tm.setTipNastaveId(tipNastave.getTipNastaveId());
+            tm.setTipNastaveId(tipNastave.getTipNastaveId());
             tm.setTematskaCelinaId(brojac++);
             DefaultMutableTreeNode dmtn = new DefaultMutableTreeNode(tm);
             System.out.println(dmtn.getUserObject().getClass());
@@ -225,7 +225,7 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
                 TematskaCelina tematskaCelina = new TematskaCelina();
                 tematskaCelina.setNaziv(podtematskaJedinicaNaziv);
                 tematskaCelina.setTematskaCelinaId(brojac++);
-                //   tematskaCelina.setTipNastaveId(tipNastave.getTipNastaveId());
+                tematskaCelina.setTipNastaveId(tipNastave.getTipNastaveId());
                 tematskaCelina.setOpis(opis);
                 TreePath path = new TreePath(selektovaniCvor.getParent());
                 tematskaCelina.setNadredjenaTematskaCelina((TematskaCelina) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject());
@@ -309,6 +309,6 @@ public class FSadrzajStruktura extends javax.swing.JDialog {
 
     private void postaviKoreniElement() {
         TematskaCelina tm = new TematskaCelina();
-        //   tematskaCelina
+     //   tematskaCelina
     }
 }

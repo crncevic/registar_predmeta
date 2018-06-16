@@ -5,8 +5,6 @@
  */
 package domen;
 
-import java.sql.ResultSet;
-
 /**
  *
  * @author Petar
@@ -14,9 +12,4 @@ import java.sql.ResultSet;
 public interface OpstiDomenskiObjekat {
     public String vratiImeKlase();
     public String vratiVrednostiAtributa();
-    public String postaviVrednostAtributa();
-    public String vratiUslovZaNadjiSlog();
-    public String vratiUslovZaNadjiSlogove();
-    public String vratiNaziveAtributaZaKreiraj();
-    public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws Exception;
 }

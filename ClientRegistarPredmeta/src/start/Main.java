@@ -20,9 +20,9 @@ import session.Session;
 public class Main {
 
     public static void main(String[] args) {
-
+        Socket socket;
         try {
-            Socket socket = new Socket("127.0.0.1", 9009);
+            socket = new Socket("127.0.0.1", 9009);
             Session.getInstance().setSocket(socket);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Nije moguce konektovati se na server. Aplikacija nece biti startovana!");

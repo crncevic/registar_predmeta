@@ -8,7 +8,6 @@ package db.dao.impl;
 import db.dao.UdzbenikDao;
 import domen.OsobaUVeziSaUdzbenikom;
 import domen.Udzbenik;
-import domen.UdzbenikNaPredmetu;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -71,14 +70,44 @@ public class UdzbenikDaoImpl extends UdzbenikDao {
     public Udzbenik kreirajUdzbenik(Udzbenik udzbenik) throws Exception {
         try {
 
-            int udzbenikId = dbbr.kreiraj(udzbenik);
+            String upit = "INSERT INTO udzbenik(naziv,godina_izdanja,izdavac,stampa,rbr_izdanja,tiraz,isbn) "
+                    + "VALUES(?,?,?,?,?,?,?)";
+            PreparedStatement preparedStatement = dbbr.getConnection().prepareStatement(upit, PreparedStatement.RETURN_GENERATED_KEYS);
 
+            preparedStatement.setString(1, udzbenik.getNaziv());
+            preparedStatement.setInt(2, udzbenik.getGodinaIzdanja());
+            preparedStatement.setString(3, udzbenik.getIzdavac());
+            preparedStatement.setString(4, udzbenik.getStampa());
+            preparedStatement.setInt(5, udzbenik.getRbrIzdanja());
+            preparedStatement.setInt(6, udzbenik.getTiraz());
+            preparedStatement.setInt(7, udzbenik.getIsbn());
+
+            preparedStatement.executeUpdate();
+
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+
+            int udzbenikId;
+            if (rs.next()) {
+                udzbenikId = rs.getInt(1);
+                udzbenik.setUdzbenikId(udzbenikId);
+            } else {
+                throw new Exception("Id is not generated!");
+            }
+            String upit2 = "INSERT INTO osoba_u_vezi_sa_udzbenikom(osobaId,ime,prezime,titula,ulogaId,udzbenikId) VALUES (?,?,?,?,?,?)";
+            PreparedStatement ps2 = dbbr.getConnection().prepareStatement(upit2);
             for (OsobaUVeziSaUdzbenikom osoba : udzbenik.getOsobeUVeziSaUdzbenikom()) {
-                osoba.setUdzbenikId(udzbenikId);
-                dbbr.kreiraj(osoba);
+                ps2.setInt(1, osoba.getOsobaId());
+                ps2.setString(2, osoba.getIme());
+                ps2.setString(3, osoba.getPrezime());
+                ps2.setString(4, osoba.getTitula());
+                ps2.setInt(5, osoba.getUlogaUdzbenik().getUlogaId());
+                ps2.setInt(6, udzbenikId);
+                ps2.executeUpdate();
             }
 
             dbbr.commitTransakcije();
+            preparedStatement.close();
+            ps2.close();
 
             return pronadjiUdzbenikPoId(udzbenikId);
         } catch (Exception e) {
@@ -90,18 +119,42 @@ public class UdzbenikDaoImpl extends UdzbenikDao {
     @Override
     public Udzbenik azurirajUdzbenik(Udzbenik udzbenik) throws Exception {
         try {
-            dbbr.azuriraj(udzbenik);
+            String upit = "UPDATE udzbenik SET naziv=?,godina_izdanja=?,izdavac=?,stampa=?,rbr_izdanja=?,tiraz=?,isbn=?"
+                    + " WHERE udzbenikId=?";
+            PreparedStatement preparedStatement = dbbr.getConnection().prepareStatement(upit);
+            preparedStatement.setString(1, udzbenik.getNaziv());
+            preparedStatement.setInt(2, udzbenik.getGodinaIzdanja());
+            preparedStatement.setString(3, udzbenik.getIzdavac());
+            preparedStatement.setString(4, udzbenik.getStampa());
+            preparedStatement.setInt(5, udzbenik.getRbrIzdanja());
+            preparedStatement.setInt(6, udzbenik.getTiraz());
+            preparedStatement.setInt(7, udzbenik.getIsbn());
+            preparedStatement.setInt(8, udzbenik.getUdzbenikId());
+            preparedStatement.executeUpdate();
 
-            OsobaUVeziSaUdzbenikom ouvsu = new OsobaUVeziSaUdzbenikom();
-            ouvsu.setUdzbenikId(udzbenik.getUdzbenikId());
-            dbbr.obrisi(ouvsu);
+            String upit2 = "DELETE FROM osoba_u_vezi_sa_udzbenikom WHERE udzbenikId=?";
+            PreparedStatement ps2 = dbbr.getConnection().prepareStatement(upit2);
+            ps2.setInt(1, udzbenik.getUdzbenikId());
+            ps2.executeUpdate();
 
+            String upit3 = "INSERT INTO osoba_u_vezi_sa_udzbenikom(osobaId,ime,prezime,titula,ulogaId,udzbenikId) VALUES (?,?,?,?,?,?)";
+            PreparedStatement ps3 = dbbr.getConnection().prepareStatement(upit3);
             for (OsobaUVeziSaUdzbenikom osoba : udzbenik.getOsobeUVeziSaUdzbenikom()) {
-                osoba.setUdzbenikId(udzbenik.getUdzbenikId());
-                dbbr.kreiraj(osoba);
+                ps3.setInt(1, osoba.getOsobaId());
+                ps3.setString(2, osoba.getIme());
+                ps3.setString(3, osoba.getPrezime());
+                ps3.setString(4, osoba.getTitula());
+                ps3.setInt(5, osoba.getUlogaUdzbenik().getUlogaId());
+                ps3.setInt(6, udzbenik.getUdzbenikId());
+                ps3.executeUpdate();
             }
 
             dbbr.commitTransakcije();
+            preparedStatement.close();
+            ps2.close();
+            ps3.close();
+
+            System.out.println("Udzbenik je uspesno azuriran");
 
             return pronadjiUdzbenikPoId(udzbenik.getUdzbenikId());
 
@@ -117,15 +170,22 @@ public class UdzbenikDaoImpl extends UdzbenikDao {
         try {
             Udzbenik udzbenik = pronadjiUdzbenikPoId(udzbenikId);
 
-            OsobaUVeziSaUdzbenikom ouvsu = new OsobaUVeziSaUdzbenikom();
-            ouvsu.setUdzbenikId(udzbenikId);
-            dbbr.obrisi(ouvsu);
+            String upit2 = "DELETE FROM osoba_u_vezi_sa_udzbenikom WHERE udzbenikId=?";
+            PreparedStatement ps2 = dbbr.getConnection().prepareStatement(upit2);
+            ps2.setInt(1, udzbenikId);
+            ps2.executeUpdate();
+            ps2.close();
 
-            UdzbenikNaPredmetu unp = new UdzbenikNaPredmetu();
-            unp.setUdbenikId(udzbenikId);
-            dbbr.obrisi(unp);
+            String upit3 = "DELETE FROM udzbenik_na_predmetu WHERE udzbenikId=?";
+            PreparedStatement ps3 = dbbr.getConnection().prepareStatement(upit3);
+            ps3.setInt(1, udzbenikId);
+            ps3.executeUpdate();
+            ps3.close();
 
-            dbbr.obrisi(udzbenik);
+            String upit = "DELETE FROM udzbenik WHERE udzbenikId=?";
+            PreparedStatement preparedStatement = dbbr.getConnection().prepareStatement(upit);
+            preparedStatement.setInt(1, udzbenikId);
+            preparedStatement.executeUpdate();
 
             return udzbenik;
 
@@ -138,11 +198,32 @@ public class UdzbenikDaoImpl extends UdzbenikDao {
     @Override
     public Udzbenik pronadjiUdzbenikPoId(int udzbenikId) throws Exception {
         try {
-            Udzbenik udzbenik = new Udzbenik();
-            udzbenik.setUdzbenikId(udzbenikId);
-            return (Udzbenik) dbbr.vratiPoId(udzbenik);
+            String upit = "SELECT * FROM udzbenik WHERE udzbenikId=" + udzbenikId;
+            Statement statement = dbbr.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery(upit);
+
+            if (rs.next()) {
+                Udzbenik udzbenik = new Udzbenik();
+                udzbenik.setUdzbenikId(rs.getInt("udzbenikId"));
+                udzbenik.setNaziv(rs.getString("naziv"));
+                udzbenik.setOsobeUVeziSaUdzbenikom(OsobaUVeziSaUdzbenikomDaoImpl.getInstance().vratiOsobeZaUdzbenik(udzbenikId));
+                udzbenik.setGodinaIzdanja(rs.getInt("godina_izdanja"));
+                udzbenik.setIzdavac(rs.getString("izdavac"));
+                udzbenik.setStampa(rs.getString("stampa"));
+                udzbenik.setTiraz(rs.getInt("tiraz"));
+                udzbenik.setRbrIzdanja(rs.getInt("rbr_izdanja"));
+                udzbenik.setIsbn(rs.getInt("isbn"));
+
+                rs.close();
+                statement.close();
+
+                return udzbenik;
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             throw new Exception("Dogodila se greska prilikom trazenja udzbenika sa id:" + udzbenikId + " Greska: " + e.getMessage());
+
         }
 
     }

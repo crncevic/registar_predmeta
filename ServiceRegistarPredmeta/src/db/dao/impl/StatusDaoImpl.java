@@ -61,10 +61,27 @@ public class StatusDaoImpl extends StatusDao {
     @Override
     public Status vratiStatusZaId(int statusId) throws Exception {
         try {
-            Status s = new Status();
-            s.setStatusId(statusId);
+            String upit = "SELECT * FROM status WHERE statusId=?";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
+            ps.setInt(1, statusId);
 
-            return (Status) dbbr.vratiPoId(s);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Status status = new Status();
+                status.setStatusId(rs.getInt("statusId"));
+                status.setNaziv(rs.getString("naziv"));
+
+                rs.close();
+                ps.close();
+
+                return status;
+            }
+
+            rs.close();
+            ps.close();
+
+            return null;
         } catch (Exception e) {
             throw new Exception("Dogodila se greska prilikom pretrazivanja statusa sa id:" + statusId + ". Greska:" + e.getMessage());
         }

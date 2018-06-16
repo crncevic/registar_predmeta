@@ -5,9 +5,7 @@
  */
 package domen;
 
-import db.dao.impl.UlogaUdzbenikDaoImpl;
 import java.io.Serializable;
-import java.sql.ResultSet;
 
 /**
  *
@@ -23,14 +21,6 @@ public class OsobaUVeziSaUdzbenikom implements OpstiDomenskiObjekat, Serializabl
     private UlogaUdzbenik ulogaUdzbenik;
 
     public OsobaUVeziSaUdzbenikom() {
-    }
-
-    public OsobaUVeziSaUdzbenikom(String ime, String prezime, String titula, int udzbenikId, UlogaUdzbenik ulogaUdzbenik) {
-        this.ime = ime;
-        this.prezime = prezime;
-        this.titula = titula;
-        this.udzbenikId = udzbenikId;
-        this.ulogaUdzbenik = ulogaUdzbenik;
     }
 
     public OsobaUVeziSaUdzbenikom(int osobaId, String ime, String prezime, String titula, int udzbenikId, UlogaUdzbenik ulogaUdzbenik) {
@@ -102,33 +92,7 @@ public class OsobaUVeziSaUdzbenikom implements OpstiDomenskiObjekat, Serializabl
 
     @Override
     public String vratiVrednostiAtributa() {
-        return "'" + getIme() + "','" + getPrezime() + "','" + getTitula() + "'," + getUlogaUdzbenik().getUlogaId() + "," + getUdzbenikId();
-    }
-
-    @Override
-    public String vratiUslovZaNadjiSlog() {
-        return "udzbenikId=" + getUdzbenikId();
-    }
-
-    @Override
-    public String vratiUslovZaNadjiSlogove() {
-        return "udzbenikId=" + getUdzbenikId();
-    }
-
-    @Override
-    public String postaviVrednostAtributa() {
-
-        return "ime='" + getIme() + "',prezime='" + getPrezime() + "',titula='" + getTitula() + "',ulogaId=" + getUlogaUdzbenik().getUlogaId() + ",udzbenikId=" + getUdzbenikId() + "";
-    }
-
-    @Override
-    public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws Exception {
-        return new OsobaUVeziSaUdzbenikom(rs.getString("ime"), rs.getString("prezime"), rs.getString("titula"), rs.getInt("udzbenikId"), UlogaUdzbenikDaoImpl.getInstance().nadjiUloguNaUdzbenikuZaId(rs.getInt("ulogaId")));
-    }
-
-    @Override
-    public String vratiNaziveAtributaZaKreiraj() {
-        return "ime,prezime,titula,ulogaId,udzbenikId";
+        return "" + getOsobaId() + ",'" + getIme() + "','" + getPrezime() + "','" + getTitula() + "'";
     }
 
 }

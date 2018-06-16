@@ -6,9 +6,7 @@
 package db.dao.impl;
 
 import db.dao.PredmetNaStudijskomProgramuDao;
-import domen.Predmet;
 import domen.PredmetNaStudijskomProgramu;
-import domen.StudijskiProgram;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -36,9 +34,17 @@ public class PredmetNaStudijskomProgramuDaoImpl extends PredmetNaStudijskomProgr
     @Override
     public PredmetNaStudijskomProgramu kreirajPredmetNaStudijskomProgramu(PredmetNaStudijskomProgramu predmetNaStudijskomProgramu) throws Exception {
         try {
-            dbbr.kreiraj(predmetNaStudijskomProgramu);
+            String upit = "INSERT INTO predmet_na_studijskom_programu(predmetId,studijski_programId,espb,statusId) "
+                    + "VALUES(?,?,?,?)";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
+            ps.setInt(1, predmetNaStudijskomProgramu.getPredmet().getPredmetId());
+            ps.setInt(2, predmetNaStudijskomProgramu.getStudijskiProgram().getStudijskiProgramId());
+            ps.setInt(3, predmetNaStudijskomProgramu.getEspb());
+            ps.setInt(4, predmetNaStudijskomProgramu.getStatus().getStatusId());
 
+            ps.executeUpdate();
             dbbr.commitTransakcije();
+            ps.close();
 
             return vratiPredmetNaStudijskomProgramuZaId(predmetNaStudijskomProgramu.getPredmet().getPredmetId(), predmetNaStudijskomProgramu.getStudijskiProgram().getStudijskiProgramId());
         } catch (Exception e) {
@@ -47,17 +53,32 @@ public class PredmetNaStudijskomProgramuDaoImpl extends PredmetNaStudijskomProgr
         }
     }
 
-    @Override
     public PredmetNaStudijskomProgramu vratiPredmetNaStudijskomProgramuZaId(int predmetId, int studijskiProgramId) throws Exception {
         try {
+            String upit = "SELECT * FROM predmet_na_studijskom_programu WHERE predmetId=? AND studijski_programId=?";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
+            ps.setInt(1, predmetId);
+            ps.setInt(2, studijskiProgramId);
 
-            Predmet p = new Predmet();
-            p.setPredmetId(predmetId);
-            StudijskiProgram sp = new StudijskiProgram();
-            sp.setStudijskiProgramId(studijskiProgramId);
-            PredmetNaStudijskomProgramu pnsp = new PredmetNaStudijskomProgramu(p, sp, null, 0);
+            ResultSet rs = ps.executeQuery();
 
-            return (PredmetNaStudijskomProgramu) dbbr.vratiPoId(pnsp);
+            if (rs.next()) {
+                PredmetNaStudijskomProgramu pnsp = new PredmetNaStudijskomProgramu();
+                pnsp.setPredmet(PredmetDaoImpl.getInstance().pronadjiPredmetPoId(rs.getInt("predmetId")));
+                pnsp.setStatus(StatusDaoImpl.getInstance().vratiStatusZaId(rs.getInt("statusId")));
+                pnsp.setStudijskiProgram(StudijskiProgramDaoImpl.getInstance().vratiStudijkiProgramZaId(rs.getInt("studijski_programId")));
+                pnsp.setEspb(rs.getInt("espb"));
+
+                rs.close();
+                ps.close();
+
+                return pnsp;
+
+            }
+
+            rs.close();
+            ps.close();
+            return null;
         } catch (Exception e) {
             throw new Exception("Dogodila se greska prilikom pronalazenja predmeta na studijskom programu. Greska:" + e.getMessage());
         }
@@ -97,9 +118,18 @@ public class PredmetNaStudijskomProgramuDaoImpl extends PredmetNaStudijskomProgr
     @Override
     public PredmetNaStudijskomProgramu azurirajPredmetNaStudijskomProgramu(PredmetNaStudijskomProgramu pnsp) throws Exception {
         try {
-            dbbr.azuriraj(pnsp);
+            String upit = "UPDATE predmet_na_studijskom_programu SET espb=?,statusId=? "
+                    + " WHERE predmetId=? AND studijski_programId=?";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
+            ps.setInt(1, pnsp.getEspb());
+            ps.setInt(2, pnsp.getStatus().getStatusId());
+            ps.setInt(3, pnsp.getPredmet().getPredmetId());
+            ps.setInt(4, pnsp.getStudijskiProgram().getStudijskiProgramId());
 
+            ps.executeUpdate();
             dbbr.commitTransakcije();
+
+            ps.close();
 
             return vratiPredmetNaStudijskomProgramuZaId(pnsp.getPredmet().getPredmetId(), pnsp.getStudijskiProgram().getStudijskiProgramId());
         } catch (Exception e) {
@@ -113,8 +143,16 @@ public class PredmetNaStudijskomProgramuDaoImpl extends PredmetNaStudijskomProgr
         try {
             PredmetNaStudijskomProgramu pnsp = vratiPredmetNaStudijskomProgramuZaId(predmetId, studijskiProgramId);
 
-            dbbr.obrisi(pnsp);
+            String upit = "DELETE FROM predmet_na_studijskom_programu WHERE predmetId=? AND studijski_programId=?";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
+            ps.setInt(1, predmetId);
+            ps.setInt(2, studijskiProgramId);
+
+            ps.executeUpdate();
+
             dbbr.commitTransakcije();
+            ps.close();
+
             return pnsp;
         } catch (Exception e) {
             dbbr.rollackTransakcije();

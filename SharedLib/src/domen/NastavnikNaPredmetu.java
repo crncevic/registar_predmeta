@@ -5,17 +5,13 @@
  */
 package domen;
 
-import db.dao.impl.NastavnikDaoImpl;
-import db.dao.impl.PredmetDaoImpl;
-import db.dao.impl.TipNastaveDaoImpl;
 import java.io.Serializable;
-import java.sql.ResultSet;
 
 /**
  *
  * @author Petar
  */
-public class NastavnikNaPredmetu implements Serializable, OpstiDomenskiObjekat {
+public class NastavnikNaPredmetu implements Serializable {
 
     private Predmet predmet;
     private Nastavnik nastavnik;
@@ -53,40 +49,6 @@ public class NastavnikNaPredmetu implements Serializable, OpstiDomenskiObjekat {
     public void setTipNastave(TipNastave tipNastave) {
         this.tipNastave = tipNastave;
     }
-
-    @Override
-    public String vratiImeKlase() {
-        return "nastavnik_na_predmetu";
-    }
-
-    @Override
-    public String vratiVrednostiAtributa() {
-        return nastavnik.getNastavnikId() + "," + predmet.getPredmetId() + "," + tipNastave.getTipNastaveId();
-    }
-
-    @Override
-    public String vratiUslovZaNadjiSlog() {
-        return "predmetId=" + predmet.getPredmetId();
-    }
-
-    @Override
-    public String vratiUslovZaNadjiSlogove() {
-        return "predmetId=" + getPredmet().getPredmetId();
-    }
-
-    @Override
-    public String postaviVrednostAtributa() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws Exception {
-        return new NastavnikNaPredmetu(PredmetDaoImpl.getInstance().pronadjiPredmetPoId(rs.getInt("predmetId")), NastavnikDaoImpl.getInstance().vratiNastavnikaZaId(rs.getInt("nastavnikId")), TipNastaveDaoImpl.getInstance().pronadjiTipNastavePoId(rs.getInt("tipNastaveId")));
-    }
-
-    @Override
-    public String vratiNaziveAtributaZaKreiraj() {
-        return "nastavnikId,predmetId,tipNastaveId";
-    }
-
+    
+    
 }

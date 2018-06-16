@@ -6,7 +6,6 @@
 package form;
 
 import javax.swing.JOptionPane;
-import session.Session;
 
 /**
  *
@@ -21,7 +20,6 @@ public class FSadrzajTekst extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         centrirajFormu();
-        proveriSesiju();
     }
 
     /**
@@ -86,18 +84,15 @@ public class FSadrzajTekst extends javax.swing.JDialog {
 
     private void jBtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSacuvajActionPerformed
         try {
-            String tekst = jTextAreaSadrzajTekst.getText().trim();
-
-            if (tekst.length() == 0) {
-                JOptionPane.showMessageDialog(this, "Morate uneti sadrzaj predmeta.");
-                return;
-            }
-
-            Session.getInstance().setTematskeCelineTekst(tekst);
-            dispose();
-
+           String tekst = jTextAreaSadrzajTekst.getText().trim();
+           
+           if(tekst.length() == 0){
+               JOptionPane.showMessageDialog(this, "Morate uneti sadrzaj predmeta.");
+               return;
+           }
+           
+           
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_jBtnSacuvajActionPerformed
 
@@ -114,17 +109,5 @@ public class FSadrzajTekst extends javax.swing.JDialog {
 
     private void centrirajFormu() {
         setLocationRelativeTo(null);
-    }
-
-    private void proveriSesiju() {
-        try {
-
-            String tekst = Session.getInstance().getTematskeCelineTekst();
-
-            jTextAreaSadrzajTekst.setText(tekst);
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
     }
 }

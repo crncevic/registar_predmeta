@@ -34,9 +34,26 @@ public class VrstaINivoStudijaDaoImpl extends VrstaINivoStudijaDao {
     @Override
     public VrstaINivoStudija vratiVrstuINivoStudijaZaId(int vrstaId) throws Exception {
         try {
-            VrstaINivoStudija vins = new VrstaINivoStudija();
-            vins.setVrstaINivoId(vrstaId);
-            return (VrstaINivoStudija) dbbr.vratiPoId(vins);
+            String upit = "SELECT * FROM vrsta_i_nivo_studija WHERE vrstaId=?";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
+            ps.setInt(1, vrstaId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                VrstaINivoStudija vins = new VrstaINivoStudija();
+                vins.setVrstaINivoId(rs.getInt("vrstaId"));
+                vins.setNaziv(rs.getString("naziv"));
+
+                rs.close();
+                ps.close();
+
+                return vins;
+            }
+
+            rs.close();
+            ps.close();
+            return null;
         } catch (Exception ex) {
             System.out.println("Dogodila se greska prilikom vracanja vrste i nivoa studija za id:" + vrstaId);
             throw ex;

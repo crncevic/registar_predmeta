@@ -39,32 +39,51 @@ public class PredmetDaoImpl extends PredmetDao {
     public Predmet pronadjiPredmetPoId(int predmetId) throws Exception {
         try {
 
-            Predmet predmet = new Predmet();
-            predmet.setPredmetId(predmetId);
-            Predmet predmetFromDb = (Predmet) dbbr.vratiPoId(predmet);
+            String upit = "SELECT * FROM predmet WHERE predmetId=?";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
 
-            if (predmetFromDb != null) {
+            ps.setInt(1, predmetId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Predmet predmet = new Predmet();
+                predmet.setPredmetId(rs.getInt("predmetId"));
+                predmet.setNaziv(rs.getString("naziv"));
+                predmet.setBrCasovaPredavanjaNedeljno(rs.getInt("br_casova_predavanja_nedeljno"));
+                predmet.setBrCasovaVezbiNedeljno(rs.getInt("br_casova_vezbi_nedeljno"));
+                predmet.setOstaliCasovi(rs.getInt("ostali_casovi"));
+                predmet.setDrugiObliciNastave(rs.getString("drugi_oblici_nastave"));
+                predmet.setStudijskiIstrazivackiRad(rs.getString("studijski_istrazivacki_rad"));
+                predmet.setCilj(rs.getString("cilj"));
+                predmet.setIshod(rs.getString("ishod"));
+                predmet.setUslov(rs.getString("uslov"));
+                predmet.setVrstaINivoStudija(VrstaINivoStudijaDaoImpl
+                        .getInstance()
+                        .vratiVrstuINivoStudijaZaId(rs.getInt("vrsta_i_nivo_studija")));
+                predmet.setSadrzajTekst(rs.getString("sadrzaj_tekst"));
+
                 // ucitavanje tematskih celina za predmet
-//                String upit3 = "SELECT * FROM tematska_celina WHERE predmetId=?";
-//                PreparedStatement ps3 = dbbr.getConnection().prepareStatement(upit3);
-//                ps3.setInt(1, predmetId);
-//                List<TematskaCelina> sadrzajTematskeCeline = new ArrayList<>();
-//
-//                ResultSet rs3 = ps3.executeQuery();
-//
-//                while (rs3.next()) {
-//                    TematskaCelina tematskaCelina = new TematskaCelina();
-//                    tematskaCelina.setTematskaCelinaId(rs3.getInt("tematska_celinaId"));
-////                    tematskaCelina.setTipNastaveId(rs3.getInt("tip_nastaveId"));
-////                    tematskaCelina.setPredmetId(rs3.getInt("predmetId"));
-//                    tematskaCelina.setNaziv(rs3.getString("naziv"));
-//                    tematskaCelina.setOpis(rs3.getString("opis"));
-//
-//                    sadrzajTematskeCeline.add(tematskaCelina);
-//
-//                }
-//
-//                predmetFromDb.setSadrzajTematskeCeline(sadrzajTematskeCeline);
+                String upit3 = "SELECT * FROM tematska_celina WHERE predmetId=?";
+                PreparedStatement ps3 = dbbr.getConnection().prepareStatement(upit3);
+                ps3.setInt(1, predmetId);
+                List<TematskaCelina> sadrzajTematskeCeline = new ArrayList<>();
+
+                ResultSet rs3 = ps3.executeQuery();
+
+                while (rs3.next()) {
+                    TematskaCelina tematskaCelina = new TematskaCelina();
+                    tematskaCelina.setTematskaCelinaId(rs3.getInt("tematska_celinaId"));
+                    tematskaCelina.setTipNastaveId(rs3.getInt("tip_nastaveId"));
+                    tematskaCelina.setPredmetId(rs3.getInt("predmetId"));
+                    tematskaCelina.setNaziv(rs3.getString("naziv"));
+                    tematskaCelina.setOpis(rs3.getString("opis"));
+
+                    sadrzajTematskeCeline.add(tematskaCelina);
+
+                }
+
+                predmet.setSadrzajTematskeCeline(sadrzajTematskeCeline);
 
                 //ucitavanje udzbenika za predmet
                 String upit4 = "SELECT * FROM udzbenik_na_predmetu WHERE predmetId=?";
@@ -74,11 +93,11 @@ public class PredmetDaoImpl extends PredmetDao {
 
                 ResultSet rs4 = ps4.executeQuery();
                 while (rs4.next()) {
-                    Udzbenik udzbenik = UdzbenikDaoImpl.getInstance().pronadjiUdzbenikPoId(rs4.getInt("udzbenikId"));
+                   Udzbenik  udzbenik = UdzbenikDaoImpl.getInstance().pronadjiUdzbenikPoId(rs4.getInt("udzbenikId"));
                     udzbenici.add(udzbenik);
                 }
 
-                predmetFromDb.setUdzbenici(udzbenici);
+                predmet.setUdzbenici(udzbenici);
 
                 String upit5 = "SELECT * FROM nastavnik_na_predmetu WHERE predmetId=?";
                 PreparedStatement ps5 = dbbr.getConnection().prepareStatement(upit5);
@@ -91,26 +110,28 @@ public class PredmetDaoImpl extends PredmetDao {
                 while (rs5.next()) {
                     NastavnikNaPredmetu nnp = new NastavnikNaPredmetu();
                     nnp.setNastavnik(NastavnikDaoImpl.getInstance().vratiNastavnikaZaId(rs5.getInt("nastavnikId")));
-                    nnp.setPredmet(predmetFromDb);
+                    nnp.setPredmet(predmet);
                     nnp.setTipNastave(TipNastaveDaoImpl.getInstance().pronadjiTipNastavePoId(rs5.getInt("tipNastaveId")));
 
                     nastavniciNaPredmetu.add(nnp);
                 }
 
-                predmetFromDb.setNastavnici(nastavniciNaPredmetu);
+                predmet.setNastavnici(nastavniciNaPredmetu);
 
-               // rs3.close();
+                rs.close();
+                rs3.close();
                 rs4.close();
                 rs5.close();
-
-              //  ps3.close();
+                ps.close();
+                ps3.close();
                 ps4.close();
                 ps5.close();
 
-                return predmetFromDb;
+                return predmet;
 
             } else {
-
+                rs.close();
+                ps.close();
                 return null;
             }
 
@@ -123,12 +144,32 @@ public class PredmetDaoImpl extends PredmetDao {
     @Override
     public Predmet kreirajPredmet(Predmet predmet) throws Exception {
         try {
-            int predmetId = dbbr.kreiraj(predmet);
-            predmet.setPredmetId(predmetId);
+            String upit = "INSERT INTO predmet(predmetId,naziv,br_casova_predavanja_nedeljno,br_casova_vezbi_nedeljno,ostali_casovi,drugi_oblici_nastave,studijski_istrazivacki_rad,cilj,ishod,uslov,vrsta_i_nivo_studija,sadrzaj_tekst)"
+                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
+            ps.setInt(1, predmet.getPredmetId());
+            ps.setString(2, predmet.getNaziv());
+            ps.setInt(3, predmet.getBrCasovaPredavanjaNedeljno());
+            ps.setInt(4, predmet.getBrCasovaVezbiNedeljno());
+            ps.setInt(5, predmet.getOstaliCasovi());
+            ps.setString(6, predmet.getDrugiObliciNastave());
+            ps.setString(7, predmet.getStudijskiIstrazivackiRad());
+            ps.setString(8, predmet.getCilj());
+            ps.setString(9, predmet.getIshod());
+            ps.setString(10, predmet.getUslov());
+            ps.setInt(11, predmet.getVrstaINivoStudija().getVrstaINivoId());
+            ps.setString(12, predmet.getSadrzajTekst());
 
+            ps.executeUpdate();
+
+            String upit2 = "INSERT INTO nastavnik_na_predmetu(nastavnikId,predmetId,tipNastaveId) VALUES(?,?,?)";
+            PreparedStatement ps2 = dbbr.getConnection().prepareStatement(upit2);
             for (NastavnikNaPredmetu nastavnikNaPredmetu : predmet.getNastavnici()) {
-                nastavnikNaPredmetu.setPredmet(predmet);
-                dbbr.kreiraj(nastavnikNaPredmetu);
+                ps2.setInt(1, nastavnikNaPredmetu.getNastavnik().getNastavnikId());
+                ps2.setInt(2, predmet.getPredmetId());
+                ps2.setInt(3, nastavnikNaPredmetu.getTipNastave().getTipNastaveId());
+
+                ps2.executeUpdate();
             }
 
 //            String upit3 = "INSERT INTO tematska_celina(predmetId,tip_NastaveId,nadredjena_tematska_celinaId,naziv,opis)";
@@ -142,15 +183,24 @@ public class PredmetDaoImpl extends PredmetDao {
 //                
 //                ps3.executeUpdate();
 //            }
+            String upit4 = "INSERT INTO udzbenik_na_predmetu(udzbenikId,predmetId) VALUES(?,?)";
+            PreparedStatement ps4 = dbbr.getConnection().prepareStatement(upit4);
             for (Udzbenik udzbenik : predmet.getUdzbenici()) {
-                UdzbenikNaPredmetu unp = new UdzbenikNaPredmetu(predmetId, udzbenik.getUdzbenikId());
-                dbbr.kreiraj(unp);
+                ps4.setInt(1, udzbenik.getUdzbenikId());
+                ps4.setInt(2, predmet.getPredmetId());
+
+                ps4.executeUpdate();
             }
 
             dbbr.getConnection().commit();
             System.out.println("Predmet sa id:" + predmet.getPredmetId() + " uspesno sacuvan u bazi!");
 
-            return pronadjiPredmetPoId(predmetId);
+            ps.close();
+            ps2.close();
+            //ps3.close();
+            ps4.close();
+
+            return pronadjiPredmetPoId(predmet.getPredmetId());
 
         } catch (Exception e) {
             dbbr.getConnection().rollback();
@@ -170,32 +220,46 @@ public class PredmetDaoImpl extends PredmetDao {
 
             while (rs.next()) {
                 Predmet predmet = new Predmet();
-                predmet = (Predmet) predmet.napraviDomenskiObjekat(rs);
+                predmet.setPredmetId(rs.getInt("predmetId"));
+                predmet.setNaziv(rs.getString("naziv"));
+                predmet.setBrCasovaPredavanjaNedeljno(rs.getInt("br_casova_predavanja_nedeljno"));
+                predmet.setBrCasovaVezbiNedeljno(rs.getInt("br_casova_vezbi_nedeljno"));
+                predmet.setOstaliCasovi(rs.getInt("ostali_casovi"));
+                predmet.setDrugiObliciNastave(rs.getString("drugi_oblici_nastave"));
+                predmet.setStudijskiIstrazivackiRad(rs.getString("studijski_istrazivacki_rad"));
+                predmet.setCilj(rs.getString("cilj"));
+                predmet.setIshod(rs.getString("ishod"));
+                predmet.setUslov(rs.getString("uslov"));
+                predmet.setVrstaINivoStudija(VrstaINivoStudijaDaoImpl
+                        .getInstance()
+                        .vratiVrstuINivoStudijaZaId(rs.getInt("vrsta_i_nivo_studija")));
+                predmet.setSadrzajTekst(rs.getString("sadrzaj_tekst"));
 
                 // ucitavanje tematskih celina za predmet
-//                String upit3 = "SELECT * FROM tematska_celina WHERE predmetId=?";
-//                PreparedStatement ps3 = dbbr.getConnection().prepareStatement(upit3);
-//                ps3.setInt(1, predmet.getPredmetId());
-//                List<TematskaCelina> sadrzajTematskeCeline = new ArrayList<>();
-//
-//                ResultSet rs3 = ps3.executeQuery();
-//
-//                while (rs3.next()) {
-//                    TematskaCelina tematskaCelina = new TematskaCelina();
-//                    tematskaCelina.setTematskaCelinaId(rs3.getInt("tematska_celinaId"));
-//                    tematskaCelina.setTipNastaveId(rs3.getInt("tip_nastaveId"));
-//                    tematskaCelina.setPredmetId(rs3.getInt("predmetId"));
-//                    tematskaCelina.setNaziv(rs3.getString("naziv"));
-//                    tematskaCelina.setOpis(rs3.getString("opis"));
-//
-//                    sadrzajTematskeCeline.add(tematskaCelina);
-//
-//                }
-//
-//                predmet.setSadrzajTematskeCeline(sadrzajTematskeCeline);
-//
-//                rs3.close();
-//                ps3.close();
+                String upit3 = "SELECT * FROM tematska_celina WHERE predmetId=?";
+                PreparedStatement ps3 = dbbr.getConnection().prepareStatement(upit3);
+                ps3.setInt(1, predmet.getPredmetId());
+                List<TematskaCelina> sadrzajTematskeCeline = new ArrayList<>();
+
+                ResultSet rs3 = ps3.executeQuery();
+
+                while (rs3.next()) {
+                    TematskaCelina tematskaCelina = new TematskaCelina();
+                    tematskaCelina.setTematskaCelinaId(rs3.getInt("tematska_celinaId"));
+                    tematskaCelina.setTipNastaveId(rs3.getInt("tip_nastaveId"));
+                    tematskaCelina.setPredmetId(rs3.getInt("predmetId"));
+                    tematskaCelina.setNaziv(rs3.getString("naziv"));
+                    tematskaCelina.setOpis(rs3.getString("opis"));
+
+                    sadrzajTematskeCeline.add(tematskaCelina);
+
+                }
+
+                predmet.setSadrzajTematskeCeline(sadrzajTematskeCeline);
+
+                rs3.close();
+                ps3.close();
+
                 //ucitavanje udzbenika za predmet
                 String upit4 = "SELECT * FROM udzbenik_na_predmetu WHERE predmetId=?";
                 PreparedStatement ps4 = dbbr.getConnection().prepareStatement(upit4);
@@ -224,7 +288,9 @@ public class PredmetDaoImpl extends PredmetDao {
 
                 while (rs5.next()) {
                     NastavnikNaPredmetu nnp = new NastavnikNaPredmetu();
-                    nnp = (NastavnikNaPredmetu) nnp.napraviDomenskiObjekat(rs5);
+                    nnp.setNastavnik(NastavnikDaoImpl.getInstance().vratiNastavnikaZaId(rs5.getInt("nastavnikId")));
+                    nnp.setPredmet(predmet);
+                    nnp.setTipNastave(TipNastaveDaoImpl.getInstance().pronadjiTipNastavePoId(rs5.getInt("tipNastaveId")));
 
                     nastavniciNaPredmetu.add(nnp);
                 }
@@ -250,25 +316,62 @@ public class PredmetDaoImpl extends PredmetDao {
     @Override
     public Predmet azurirajPredmet(Predmet predmet) throws Exception {
         try {
+            String upit = "UPDATE predmet  SET naziv=?,br_casova_predavanja_nedeljno=?,"
+                    + "br_casova_vezbi_nedeljno=?,ostali_casovi=?,drugi_oblici_nastave=?,studijski_istrazivacki_rad=?,"
+                    + "cilj=?,ishod=?,uslov=?,vrsta_i_nivo_studija=?,sadrzaj_tekst=? WHERE predmetId=?";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
 
-            dbbr.azuriraj(predmet);
+            ps.setInt(1, predmet.getPredmetId());
+            ps.setString(2, predmet.getNaziv());
+            ps.setInt(3, predmet.getBrCasovaPredavanjaNedeljno());
+            ps.setInt(4, predmet.getBrCasovaVezbiNedeljno());
+            ps.setInt(5, predmet.getOstaliCasovi());
+            ps.setString(6, predmet.getDrugiObliciNastave());
+            ps.setString(7, predmet.getStudijskiIstrazivackiRad());
+            ps.setString(8, predmet.getCilj());
+            ps.setString(9, predmet.getIshod());
+            ps.setString(10, predmet.getUslov());
+            ps.setInt(11, predmet.getVrstaINivoStudija().getVrstaINivoId());
+            ps.setString(12, predmet.getSadrzajTekst());
 
-            NastavnikNaPredmetu nnp = new NastavnikNaPredmetu();
-            nnp.setPredmet(predmet);
-            dbbr.obrisi(nnp);
+            ps.executeUpdate();
 
+            ps.close();
+
+            String upit2 = "DELETE FROM nastavnik_na_predmetu WHERE predmetId=?";
+            PreparedStatement ps2 = dbbr.getConnection().prepareStatement(upit2);
+            ps2.setInt(1, predmet.getPredmetId());
+            ps2.executeUpdate();
+
+            String upit3 = "INSERT INTO nastavnik_na_predmetu(nastavnikId,predmetId,tipNastaveId) VALUES(?,?,?)";
+            PreparedStatement ps3 = dbbr.getConnection().prepareStatement(upit3);
             for (NastavnikNaPredmetu nastavnikNaPredmetu : predmet.getNastavnici()) {
-                dbbr.kreiraj(nastavnikNaPredmetu);
+                ps3.setInt(1, nastavnikNaPredmetu.getNastavnik().getNastavnikId());
+                ps3.setInt(2, predmet.getPredmetId());
+                ps3.setInt(3, nastavnikNaPredmetu.getTipNastave().getTipNastaveId());
+
+                ps3.executeUpdate();
             }
 
-            UdzbenikNaPredmetu unp = new UdzbenikNaPredmetu();
-            unp.setPredmetId(predmet.getPredmetId());
-            dbbr.obrisi(unp);
+            ps3.close();
 
+            String upit4 = "DELETE FROM udzbenik_na_predmetu WHERE predmetId=?";
+            PreparedStatement ps4 = dbbr.getConnection().prepareStatement(upit4);
+            ps4.setInt(1, predmet.getPredmetId());
+            ps4.executeUpdate();
+
+            ps4.close();
+
+            String upit5 = "INSERT INTO udzbenik_na_predmetu(udzbenikId,predmetId) VALUES (?,?)";
+            PreparedStatement ps5 = dbbr.getConnection().prepareStatement(upit5);
             for (Udzbenik udzbenik : predmet.getUdzbenici()) {
-                unp.setUdbenikId(udzbenik.getUdzbenikId());
-                dbbr.kreiraj(unp);
+                ps5.setInt(1, udzbenik.getUdzbenikId());
+                ps5.setInt(2, predmet.getPredmetId());
+
+                ps5.executeUpdate();
             }
+
+            ps5.close();
 
 //            String upit6 = "DELETE FROM tematska_celina WHERE predmetId=?";
 //            PreparedStatement ps6 = dbbr.getConnection().prepareStatement(upit6);
@@ -306,19 +409,29 @@ public class PredmetDaoImpl extends PredmetDao {
 
             predmet = pronadjiPredmetPoId(predmetId);
 
-            NastavnikNaPredmetu nnp = new NastavnikNaPredmetu();
-            nnp.setPredmet(predmet);
-            dbbr.obrisi(nnp);
+            String upit2 = "DELETE FROM nastavnik_na_predmetu WHERE predmetId=?";
+            PreparedStatement ps2 = dbbr.getConnection().prepareStatement(upit2);
+            ps2.setInt(1, predmetId);
+            ps2.executeUpdate();
+            ps2.close();
 
-            UdzbenikNaPredmetu unp = new UdzbenikNaPredmetu();
-            unp.setPredmetId(predmetId);
-            dbbr.obrisi(unp);
+            String upit3 = "DELETE FROM udzbenik_na_predmetu WHERE predmetId=?";
+            PreparedStatement ps3 = dbbr.getConnection().prepareStatement(upit3);
+            ps3.setInt(1, predmetId);
+            ps3.executeUpdate();
+            ps3.close();
 
-//            TematskaCelina tc = new TematskaCelina();
-//            tc.setPredmet(predmet);
-//            dbbr.obrisi(tc);
+            String upit4 = "DELETE FROM tematska_celina WHERE predmetId=?";
+            PreparedStatement ps4 = dbbr.getConnection().prepareStatement(upit4);
+            ps4.setInt(1, predmetId);
+            ps4.executeUpdate();
+            ps4.close();
 
-            dbbr.obrisi(predmet);
+            String upit = "DELETE FROM predmet WHERE predmetId=?";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
+            ps.setInt(1, predmetId);
+            ps.executeUpdate();
+            ps.close();
 
             dbbr.getConnection().commit();
 

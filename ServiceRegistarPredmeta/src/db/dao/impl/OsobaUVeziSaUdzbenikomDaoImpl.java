@@ -6,8 +6,6 @@
 package db.dao.impl;
 
 import db.dao.OsobaUVeziSaUdzbenikomDao;
-import domen.Nastavnik;
-import domen.OpstiDomenskiObjekat;
 import domen.OsobaUVeziSaUdzbenikom;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,22 +20,21 @@ import java.util.List;
 public class OsobaUVeziSaUdzbenikomDaoImpl extends OsobaUVeziSaUdzbenikomDao {
 
     private static OsobaUVeziSaUdzbenikomDaoImpl instance;
-
+    
     private OsobaUVeziSaUdzbenikomDaoImpl() throws Exception {
         super();
     }
-
-    public static OsobaUVeziSaUdzbenikomDaoImpl getInstance() throws Exception {
-        if (instance == null) {
+    
+    public static OsobaUVeziSaUdzbenikomDaoImpl getInstance() throws Exception{
+        if(instance == null){
             instance = new OsobaUVeziSaUdzbenikomDaoImpl();
         }
         return instance;
     }
-
+    
     @Override
     public List<OsobaUVeziSaUdzbenikom> vratiOsobeZaUdzbenik(int udzbenikId) throws SQLException, Exception {
         try {
-
             String upit = "SELECT * FROM osoba_u_vezi_sa_udzbenikom where udzbenikId=?";
             List<OsobaUVeziSaUdzbenikom> osobeUVeziSaUdzbenikom = new ArrayList<>();
             PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
@@ -46,8 +43,13 @@ public class OsobaUVeziSaUdzbenikomDaoImpl extends OsobaUVeziSaUdzbenikomDao {
 
             while (rs.next()) {
                 OsobaUVeziSaUdzbenikom ouvsu = new OsobaUVeziSaUdzbenikom();
-
-                osobeUVeziSaUdzbenikom.add((OsobaUVeziSaUdzbenikom) ouvsu.napraviDomenskiObjekat(rs));
+                ouvsu.setOsobaId(rs.getInt("osobaId"));
+                ouvsu.setUdzbenikId(rs.getInt("udzbenikId"));
+                ouvsu.setIme(rs.getString("ime"));
+                ouvsu.setPrezime(rs.getString("prezime"));
+                ouvsu.setUlogaUdzbenik(UlogaUdzbenikDaoImpl.getInstance().nadjiUloguNaUdzbenikuZaId(rs.getInt("ulogaId")));
+                ouvsu.setTitula(rs.getString("titula"));
+                osobeUVeziSaUdzbenikom.add(ouvsu);
             }
 
             rs.close();
@@ -58,9 +60,9 @@ public class OsobaUVeziSaUdzbenikomDaoImpl extends OsobaUVeziSaUdzbenikomDao {
             throw new Exception("Dogodila se greska prilikom vracanja svih osoba vezanih za udzbenik.Greska:" + ex.getMessage());
         }
     }
-
+    
     @Override
-    public OsobaUVeziSaUdzbenikom vratiOsobuUVeziSaUdbenikomZaId(int osobaId) throws Exception {
+     public OsobaUVeziSaUdzbenikom vratiOsobuUVeziSaUdbenikomZaId(int osobaId) throws Exception {
         try {
             String upit = "SELECT * FROM osoba_u_vezi_sa_udzbenikom WHERE osobaId=?";
             PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
@@ -70,11 +72,15 @@ public class OsobaUVeziSaUdzbenikomDaoImpl extends OsobaUVeziSaUdzbenikomDao {
 
             if (rs.next()) {
                 OsobaUVeziSaUdzbenikom ouvsu = new OsobaUVeziSaUdzbenikom();
+                ouvsu.setOsobaId(rs.getInt("osobaId"));
+                ouvsu.setIme(rs.getString("ime"));
+                ouvsu.setPrezime(rs.getString("prezime"));
+                ouvsu.setTitula(rs.getString("titula"));
 
                 rs.close();
                 ps.close();
 
-                return (OsobaUVeziSaUdzbenikom) ouvsu.napraviDomenskiObjekat(rs);
+                return ouvsu;
             }
 
             rs.close();

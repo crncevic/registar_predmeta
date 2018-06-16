@@ -6,6 +6,7 @@
 package form;
 
 import domen.Predmet;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -168,7 +169,12 @@ public class FSelectPredmet extends javax.swing.JDialog {
             Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_PREDMETE, null);
             List<Predmet> predmeti = (List<Predmet>) Kontroler.getInstance().primiOdgovor();
 
-            TableModel ptm = new PredmetTableModel(predmeti);
+            TableModel ptm;
+            if (predmeti != null) {
+                ptm = new PredmetTableModel(predmeti);
+            } else {
+                ptm = new PredmetTableModel(new ArrayList<Predmet>());
+            }
             jTblPredmeti.setModel(ptm);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -176,8 +182,10 @@ public class FSelectPredmet extends javax.swing.JDialog {
     }
 
     private void postaviSirinuKolona() {
-        jTblPredmeti.getColumnModel().getColumn(0).setPreferredWidth(20);
-        jTblPredmeti.getColumnModel().getColumn(1).setPreferredWidth(200);
+        if (jTblPredmeti.getColumnModel() != null) {
+            jTblPredmeti.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTblPredmeti.getColumnModel().getColumn(1).setPreferredWidth(200);
+        }
     }
 
     private void pripremiTabeluZaSortiranje() {

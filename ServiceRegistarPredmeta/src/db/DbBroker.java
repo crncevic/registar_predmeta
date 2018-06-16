@@ -6,14 +6,9 @@
 package db;
 
 import constants.Constants;
-import domen.OpstiDomenskiObjekat;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -78,85 +73,15 @@ public class DbBroker {
         return connection;
     }
 
-    public int kreiraj(OpstiDomenskiObjekat odo) throws Exception {
-        try {
-            String upit = "INSERT INTO " + odo.vratiImeKlase() + "(" + odo.vratiNaziveAtributaZaKreiraj() + ") VALUES(" + odo.vratiVrednostiAtributa() + ")";
-            PreparedStatement ps = connection.prepareStatement(upit, PreparedStatement.RETURN_GENERATED_KEYS);
+    
 
-            int brojRedova = ps.executeUpdate();
+    
+    
 
-            if (brojRedova > 0) {
-                ResultSet rs = ps.getGeneratedKeys();
-                int id = 0;
-                if (rs.next()) {
-                    id = rs.getInt(1);
-                }
+    
+       
+    
 
-                rs.close();
-                ps.close();
-
-                return id;
-            }
-
-            throw new Exception("Neuspesno kreiranje tabeli " + odo.vratiImeKlase());
-        } catch (Exception e) {
-            throw new Exception("Neuspesno kreiranje tabeli " + odo.vratiImeKlase());
-        }
-    }
-
-    public boolean azuriraj(OpstiDomenskiObjekat odo) {
-        try {
-            String upit = "UPDATE " + odo.vratiImeKlase() + " SET " + odo.postaviVrednostAtributa() + " WHERE " + odo.vratiUslovZaNadjiSlog() + "";
-            PreparedStatement ps = connection.prepareStatement(upit);
-
-            int brojRedova = ps.executeUpdate();
-
-            ps.close();
-
-            if (brojRedova > 0) {
-                return true;
-            }
-            return false;
-
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public boolean obrisi(OpstiDomenskiObjekat odo) throws Exception {
-        try {
-            String upit = "DELETE FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlog();
-            PreparedStatement ps = connection.prepareStatement(upit);
-            int brojRedova = ps.executeUpdate();
-
-            ps.close();
-            if (brojRedova > 0) {
-                return true;
-            } else {
-               return false;
-            }
-        } catch (Exception e) {
-           throw  new Exception("Dogodila se greska prilikom brisanja iz tabele "+odo.vratiImeKlase());
-        }
-    }
-
-    public OpstiDomenskiObjekat vratiPoId(OpstiDomenskiObjekat odo) throws Exception {
-        try {
-
-            String upit = "SELECT * FROM " + odo.vratiImeKlase() + " WHERE " + odo.vratiUslovZaNadjiSlog();
-            PreparedStatement ps = connection.prepareStatement(upit);
-
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                return odo.napraviDomenskiObjekat(rs);
-            } else {
-                return null;
-            }
-
-        } catch (Exception e) {
-            throw new Exception("Dogodila se greska prilikom vracanja entiteta iz tabele " + odo.vratiImeKlase() + ". Greska" + e.getMessage());
-        }
-    }
-
+   
+  
 }

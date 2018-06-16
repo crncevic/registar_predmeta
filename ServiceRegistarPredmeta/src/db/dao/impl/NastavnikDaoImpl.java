@@ -42,7 +42,15 @@ public class NastavnikDaoImpl extends NastavnikDao {
 
             while (rs.next()) {
                 Nastavnik nastavnik = new Nastavnik();
-                nastavnici.add((Nastavnik) nastavnik.napraviDomenskiObjekat(rs));
+                nastavnik.setNastavnikId(rs.getInt("nastavnikId"));
+                nastavnik.setIme(rs.getString("ime"));
+                nastavnik.setPrezime(rs.getString("prezime"));
+                nastavnik.setePosta(rs.getString("ePosta"));
+                nastavnik.setKabinet(rs.getString("kabinet"));
+                nastavnik.setTelefon(rs.getString("telefon"));
+                nastavnik.setZvanje(rs.getString("zvanje"));
+
+                nastavnici.add(nastavnik);
             }
 
             rs.close();
@@ -57,9 +65,31 @@ public class NastavnikDaoImpl extends NastavnikDao {
     @Override
     public Nastavnik vratiNastavnikaZaId(int nastavnikId) throws Exception {
         try {
-            Nastavnik nastavnik = new Nastavnik();
-            nastavnik.setNastavnikId(nastavnikId);
-            return (Nastavnik) dbbr.vratiPoId(nastavnik);
+            String upit = "SELECT * FROM nastavnik WHERE nastavnikId=?";
+            PreparedStatement ps = dbbr.getConnection().prepareStatement(upit);
+            ps.setInt(1, nastavnikId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Nastavnik nastavnik = new Nastavnik();
+
+                nastavnik.setNastavnikId(rs.getInt("nastavnikId"));
+                nastavnik.setIme(rs.getString("ime"));
+                nastavnik.setPrezime(rs.getString("prezime"));
+                nastavnik.setePosta(rs.getString("ePosta"));
+                nastavnik.setKabinet(rs.getString("kabinet"));
+                nastavnik.setTelefon(rs.getString("telefon"));
+                nastavnik.setZvanje(rs.getString("zvanje"));
+
+                rs.close();
+                ps.close();
+                return nastavnik;
+            }
+
+            rs.close();
+            ps.close();
+            return null;
 
         } catch (Exception e) {
             throw new Exception("Dogodila se greska prilikom ucitavanja  nastavnika sa id:" + nastavnikId + ". Greska:" + e.getMessage());
