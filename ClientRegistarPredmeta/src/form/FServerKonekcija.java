@@ -5,7 +5,9 @@
  */
 package form;
 
+import java.io.FileInputStream;
 import java.net.Socket;
+import java.util.Properties;
 import javax.swing.JOptionPane;
 import session.Session;
 
@@ -16,15 +18,23 @@ import session.Session;
 public class FServerKonekcija extends javax.swing.JDialog {
 
     FMain fMain;
+    Properties properties;
 
     /**
      * Creates new form FServerKonekcija
      */
     public FServerKonekcija(java.awt.Frame parent, boolean modal, FMain fMain) {
         super(parent, modal);
-        initComponents();
-        centrirajFormu();
-        this.fMain = fMain;
+        if (loadSettings()) {
+            initComponents();
+            centrirajFormu();
+            this.fMain = fMain;
+            postaviVrednosti();
+            postaviBojuPozadine();
+        } else {
+            dispose();
+        }
+
     }
 
     /**
@@ -47,13 +57,18 @@ public class FServerKonekcija extends javax.swing.JDialog {
         setTitle("Konekcija sa serverom");
         setResizable(false);
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Server IP:");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Konekcija sa serverom");
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Server port:");
 
+        jBtnKonekcija.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnKonekcija.setForeground(new java.awt.Color(255, 255, 255));
         jBtnKonekcija.setText("Konektuj se");
         jBtnKonekcija.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,6 +130,8 @@ public class FServerKonekcija extends javax.swing.JDialog {
             Session.getInstance().setSocket(socket);
             fMain.omoguciPristupSistemu();
             dispose();
+            properties.setProperty("server_host", jTxtIP.getText().trim());
+            properties.setProperty("server_port", jTxtPort.getText().trim());
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom povezivanja na server");
@@ -124,7 +141,6 @@ public class FServerKonekcija extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnKonekcija;
     private javax.swing.JLabel jLabel1;
@@ -136,5 +152,30 @@ public class FServerKonekcija extends javax.swing.JDialog {
 
     private void centrirajFormu() {
         setLocationRelativeTo(null);
+    }
+
+    private boolean loadSettings() {
+        try {
+            FileInputStream fis = new FileInputStream("user.properties");
+            properties = new Properties();
+            properties.load(fis);
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom ucitavanja user.ptoperties.fajla");
+            return false;
+        }
+    }
+
+    private void postaviVrednosti() {
+        try {
+            jTxtPort.setText(properties.getProperty("server_port", "N/A"));
+            jTxtIP.setText(properties.getProperty("server_host", "N/A"));
+        } catch (Exception e) {
+            jBtnKonekcija.setEnabled(false);
+        }
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51, 0, 102));
     }
 }

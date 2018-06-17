@@ -54,6 +54,7 @@ public class FPredmet extends javax.swing.JFrame {
         inicijalizujTabeluNastavniciNaPredmetu();
         inicijalizujTabeluUdzbenik();
         pripremiFormu(FormMode.NEW);
+        postaviBojuPozadine();
     }
 
     public FPredmet(FMain fMain, int predmetId) {
@@ -63,6 +64,7 @@ public class FPredmet extends javax.swing.JFrame {
         this.fMain = fMain;
         popuniFormuZaPredmet(predmetId);
         pripremiFormu(FormMode.VIEW);
+        postaviBojuPozadine();
     }
 
     /**
@@ -121,42 +123,56 @@ public class FPredmet extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Predmet");
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Id:");
 
         jTxtPredmetId.setEditable(false);
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Naziv:");
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Uslov:");
 
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Cilj: ");
 
         jTextAreaCilj.setColumns(20);
         jTextAreaCilj.setRows(5);
         jScrollPane1.setViewportView(jTextAreaCilj);
 
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Ishod:");
 
         jTextAreaIshod.setColumns(20);
         jTextAreaIshod.setRows(5);
         jScrollPane2.setViewportView(jTextAreaIshod);
 
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Vrsta i nivo studija:");
 
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Br. casova predavanja nedeljno:");
 
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Br. casova vezbi nedeljno:");
 
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Ostali casovi: ");
 
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Drugi oblici nastave: ");
 
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Studijski istrazivacki rad:");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Nastavnik"));
+        jPanel1.setBackground(new java.awt.Color(51, 0, 102));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nastavnik", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Izaberite nastavnika:");
 
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Odaberite tip nastave:");
 
         jTblNastavnici.setModel(new javax.swing.table.DefaultTableModel(
@@ -169,6 +185,8 @@ public class FPredmet extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(jTblNastavnici);
 
+        jBtnDodajNastavnika.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnDodajNastavnika.setForeground(new java.awt.Color(255, 255, 255));
         jBtnDodajNastavnika.setText("+");
         jBtnDodajNastavnika.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,6 +194,8 @@ public class FPredmet extends javax.swing.JFrame {
             }
         });
 
+        jBtnObrisiNastavnika.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnObrisiNastavnika.setForeground(new java.awt.Color(255, 255, 255));
         jBtnObrisiNastavnika.setText("-");
         jBtnObrisiNastavnika.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,7 +246,8 @@ public class FPredmet extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Udzbenik"));
+        jPanel2.setBackground(new java.awt.Color(51, 0, 102));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Udzbenik", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         JComboUdzbenik.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,6 +255,8 @@ public class FPredmet extends javax.swing.JFrame {
             }
         });
 
+        jBtnDodajUdzbenik.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnDodajUdzbenik.setForeground(new java.awt.Color(255, 255, 255));
         jBtnDodajUdzbenik.setText("+");
         jBtnDodajUdzbenik.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,6 +264,8 @@ public class FPredmet extends javax.swing.JFrame {
             }
         });
 
+        jBtnObrisiUdzbenik.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnObrisiUdzbenik.setForeground(new java.awt.Color(255, 255, 255));
         jBtnObrisiUdzbenik.setText("-");
         jBtnObrisiUdzbenik.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -312,6 +337,8 @@ public class FPredmet extends javax.swing.JFrame {
             }
         });
 
+        jBtnUnosSadrzajaTekst.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnUnosSadrzajaTekst.setForeground(new java.awt.Color(255, 255, 255));
         jBtnUnosSadrzajaTekst.setText("Kliknite za unos sadrzaja");
         jBtnUnosSadrzajaTekst.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -887,12 +914,22 @@ public class FPredmet extends javax.swing.JFrame {
                 jBtnObrisi.setEnabled(false);
                 jBtnAzuriraj.setEnabled(false);
                 jBtnSacuvaj.setEnabled(true);
+
+                jBtnSacuvaj.setForeground(Color.white);
+                jBtnSacuvaj.setBackground(Color.green);
+
                 break;
             case VIEW:
                 jBtnObrisi.setEnabled(true);
                 jBtnAzuriraj.setEnabled(true);
                 jBtnSacuvaj.setEnabled(false);
                 jTxtPredmetId.setEnabled(false);
+
+                jBtnObrisi.setBackground(Color.red);
+                jBtnObrisi.setForeground(Color.white);
+
+                jBtnAzuriraj.setBackground(Color.yellow);
+                jBtnObrisi.setForeground(Color.white);
                 break;
 
         }
@@ -957,6 +994,10 @@ public class FPredmet extends javax.swing.JFrame {
 
         }
 
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51, 0, 102));
     }
 
 }

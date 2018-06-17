@@ -9,6 +9,7 @@ import domen.Predmet;
 import domen.PredmetNaStudijskomProgramu;
 import domen.Status;
 import domen.StudijskiProgram;
+import java.awt.Color;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -36,6 +37,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
         popuniPredmetiCombo();
         popuniStatusCombo();
         pripremiFormu(FormMode.NEW);
+        postaviBojuPozadine();
     }
 
     public FPredmetNaSmeru(java.awt.Frame parent, boolean modal, PredmetNaStudijskomProgramu pnsp) {
@@ -47,6 +49,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
         popuniStatusCombo();
         postaviPredmetNaStudijskomProgramu(pnsp);
         pripremiFormu(FormMode.VIEW);
+        postaviBojuPozadine();
     }
 
     /**
@@ -73,12 +76,16 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Predmeti na smeru");
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Izaberite std program:");
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Izaberite predmet:");
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Broj ESPB:");
 
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Status:");
 
         jBtnObrisi.setText("Obrisi");
@@ -354,6 +361,9 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
                 jBtnObrisi.setEnabled(false);
                 jBtnAzuriraj.setEnabled(false);
                 jBtnSacuvaj.setEnabled(true);
+
+                jBtnSacuvaj.setForeground(Color.white);
+                jBtnSacuvaj.setBackground(Color.green);
                 break;
             case VIEW:
                 jComboPredmeti.setEnabled(false);
@@ -361,6 +371,13 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
                 jBtnObrisi.setEnabled(true);
                 jBtnAzuriraj.setEnabled(true);
                 jBtnSacuvaj.setEnabled(false);
+
+                jBtnAzuriraj.setForeground(Color.white);
+                jBtnAzuriraj.setBackground(Color.yellow);
+
+                jBtnObrisi.setForeground(Color.white);
+                jBtnObrisi.setBackground(Color.red);
+
                 break;
 
         }
@@ -378,5 +395,9 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51, 0, 102));
     }
 }

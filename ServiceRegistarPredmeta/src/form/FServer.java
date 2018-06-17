@@ -44,6 +44,7 @@ public class FServer extends javax.swing.JFrame {
         centrirajFormu();
         initForm();
         postaviTableModel();
+        postaviBojuPozadine();
 
         try {
             port = Integer.valueOf(SettingsLoader.getInstance().getValue(Constants.APPLICATION_PORT));
@@ -74,7 +75,10 @@ public class FServer extends javax.swing.JFrame {
         jMenuItemServer = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Server");
 
+        jBtnServerStart.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnServerStart.setForeground(new java.awt.Color(255, 255, 255));
         jBtnServerStart.setText("Server start");
         jBtnServerStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,6 +86,8 @@ public class FServer extends javax.swing.JFrame {
             }
         });
 
+        jBtnServerStop.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnServerStop.setForeground(new java.awt.Color(255, 255, 255));
         jBtnServerStop.setText("Server stop");
         jBtnServerStop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,6 +95,7 @@ public class FServer extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Status:");
 
         jTblKorisniciStatus.setModel(new javax.swing.table.DefaultTableModel(
@@ -101,8 +108,13 @@ public class FServer extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTblKorisniciStatus);
 
+        jMenuBar1.setBackground(new java.awt.Color(255, 102, 0));
+
+        jMenuKonfiguracija.setForeground(new java.awt.Color(255, 255, 255));
         jMenuKonfiguracija.setText("Konfiguracija");
 
+        jMenuItemKonekcijaSaBazom.setBackground(new java.awt.Color(255, 102, 0));
+        jMenuItemKonekcijaSaBazom.setForeground(new java.awt.Color(255, 255, 255));
         jMenuItemKonekcijaSaBazom.setText("Konekcija sa bazom");
         jMenuItemKonekcijaSaBazom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,6 +123,8 @@ public class FServer extends javax.swing.JFrame {
         });
         jMenuKonfiguracija.add(jMenuItemKonekcijaSaBazom);
 
+        jMenuItemServer.setBackground(new java.awt.Color(255, 102, 0));
+        jMenuItemServer.setForeground(new java.awt.Color(255, 255, 255));
         jMenuItemServer.setText("Server");
         jMenuItemServer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -265,6 +279,10 @@ public class FServer extends javax.swing.JFrame {
         } catch (Exception e) {
 
         }
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51, 0, 102));
     }
 
 }

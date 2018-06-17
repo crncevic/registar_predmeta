@@ -7,6 +7,7 @@ package form;
 
 import domen.Korisnik;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
@@ -36,6 +37,8 @@ public class FMain extends javax.swing.JFrame {
         maksimizirajFormu();
         postaviStatusBar();
         onemoguciMenije();
+        postaviBojuPozadine();
+        postaviBojuSlovaMenuBar();
 
     }
 
@@ -75,12 +78,17 @@ public class FMain extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Glavna forma");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Ulogovani korisnik:");
 
+        jLabelUlogovaniKorisnik.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUlogovaniKorisnik.setText(" ");
 
+        jBtnLogout.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnLogout.setForeground(new java.awt.Color(255, 255, 255));
         jBtnLogout.setText("Logout");
         jBtnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,8 +96,14 @@ public class FMain extends javax.swing.JFrame {
             }
         });
 
+        jMenuBar1.setBackground(new java.awt.Color(255, 102, 0));
+        jMenuBar1.setForeground(new java.awt.Color(255, 255, 255));
+
+        jMenuUdzbenik.setForeground(new java.awt.Color(255, 255, 255));
         jMenuUdzbenik.setText("Udzbenik");
 
+        jMenuKreirajUdzbenik.setBackground(new java.awt.Color(255, 102, 0));
+        jMenuKreirajUdzbenik.setForeground(new java.awt.Color(255, 255, 255));
         jMenuKreirajUdzbenik.setText("Kreiraj");
         jMenuKreirajUdzbenik.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,6 +112,8 @@ public class FMain extends javax.swing.JFrame {
         });
         jMenuUdzbenik.add(jMenuKreirajUdzbenik);
 
+        jMenuItemPretraziUdzbenik.setBackground(new java.awt.Color(255, 102, 0));
+        jMenuItemPretraziUdzbenik.setForeground(new java.awt.Color(255, 255, 255));
         jMenuItemPretraziUdzbenik.setText("Pretrazi");
         jMenuItemPretraziUdzbenik.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,8 +124,11 @@ public class FMain extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuUdzbenik);
 
+        jMenuPredmet.setForeground(new java.awt.Color(255, 255, 255));
         jMenuPredmet.setText("Predmet");
 
+        jMenuItem1.setBackground(new java.awt.Color(255, 102, 0));
+        jMenuItem1.setForeground(new java.awt.Color(255, 255, 255));
         jMenuItem1.setText("Kreiraj");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,6 +137,8 @@ public class FMain extends javax.swing.JFrame {
         });
         jMenuPredmet.add(jMenuItem1);
 
+        jMenuPretrazi.setBackground(new java.awt.Color(255, 102, 0));
+        jMenuPretrazi.setForeground(new java.awt.Color(255, 255, 255));
         jMenuPretrazi.setText("Pretrazi");
         jMenuPretrazi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,8 +149,11 @@ public class FMain extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuPredmet);
 
+        jMenuStudijskiProgram.setForeground(new java.awt.Color(255, 255, 255));
         jMenuStudijskiProgram.setText("Studijski program");
 
+        jMenuItem2.setBackground(new java.awt.Color(255, 102, 0));
+        jMenuItem2.setForeground(new java.awt.Color(255, 255, 255));
         jMenuItem2.setText("Dodaj predmet");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,6 +162,8 @@ public class FMain extends javax.swing.JFrame {
         });
         jMenuStudijskiProgram.add(jMenuItem2);
 
+        jMenuItem3.setBackground(new java.awt.Color(255, 102, 0));
+        jMenuItem3.setForeground(new java.awt.Color(255, 255, 255));
         jMenuItem3.setText("Pretrazi predmete");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,8 +174,11 @@ public class FMain extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuStudijskiProgram);
 
+        jMenuPristupSistemu.setForeground(new java.awt.Color(255, 255, 255));
         jMenuPristupSistemu.setText("Pristup sistemu");
 
+        jMenuItemLogin.setBackground(new java.awt.Color(255, 102, 0));
+        jMenuItemLogin.setForeground(new java.awt.Color(255, 255, 255));
         jMenuItemLogin.setText("Login");
         jMenuItemLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,6 +187,8 @@ public class FMain extends javax.swing.JFrame {
         });
         jMenuPristupSistemu.add(jMenuItemLogin);
 
+        jMenuItemKonektujSe.setBackground(new java.awt.Color(255, 102, 0));
+        jMenuItemKonektujSe.setForeground(new java.awt.Color(255, 255, 255));
         jMenuItemKonektujSe.setText("Konektuj se");
         jMenuItemKonektujSe.setEnabled(false);
         jMenuItemKonektujSe.addActionListener(new java.awt.event.ActionListener() {
@@ -169,6 +200,7 @@ public class FMain extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuPristupSistemu);
 
+        jMenuAutor.setForeground(new java.awt.Color(255, 255, 255));
         jMenuAutor.setText("O autoru");
         jMenuAutor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -205,7 +237,7 @@ public class FMain extends javax.swing.JFrame {
                     .addComponent(jLabelUlogovaniKorisnik))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtnLogout)
-                .addContainerGap())
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         pack();
@@ -288,7 +320,9 @@ public class FMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuAutorActionPerformed
 
     private void jMenuAutorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuAutorMouseClicked
-        JOptionPane.showMessageDialog(this, "Autor ove aplikacije je Petar Crnčević, student četvrte godine.", "Autor", JOptionPane.INFORMATION_MESSAGE);
+        if (Session.getInstance().getMap().containsKey("ulogovani_korisnik")) {
+            JOptionPane.showMessageDialog(this, "Autor ove aplikacije je Petar Crnčević, student četvrte godine.", "Autor", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jMenuAutorMouseClicked
 
     /**
@@ -425,6 +459,14 @@ public class FMain extends javax.swing.JFrame {
         jBtnLogout.setEnabled(false);
         jMenuItemKonektujSe.setEnabled(true);
 
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51, 0, 102));
+    }
+
+    private void postaviBojuSlovaMenuBar() {
+        jMenuBar1.getComponent().setForeground(Color.white);
     }
 
 }

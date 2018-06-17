@@ -36,6 +36,7 @@ public class FSelectPredmet extends javax.swing.JDialog {
         popuniTabelu();
         postaviSirinuKolona();
         pripremiTabeluZaSortiranje();
+        postaviBojuPozadine();
     }
 
     /**
@@ -57,8 +58,10 @@ public class FSelectPredmet extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pretraga predmeta");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Pronadjite predmet po nazivu"));
+        jPanel1.setBackground(new java.awt.Color(51, 0, 102));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pronadjite predmet po nazivu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Unesite naziv predmeta:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -92,6 +95,8 @@ public class FSelectPredmet extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(jTblPredmeti);
 
+        jBtnPrikazi.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnPrikazi.setForeground(new java.awt.Color(255, 255, 255));
         jBtnPrikazi.setText("Prikazi");
         jBtnPrikazi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,5 +221,9 @@ public class FSelectPredmet extends javax.swing.JDialog {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51, 0, 102));
     }
 }

@@ -9,6 +9,7 @@ import domen.OsobaUVeziSaUdzbenikom;
 
 import domen.Udzbenik;
 import domen.UlogaUdzbenik;
+import java.awt.Color;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class FUdzbenik extends javax.swing.JDialog {
         podesiSirinuKolona();
         centrirajFormu();
         pripremiFormuZaKreiranje();
+        postaviBojuPozadine();
     }
 
     public FUdzbenik(java.awt.Frame parent, boolean modal, int udzbenikId) {
@@ -47,7 +49,7 @@ public class FUdzbenik extends javax.swing.JDialog {
         podesiSirinuKolona();
         centrirajFormu();
         pripremiFormuZaPregedanje(udzbenikId);
-
+        postaviBojuPozadine();
     }
 
     /**
@@ -91,14 +93,16 @@ public class FUdzbenik extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Unos udzbenika");
-        setMaximumSize(new java.awt.Dimension(406, 362));
         setMinimumSize(new java.awt.Dimension(406, 362));
         setResizable(false);
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Naziv: ");
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Izdavac:");
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Godina izdanja:");
 
         jBtnSacuvaj.setText("Sacuvaj");
@@ -122,10 +126,13 @@ public class FUdzbenik extends javax.swing.JDialog {
             }
         });
 
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Stampa:");
 
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Redni broj izdanja:");
 
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Tiraz:");
 
         jTxtTiraz.addActionListener(new java.awt.event.ActionListener() {
@@ -134,12 +141,16 @@ public class FUdzbenik extends javax.swing.JDialog {
             }
         });
 
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("ISBN:");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Autori"));
+        jPanel1.setBackground(new java.awt.Color(51, 0, 102));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Autori", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jScrollPane1.setViewportView(jTblAutori);
 
+        jBtnDodajAutora.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnDodajAutora.setForeground(new java.awt.Color(255, 255, 255));
         jBtnDodajAutora.setText("+");
         jBtnDodajAutora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,6 +158,8 @@ public class FUdzbenik extends javax.swing.JDialog {
             }
         });
 
+        jBtnObrisiAutora.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnObrisiAutora.setForeground(new java.awt.Color(255, 255, 255));
         jBtnObrisiAutora.setText("-");
         jBtnObrisiAutora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,10 +191,13 @@ public class FUdzbenik extends javax.swing.JDialog {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Recenzenti"));
+        jPanel2.setBackground(new java.awt.Color(51, 0, 102));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Recenzenti", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jScrollPane2.setViewportView(jTblRecenzenti);
 
+        jBtnDodajRecenzenta.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnDodajRecenzenta.setForeground(new java.awt.Color(255, 255, 255));
         jBtnDodajRecenzenta.setText("+");
         jBtnDodajRecenzenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,6 +205,8 @@ public class FUdzbenik extends javax.swing.JDialog {
             }
         });
 
+        jBtnObrisiRecenzenta.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnObrisiRecenzenta.setForeground(new java.awt.Color(255, 255, 255));
         jBtnObrisiRecenzenta.setText("-");
         jBtnObrisiRecenzenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,7 +238,8 @@ public class FUdzbenik extends javax.swing.JDialog {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jLabel8.setText("id:");
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Id:");
 
         jTxtUdbzenikId.setEnabled(false);
 
@@ -231,11 +250,11 @@ public class FUdzbenik extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
+                        .addGap(115, 115, 115)
                         .addComponent(jBtnAzuriraj)
-                        .addGap(31, 31, 31)
-                        .addComponent(jBtnSacuvaj)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBtnSacuvaj)
+                        .addGap(28, 28, 28)
                         .addComponent(jBtnObrisi)
                         .addGap(16, 16, 16))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -698,12 +717,23 @@ public class FUdzbenik extends javax.swing.JDialog {
                 jBtnObrisi.setEnabled(false);
                 jBtnAzuriraj.setEnabled(false);
                 jBtnSacuvaj.setEnabled(true);
-                return;
+
+                jBtnSacuvaj.setBackground(Color.green);
+                jBtnSacuvaj.setForeground(Color.white);
+
+                break;
             case VIEW:
                 jBtnObrisi.setEnabled(true);
                 jBtnAzuriraj.setEnabled(true);
                 jBtnSacuvaj.setEnabled(false);
-                return;
+
+                jBtnAzuriraj.setBackground(Color.yellow);
+                jBtnAzuriraj.setForeground(Color.white);
+
+                jBtnObrisi.setBackground(Color.red);
+                jBtnObrisi.setForeground(Color.white);
+
+                break;
         }
     }
 
@@ -767,6 +797,10 @@ public class FUdzbenik extends javax.swing.JDialog {
 
         return false;
 
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51, 0, 102));
     }
 
 }

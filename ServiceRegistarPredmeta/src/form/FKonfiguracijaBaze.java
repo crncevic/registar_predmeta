@@ -30,6 +30,7 @@ public class FKonfiguracijaBaze extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         centrirajFormu();
+        postaviBojuPozadine();
     }
 
     /**
@@ -61,14 +62,20 @@ public class FKonfiguracijaBaze extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Driver: ");
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("URL:");
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Username: ");
 
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Password:");
 
+        jBtnTestKonekcija.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnTestKonekcija.setForeground(new java.awt.Color(255, 255, 255));
         jBtnTestKonekcija.setText("Test konekcije");
         jBtnTestKonekcija.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,6 +83,8 @@ public class FKonfiguracijaBaze extends javax.swing.JDialog {
             }
         });
 
+        jBtnZapamtiKonekciju.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnZapamtiKonekciju.setForeground(new java.awt.Color(255, 255, 255));
         jBtnZapamtiKonekciju.setText("Sacuvaj");
         jBtnZapamtiKonekciju.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,5 +228,9 @@ public class FKonfiguracijaBaze extends javax.swing.JDialog {
 
     private void centrirajFormu() {
         setLocationRelativeTo(null);
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51,0,102));
     }
 }

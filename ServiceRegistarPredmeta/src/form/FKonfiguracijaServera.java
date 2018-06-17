@@ -25,6 +25,7 @@ public class FKonfiguracijaServera extends javax.swing.JDialog {
         initComponents();
         centrirajFormu();
         postaviTrenutnuVrednostParametara();
+        postaviBojuPozadine();
     }
 
     /**
@@ -44,8 +45,11 @@ public class FKonfiguracijaServera extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Port:");
 
+        jBtnSacuvaj.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnSacuvaj.setForeground(new java.awt.Color(255, 255, 255));
         jBtnSacuvaj.setText("Sacuvaj");
         jBtnSacuvaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -53,7 +57,8 @@ public class FKonfiguracijaServera extends javax.swing.JDialog {
             }
         });
 
-        jLabel2.setText("Max broj klijenata");
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Max broj klijenata:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,7 +79,7 @@ public class FKonfiguracijaServera extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTxtServerPort)
                             .addComponent(jTxtMaxBrojKlijenata, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,6 +154,11 @@ public class FKonfiguracijaServera extends javax.swing.JDialog {
         } catch (Exception e) {
             System.out.println("Desila se greska prilikom ucitavanja vrednosti za port. Greska: " + e.getMessage());
         }
+
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51, 0, 102));
 
     }
 

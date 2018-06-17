@@ -16,6 +16,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.List;
+import javax.swing.JOptionPane;
 import session.Session;
 import transfer.request.RequestObject;
 import transfer.response.ResponseObject;
@@ -56,6 +57,7 @@ public class Kontroler {
             Session.getInstance().getMap().remove("ulogovani_korisnik");
             fMain.getUlogovaniKorisnikLabel().setText("");
             fMain.omoguceSamoKonekcijuNaServer();
+            JOptionPane.showMessageDialog(fMain, "Doslo je do prekida konekcije sa serverom! Pokusajte da se konektujete opet.","Prekid konekcije",JOptionPane.ERROR_MESSAGE);
         }
 
     }

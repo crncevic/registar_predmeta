@@ -22,6 +22,7 @@ public class FSadrzajTekst extends javax.swing.JDialog {
         initComponents();
         centrirajFormu();
         proveriSesiju();
+        postaviBojuPozadine();
     }
 
     /**
@@ -42,12 +43,15 @@ public class FSadrzajTekst extends javax.swing.JDialog {
         setTitle("Sadrzaj tekstualni opis");
         setResizable(false);
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Unesite sadrzaj:");
 
         jTextAreaSadrzajTekst.setColumns(20);
         jTextAreaSadrzajTekst.setRows(5);
         jScrollPane2.setViewportView(jTextAreaSadrzajTekst);
 
+        jBtnSacuvaj.setBackground(new java.awt.Color(0, 255, 0));
+        jBtnSacuvaj.setForeground(new java.awt.Color(255, 255, 255));
         jBtnSacuvaj.setText("Sacuvaj");
         jBtnSacuvaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,5 +130,9 @@ public class FSadrzajTekst extends javax.swing.JDialog {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51, 0, 102));
     }
 }

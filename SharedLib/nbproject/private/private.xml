@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/SharedLib/src/domen/Uloga.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/SharedLib/src/domen/UdzbenikNaPredmetu.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/SharedLib/src/domen/UlogaUdzbenik.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/SharedLib/src/domen/VrstaINivoStudija.java</file>
+            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/SharedLib/src/domen/OsobaUVeziSaUdzbenikom.java</file>
+            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/SharedLib/src/domen/Nastavnik.java</file>
         </group>
     </open-files>
 </project-private>

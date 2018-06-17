@@ -36,7 +36,7 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
         popuniStudijskiProgramiCombo();
         postaviTableModel();
         pripremiTabeluZaSortiranje();
-
+        postaviBojuPozadine();
     }
 
     /**
@@ -60,6 +60,7 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pretrazite predmete na smeru");
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Izaberite studijski program:");
 
         jComboStudijskiProgram.addActionListener(new java.awt.event.ActionListener() {
@@ -68,8 +69,10 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Pretrazite predmet na smeru"));
+        jPanel1.setBackground(new java.awt.Color(51, 0, 102));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pretrazite predmet na smeru", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Unesite naziv predmeta:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -102,6 +105,8 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(jTblPredmetiNaSmeru);
 
+        jBtnPrikazi.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnPrikazi.setForeground(new java.awt.Color(255, 255, 255));
         jBtnPrikazi.setText("Prikazi");
         jBtnPrikazi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -267,6 +272,10 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51, 0, 102));
     }
 
 }

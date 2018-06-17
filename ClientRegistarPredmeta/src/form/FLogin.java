@@ -30,6 +30,7 @@ public class FLogin extends javax.swing.JDialog {
         centrirajFormu();
         brojacPokusaja = 0;
         fMain = FMain.getInstance();
+        postaviBojuPozadine();
     }
 
     /**
@@ -51,10 +52,14 @@ public class FLogin extends javax.swing.JDialog {
         setTitle("Ulogujte se");
         setResizable(false);
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Korisnicko ime:");
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Lozinka:");
 
+        jBtnLogin.setBackground(new java.awt.Color(0, 204, 255));
+        jBtnLogin.setForeground(new java.awt.Color(255, 255, 255));
         jBtnLogin.setText("Uloguj se");
         jBtnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,5 +162,9 @@ public class FLogin extends javax.swing.JDialog {
 
     private void centrirajFormu() {
         setLocationRelativeTo(null);
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51,0,102));
     }
 }

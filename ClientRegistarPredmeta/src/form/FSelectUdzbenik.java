@@ -34,6 +34,7 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
         centrirajFormu();
         promeniSirinuKolona();
         pripremiTabeluZaSortiranje();
+        postaviBojuPozadine();
     }
 
     /**
@@ -59,8 +60,10 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
         setTitle("Pretrazivanje udzbenika");
         setResizable(false);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Pronadjite udzbenik po nazivu"));
+        jPanel1.setBackground(new java.awt.Color(51, 0, 102));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Pronadjite udzbenik po nazivu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Unesite naziv udzbenika:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -94,6 +97,8 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(jTblUdzbenici);
 
+        jBtnPrikazi.setBackground(new java.awt.Color(51, 204, 255));
+        jBtnPrikazi.setForeground(new java.awt.Color(255, 255, 255));
         jBtnPrikazi.setText("Prikazi");
         jBtnPrikazi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,9 +127,9 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(24, 24, 24)
                 .addComponent(jBtnPrikazi)
-                .addGap(24, 24, 24))
+                .addContainerGap())
         );
 
         pack();
@@ -225,6 +230,10 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
         } catch (Exception e) {
             System.out.println("Dogodila se greska kod postavljanja row sort-era");
         }
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51, 0, 102));
     }
 
 }

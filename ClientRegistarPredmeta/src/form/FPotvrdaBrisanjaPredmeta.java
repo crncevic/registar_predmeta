@@ -26,6 +26,7 @@ public class FPotvrdaBrisanjaPredmeta extends javax.swing.JDialog {
         initComponents();
         this.predmetId = predmetId;
         centrirajFormu();
+        postaviBojuPozadine();
     }
 
     /**
@@ -44,8 +45,11 @@ public class FPotvrdaBrisanjaPredmeta extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Da li zaista želite da obrišete predmet?");
 
+        jButton1.setBackground(new java.awt.Color(51, 204, 255));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Da");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -53,6 +57,8 @@ public class FPotvrdaBrisanjaPredmeta extends javax.swing.JDialog {
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(51, 204, 255));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Ne");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,5 +127,9 @@ public class FPotvrdaBrisanjaPredmeta extends javax.swing.JDialog {
 
     private void centrirajFormu() {
         setLocationRelativeTo(null);
+    }
+
+    private void postaviBojuPozadine() {
+        this.getContentPane().setBackground(new java.awt.Color(51,0,102));
     }
 }
