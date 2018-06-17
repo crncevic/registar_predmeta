@@ -57,7 +57,7 @@ public class Kontroler {
             Session.getInstance().getMap().remove("ulogovani_korisnik");
             fMain.getUlogovaniKorisnikLabel().setText("");
             fMain.omoguceSamoKonekcijuNaServer();
-            JOptionPane.showMessageDialog(fMain, "Doslo je do prekida konekcije sa serverom! Pokusajte da se konektujete opet.","Prekid konekcije",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(fMain, "<html><font color=#ffffff>Doslo je do prekida konekcije sa serverom! Pokusajte da se konektujete opet.</font></html>","Prekid konekcije",JOptionPane.ERROR_MESSAGE);
         }
 
     }

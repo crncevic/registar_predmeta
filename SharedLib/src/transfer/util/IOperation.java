@@ -39,5 +39,6 @@ public interface IOperation {
     public static final int AZURIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU = 26;
     public static final int OBRISI_PREDMET_NA_STUDIJSKOM_PROGRAMU = 27;
     public static final int LOGOUT = 28;
+    public static final int PRONADJI_NASTAVNIKA_PO_ID = 29;
 
 }

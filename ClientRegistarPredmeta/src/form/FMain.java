@@ -27,7 +27,7 @@ import transfer.util.IOperation;
  * @author Petar
  */
 public class FMain extends javax.swing.JFrame {
-    
+
     private static FMain instance;
 
     /**
@@ -40,9 +40,9 @@ public class FMain extends javax.swing.JFrame {
         onemoguciMenije();
         postaviBojuPozadine();
         postaviBojuSlovaMenuBar();
-        
+
     }
-    
+
     public static FMain getInstance() {
         if (instance == null) {
             instance = new FMain();
@@ -75,6 +75,8 @@ public class FMain extends javax.swing.JFrame {
         jMenuPristupSistemu = new javax.swing.JMenu();
         jMenuItemLogin = new javax.swing.JMenuItem();
         jMenuItemKonektujSe = new javax.swing.JMenuItem();
+        jMenuNastavnici = new javax.swing.JMenu();
+        jMenuPronadjiNastavnike = new javax.swing.JMenuItem();
         jMenuAutor = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -206,6 +208,21 @@ public class FMain extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuPristupSistemu);
 
+        jMenuNastavnici.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuNastavnici.setText("Nastavnici");
+
+        jMenuPronadjiNastavnike.setBackground(new java.awt.Color(255, 102, 0));
+        jMenuPronadjiNastavnike.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuPronadjiNastavnike.setText("Pronadji nastavnike");
+        jMenuPronadjiNastavnike.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuPronadjiNastavnikeActionPerformed(evt);
+            }
+        });
+        jMenuNastavnici.add(jMenuPronadjiNastavnike);
+
+        jMenuBar1.add(jMenuNastavnici);
+
         jMenuAutor.setForeground(new java.awt.Color(255, 255, 255));
         jMenuAutor.setText("O autoru");
         jMenuAutor.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -252,21 +269,21 @@ public class FMain extends javax.swing.JFrame {
     private void jMenuKreirajUdzbenikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuKreirajUdzbenikActionPerformed
         JDialog fUdzbenik = new FUdzbenik(this, true);
         fUdzbenik.setVisible(true);
-        
+
         statusLabel.setText("Use case: Kreiranje udzbenika!");
     }//GEN-LAST:event_jMenuKreirajUdzbenikActionPerformed
 
     private void jMenuItemPretraziUdzbenikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPretraziUdzbenikActionPerformed
         JDialog fSelectUdzbenik = new FSelectUdzbenik(this, true);
         fSelectUdzbenik.setVisible(true);
-        
+
         statusLabel.setText("Use case: Pretrazivanje udzbenika!");
     }//GEN-LAST:event_jMenuItemPretraziUdzbenikActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         JFrame fPredmet = new FPredmet(this);
         fPredmet.setVisible(true);
-        
+
         statusLabel.setText("Use case: Kreiranje predmeta!");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -280,14 +297,14 @@ public class FMain extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         JDialog fPredmetNaSmeru = new FPredmetNaSmeru(this, true);
         fPredmetNaSmeru.setVisible(true);
-        
+
         statusLabel.setText("Use case: Kreiranje predmeta na studijskom programu!");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(this, true);
         fSelectPredmetNaSmeru.setVisible(true);
-        
+
         statusLabel.setText("Use case: Pretrazivanje predmeta na studijskom programu!");
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
@@ -301,13 +318,13 @@ public class FMain extends javax.swing.JFrame {
                     Session.getInstance().getMap().remove("ulogovani_korisnik");
                     jLabelUlogovaniKorisnik.setText("");
                     onemoguciMenijeLogout();
-                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dovidjenja " + k.getIme()+"</font></html>");
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dovidjenja " + k.getIme() + "</font></html>");
                 } else {
                     JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Neuspesan logout !</font></html>");
                 }
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ ex.getMessage()+"</font></html>");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + ex.getMessage() + "</font></html>");
         }
     }//GEN-LAST:event_jBtnLogoutActionPerformed
 
@@ -339,9 +356,14 @@ public class FMain extends javax.swing.JFrame {
             ui.put("Panel.foreground", new Color(255, 255, 255));
             ui.put("Label.foreground", new Color(255, 255, 255));
         } catch (Exception e) {
-            
+
         }
     }//GEN-LAST:event_formWindowActivated
+
+    private void jMenuPronadjiNastavnikeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPronadjiNastavnikeActionPerformed
+        JDialog fSelectNastavnik = new FSelectNastavnik(this, true);
+        fSelectNastavnik.setVisible(true);
+    }//GEN-LAST:event_jMenuPronadjiNastavnikeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -360,26 +382,28 @@ public class FMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemLogin;
     private javax.swing.JMenuItem jMenuItemPretraziUdzbenik;
     private javax.swing.JMenuItem jMenuKreirajUdzbenik;
+    private javax.swing.JMenu jMenuNastavnici;
     private javax.swing.JMenu jMenuPredmet;
     private javax.swing.JMenuItem jMenuPretrazi;
     private javax.swing.JMenu jMenuPristupSistemu;
+    private javax.swing.JMenuItem jMenuPronadjiNastavnike;
     private javax.swing.JMenu jMenuStudijskiProgram;
     private javax.swing.JMenu jMenuUdzbenik;
     // End of variables declaration//GEN-END:variables
     private JPanel statusPanel;
     private JLabel statusLabel;
-    
+
     private void maksimizirajFormu() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
-    
+
     private void postaviStatusBar() {
         setLayout(new BorderLayout());
-        
+
         statusPanel = new JPanel();
         statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
         add(statusPanel, BorderLayout.SOUTH);
-        
+
         statusPanel.setPreferredSize(new Dimension(getWidth(), 30));
         statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
         statusLabel = new JLabel("Status: This is main form!");
@@ -387,9 +411,9 @@ public class FMain extends javax.swing.JFrame {
         statusLabel.setForeground(Color.white);
         statusPanel.add(statusLabel);
         statusPanel.setBackground(new Color(51, 0, 102));
-        
+
     }
-    
+
     public void postaviUlogovanogKorisnika() {
         try {
             if (Session.getInstance().getMap().containsKey("ulogovani_korisnik")) {
@@ -402,42 +426,44 @@ public class FMain extends javax.swing.JFrame {
             System.out.println("Dogodila se greska prilikom postavljanja ulogovanog korisnika. Greska:" + e.getMessage());
         }
     }
-    
+
     public void omoguciMenije() {
         if (Session.getInstance().getSocket() != null && !Session.getInstance().getSocket().isClosed()) {
             jMenuPredmet.setEnabled(true);
             jMenuUdzbenik.setEnabled(true);
             jMenuPristupSistemu.setEnabled(true);
             jMenuStudijskiProgram.setEnabled(true);
-            
+            jMenuNastavnici.setEnabled(true);
+
             jMenuAutor.setEnabled(true);
             jMenuItemLogin.setEnabled(false);
             jBtnLogout.setEnabled(true);
         } else {
             omoguceSamoKonekcijuNaServer();
         }
-        
+
     }
-    
+
     private void onemoguciMenije() {
         try {
             if (Session.getInstance().getSocket() != null && !Session.getInstance().getSocket().isClosed()) {
                 jMenuPredmet.setEnabled(false);
                 jMenuUdzbenik.setEnabled(false);
                 jMenuStudijskiProgram.setEnabled(false);
-                
+                jMenuNastavnici.setEnabled(false);
+
                 jMenuPristupSistemu.setEnabled(true);
                 jBtnLogout.setEnabled(false);
                 jMenuAutor.setEnabled(false);
             } else {
                 omoguceSamoKonekcijuNaServer();
             }
-            
+
         } catch (Exception e) {
             System.out.println("Dogodila se greska prilikom onemogucivanja menija");
         }
     }
-    
+
     void omoguciPristupSistemu() {
         if (Session.getInstance().getSocket() != null && !Session.getInstance().getSocket().isClosed()) {
             jMenuPristupSistemu.setEnabled(true);
@@ -448,15 +474,16 @@ public class FMain extends javax.swing.JFrame {
             omoguceSamoKonekcijuNaServer();
         }
     }
-    
+
     private void onemoguciMenijeLogout() {
         if (Session.getInstance().getSocket() != null && !Session.getInstance().getSocket().isClosed()) {
             jMenuPredmet.setEnabled(false);
             jMenuUdzbenik.setEnabled(false);
-            
+
             jMenuItemLogin.setEnabled(true);
             jBtnLogout.setEnabled(false);
-            
+            jMenuNastavnici.setEnabled(false);
+
             jMenuStudijskiProgram.setEnabled(false);
             jMenuAutor.setEnabled(false);
             jMenuItemKonektujSe.setEnabled(false);
@@ -464,30 +491,31 @@ public class FMain extends javax.swing.JFrame {
             omoguceSamoKonekcijuNaServer();
         }
     }
-    
+
     public JLabel getUlogovaniKorisnikLabel() {
         return jLabelUlogovaniKorisnik;
     }
-    
+
     public void omoguceSamoKonekcijuNaServer() {
         jMenuPredmet.setEnabled(false);
         jMenuUdzbenik.setEnabled(false);
         jMenuStudijskiProgram.setEnabled(false);
         jMenuAutor.setEnabled(false);
-        
+        jMenuNastavnici.setEnabled(false);
+
         jMenuPristupSistemu.setEnabled(true);
         jMenuItemLogin.setEnabled(false);
         jBtnLogout.setEnabled(false);
         jMenuItemKonektujSe.setEnabled(true);
-        
+
     }
-    
+
     private void postaviBojuPozadine() {
         this.getContentPane().setBackground(new java.awt.Color(51, 0, 102));
     }
-    
+
     private void postaviBojuSlovaMenuBar() {
         jMenuBar1.getComponent().setForeground(Color.white);
     }
-    
+
 }

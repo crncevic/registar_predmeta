@@ -409,6 +409,24 @@ public class NitKlijent extends Thread {
                             responseObject.setMessage(e.getMessage());
                         }
                         break;
+                        
+                    case IOperation.PRONADJI_NASTAVNIKA_PO_ID:
+                        try {
+                            Nastavnik nastavnik = NastavnikDaoImpl.getInstance().vratiNastavnikaZaId((int)requestObject.getData());
+                            if (nastavnik != null) {
+
+                                responseObject.setData(nastavnik);
+                                responseObject.setCode(IStatus.OK);
+                            } else {
+                                responseObject.setCode(IStatus.ERROR);
+                                responseObject.setData(null);
+                            }
+
+                        } catch (Exception e) {
+                            responseObject.setCode(IStatus.ERROR);
+                            responseObject.setMessage(e.getMessage());
+                        }
+                        break;
                     default:
                         responseObject.setMessage("Server nije mogao da zakljuci o kom zahtevu se radi.");
 
