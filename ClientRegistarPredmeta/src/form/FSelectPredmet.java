@@ -144,10 +144,10 @@ public class FSelectPredmet extends javax.swing.JDialog {
                 fPredmet.setVisible(true);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Niste selektovali nijedan predmet!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Niste selektovali nijedan predmet!</font></html>");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
         }
     }//GEN-LAST:event_jBtnPrikaziActionPerformed
 
@@ -176,7 +176,7 @@ public class FSelectPredmet extends javax.swing.JDialog {
             TableModel ptm = new PredmetTableModel(predmeti);
             jTblPredmeti.setModel(ptm);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>" + e.getMessage()+"</font></html>");
         }
     }
 
@@ -219,7 +219,7 @@ public class FSelectPredmet extends javax.swing.JDialog {
                 }
             });
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>"+e.getMessage()+"</font></html>");
         }
     }
 

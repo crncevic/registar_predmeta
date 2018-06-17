@@ -164,7 +164,7 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
         }
     }//GEN-LAST:event_jComboStudijskiProgramActionPerformed
 
@@ -181,10 +181,10 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
                 fPredmetNaSmeru.setVisible(true);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Niste selektovali nijedan predmet!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Niste selektovali nijedan predmet!</font></html>");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
         }
     }//GEN-LAST:event_jBtnPrikaziActionPerformed
 
@@ -217,7 +217,7 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
             jTblPredmetiNaSmeru.setModel(pnsp);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
         }
     }
 
@@ -232,7 +232,7 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
 
             jComboStudijskiProgram.setRenderer(new StudijskiProgramRenderer());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>" + e.getMessage()+"</font></html>");
         }
     }
 
@@ -270,7 +270,7 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
                 }
             });
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
         }
     }
 

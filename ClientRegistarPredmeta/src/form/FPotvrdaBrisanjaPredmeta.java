@@ -108,10 +108,10 @@ public class FPotvrdaBrisanjaPredmeta extends javax.swing.JDialog {
             Predmet predmet = (Predmet) Kontroler.getInstance().primiOdgovor();
 
             if (predmet != null) {
-                JOptionPane.showMessageDialog(this, "Predmet je uspesno obrisan iz baze podataka!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet je uspesno obrisan iz baze podataka!</font></html>");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + e.getMessage() + "</html></font>");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -130,6 +130,6 @@ public class FPotvrdaBrisanjaPredmeta extends javax.swing.JDialog {
     }
 
     private void postaviBojuPozadine() {
-        this.getContentPane().setBackground(new java.awt.Color(51,0,102));
+        this.getContentPane().setBackground(new java.awt.Color(51, 0, 102));
     }
 }

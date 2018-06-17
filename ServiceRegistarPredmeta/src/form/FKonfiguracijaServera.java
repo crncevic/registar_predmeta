@@ -107,21 +107,21 @@ public class FKonfiguracijaServera extends javax.swing.JDialog {
             int port = Integer.parseInt(jTxtServerPort.getText().trim());
 
             if (port < 1 || port > 65535) {
-                JOptionPane.showMessageDialog(this, "Za port je moguc unos samo celih brojeva od 1 do 65535 ");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Za port je moguc unos samo celih brojeva od 1 do 65535 </font></html>");
                 return;
             }
 
             int maxBrojKlijenata = Integer.parseInt(jTxtMaxBrojKlijenata.getText().trim());
             if (maxBrojKlijenata < 1 || maxBrojKlijenata > 20) {
-                JOptionPane.showMessageDialog(this, "Za port je moguc unos samo celih brojeva od 1 do 65535 ");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Za port je moguc unos samo celih brojeva od 1 do 65535 </font></html>");
                 return;
             }
 
             SettingsLoader.getInstance().setValue(Constants.APPLICATION_PORT, String.valueOf(port));
-            JOptionPane.showMessageDialog(this, "Promena parametara je uspesno zapamcena!");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Promena parametara je uspesno zapamcena!</font></html>");
             dispose();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Za port je moguc unos samo celih brojeva od 1 do 65535. Broj klijenata ");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Za port je moguc unos samo celih brojeva od 1 do 65535. Broj klijenata </font></html>");
 
         }
 

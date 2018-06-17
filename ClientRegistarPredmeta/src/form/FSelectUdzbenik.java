@@ -61,7 +61,7 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(51, 0, 102));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Pronadjite udzbenik po nazivu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)), "Pronadjite udzbenik po nazivu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Unesite naziv udzbenika:");
@@ -145,10 +145,10 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
                 JDialog fUdzbenik = new FUdzbenik(FMain.getInstance(), true, udzbenikId);
                 fUdzbenik.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Niste selektovali nijedan predmet!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Niste selektovali nijedan predmet!</font></html>");
             }
         } catch (Exception ex) {
-            System.out.println("Dogodila se greska prilikom pregledanja udzbenika!");
+            System.out.println("<html><font color=#ffffff>Dogodila se greska prilikom pregledanja udzbenika!</font></html>");
         }
     }//GEN-LAST:event_jBtnPrikaziActionPerformed
 
@@ -172,7 +172,7 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
             TableModel utm = new UdzbenikTableModel(udzbenici);
             jTblUdzbenici.setModel(utm);
         } catch (Exception e) {
-            System.out.println("Dogodila se greska prilikom postavljanja table modela!");
+            System.out.println("<html><font color=#ffffff>Dogodila se greska prilikom postavljanja table modela!</font></html>");
         }
     }
 
@@ -228,7 +228,7 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
                 }
             });
         } catch (Exception e) {
-            System.out.println("Dogodila se greska kod postavljanja row sort-era");
+            System.out.println("<html><font color=#ffffff>Dogodila se greska kod postavljanja row sort-era</font></html>");
         }
     }
 

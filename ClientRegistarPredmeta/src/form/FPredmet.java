@@ -497,7 +497,7 @@ public class FPredmet extends javax.swing.JFrame {
 
             nnptm.dodajNastavnikaNaPredmet(nastavnik, tipNastave, predmetZaPregledanje);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom dodavanja novog nastavnika u tabelu za predmet .Greska:" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom dodavanja novog nastavnika u tabelu za predmet .Greska:" + e.getMessage()+"</font></html>");
         }
     }//GEN-LAST:event_jBtnDodajNastavnikaActionPerformed
 
@@ -509,10 +509,10 @@ public class FPredmet extends javax.swing.JFrame {
                 NastavnikNaPredmetuTableModel nnptm = (NastavnikNaPredmetuTableModel) jTblNastavnici.getModel();
                 nnptm.obrisiNastavnikaSaPredmeta(selektovaniRed);
             } else {
-                JOptionPane.showMessageDialog(this, "Niste selektovali red brisanje");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Niste selektovali red brisanje</font></html>");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom brisanja  nastavnika iz tabele za predmet .Greska:" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom brisanja  nastavnika iz tabele za predmet .Greska:" + e.getMessage()+"</font></html>");
 
         }
     }//GEN-LAST:event_jBtnObrisiNastavnikaActionPerformed
@@ -523,7 +523,7 @@ public class FPredmet extends javax.swing.JFrame {
             Udzbenik udzbenik = (Udzbenik) JComboUdzbenik.getSelectedItem();
             ustm.dodajUdzbenik(udzbenik);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom dodavanja novog udzbenika u tabelu za predmet .Greska:" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom dodavanja novog udzbenika u tabelu za predmet .Greska:" + e.getMessage()+"</font></html>");
         }
     }//GEN-LAST:event_jBtnDodajUdzbenikActionPerformed
 
@@ -535,10 +535,10 @@ public class FPredmet extends javax.swing.JFrame {
                 UdzbenikSkraceniTableModel ustm = (UdzbenikSkraceniTableModel) jTblUdzbenici.getModel();
                 ustm.obrisiNastavnikaSaPredmeta(selektovaniRed);
             } else {
-                JOptionPane.showMessageDialog(this, "Niste selektovali red brisanje");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Niste selektovali red brisanje</font></html>");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom brisanja  nastavnika iz tabele za predmet .Greska:" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom brisanja  nastavnika iz tabele za predmet .Greska:" + e.getMessage()+"</font></html>");
 
         }
     }//GEN-LAST:event_jBtnObrisiUdzbenikActionPerformed
@@ -554,7 +554,7 @@ public class FPredmet extends javax.swing.JFrame {
             String naziv = jTxtNazivPredmeta.getText().trim();
 
             if (naziv.length() == 0) {
-                JOptionPane.showMessageDialog(this, "Morate uneti naziv predmeta!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Morate uneti naziv predmeta!</font></html>");
                 return;
             }
 
@@ -575,7 +575,7 @@ public class FPredmet extends javax.swing.JFrame {
                     throw new Exception();
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Moguc je izbor samo nenegativnih brojeva!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
                 return;
             }
 
@@ -599,7 +599,7 @@ public class FPredmet extends javax.swing.JFrame {
                     throw new Exception();
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Moguc je izbor samo nenegativnih brojeva!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
                 return;
             }
 
@@ -634,7 +634,7 @@ public class FPredmet extends javax.swing.JFrame {
             Kontroler.getInstance().posaljiZahtev(IOperation.KREIRAJ_PREDMET, predmet);
             Predmet kreiraniPredmet = (Predmet) Kontroler.getInstance().primiOdgovor();
 
-            JOptionPane.showMessageDialog(this, "Predmet :" + kreiraniPredmet.getNaziv() + " je uspesno sacuvan u bazi podataka!");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet :" + kreiraniPredmet.getNaziv() + " je uspesno sacuvan u bazi podataka!</font></html>");
 
             dispose();
 
@@ -642,7 +642,7 @@ public class FPredmet extends javax.swing.JFrame {
             fSelecetPredmet.setVisible(true);
             Session.getInstance().setTematskeCelineTekst("");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>" + e.getMessage() + "</font></html>");
         }
     }//GEN-LAST:event_jBtnSacuvajActionPerformed
 
@@ -660,14 +660,14 @@ public class FPredmet extends javax.swing.JFrame {
                     throw new Exception();
                 }
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "PredmetId mora biti ceo nenegativan broj!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>PredmetId mora biti ceo nenegativan broj!</font></html>");
                 return;
             }
 
             String naziv = jTxtNazivPredmeta.getText().trim();
 
             if (naziv.length() == 0) {
-                JOptionPane.showMessageDialog(this, "Morate uneti naziv predmeta!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Morate uneti naziv predmeta!</font></html>");
                 return;
             }
 
@@ -688,7 +688,7 @@ public class FPredmet extends javax.swing.JFrame {
                     throw new Exception();
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Moguc je izbor samo nenegativnih brojeva!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
                 return;
             }
 
@@ -700,7 +700,7 @@ public class FPredmet extends javax.swing.JFrame {
                     throw new Exception();
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Moguc je izbor samo nenegativnih brojeva!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
                 return;
             }
 
@@ -712,7 +712,7 @@ public class FPredmet extends javax.swing.JFrame {
                     throw new Exception();
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Moguc je izbor samo nenegativnih brojeva!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
                 return;
             }
 
@@ -749,7 +749,7 @@ public class FPredmet extends javax.swing.JFrame {
             Kontroler.getInstance().posaljiZahtev(IOperation.AZURIRAJ_PREDMET, predmet);
             Predmet kreiraniPredmet = (Predmet) Kontroler.getInstance().primiOdgovor();
 
-            JOptionPane.showMessageDialog(this, "Predmet : " + kreiraniPredmet.getNaziv() + " je uspesno azuriran!");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet : " + kreiraniPredmet.getNaziv() + " je uspesno azuriran!</font></html>");
             dispose();
 
             Session.getInstance().setTematskeCelineTekst("");
@@ -758,7 +758,7 @@ public class FPredmet extends javax.swing.JFrame {
             fSelecetPredmet.setVisible(true);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom azuriranja predmeta! Greska:" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom azuriranja predmeta! Greska:" + e.getMessage()+"</font></html>");
         }
     }//GEN-LAST:event_jBtnAzurirajActionPerformed
 
@@ -774,7 +774,7 @@ public class FPredmet extends javax.swing.JFrame {
             fPotvrdaBrisanjaPredmeta.setVisible(true);
             dispose();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "PredmetId mora biti ceo nenegativan broj!");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>PredmetId mora biti ceo nenegativan broj!</font></html>");
             return;
         }
 
@@ -845,7 +845,7 @@ public class FPredmet extends javax.swing.JFrame {
 
             jComboVrstaINivoStudija.setRenderer(new VrstaINivoStudijaRenderer());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>" + e.getMessage() + "</font></html>");
         }
     }
 
@@ -861,7 +861,7 @@ public class FPredmet extends javax.swing.JFrame {
             jComboIzborNastavnika.setRenderer(new NastavnikRenderer());
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom inicijalizacije combobox-a za nastavnike.Greska:" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom inicijalizacije combobox-a za nastavnike.Greska:" + e.getMessage()+"</font></html>");
 
         }
     }
@@ -877,7 +877,7 @@ public class FPredmet extends javax.swing.JFrame {
             JComboUdzbenik.setRenderer(new UdzbenikRenderer());
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom inicijalizacije combobox-a za udzbenike.Greska:" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom inicijalizacije combobox-a za udzbenike.Greska:" + e.getMessage()+"</font></html>");
 
         }
     }
@@ -889,7 +889,7 @@ public class FPredmet extends javax.swing.JFrame {
             jTblNastavnici.setModel(nnptm);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom inicijalizacije table modela za nastavnike na predmetu.Greska:" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom inicijalizacije table modela za nastavnike na predmetu.Greska:" + e.getMessage()+"</font></html>");
 
         }
     }
@@ -899,7 +899,7 @@ public class FPredmet extends javax.swing.JFrame {
             TableModel ustm = new UdzbenikSkraceniTableModel(new ArrayList<>());
             jTblUdzbenici.setModel(ustm);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom inicijalizacije table modela za udzbenik.Greska:" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom inicijalizacije table modela za udzbenik.Greska:" + e.getMessage()+"</font></html>");
 
         }
     }
@@ -968,7 +968,7 @@ public class FPredmet extends javax.swing.JFrame {
             Session.getInstance().setTematskeCelineTekst(predmet.getSadrzajTekst());
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom postavljanja predmeta.Greska:" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom postavljanja predmeta.Greska:" + e.getMessage()+"</font></html>");
         }
     }
 
@@ -990,7 +990,7 @@ public class FPredmet extends javax.swing.JFrame {
 
         } catch (Exception e) {
 
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom inicijalizacije combobox-a za tipove nastave.Greska:" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom inicijalizacije combobox-a za tipove nastave.Greska:" + e.getMessage()+"</font></html>");
 
         }
 

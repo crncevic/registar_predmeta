@@ -17,6 +17,7 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.TableModel;
 import server.Server;
 import table.model.KorisnikStatusTableModel;
@@ -49,7 +50,7 @@ public class FServer extends javax.swing.JFrame {
         try {
             port = Integer.valueOf(SettingsLoader.getInstance().getValue(Constants.APPLICATION_PORT));
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Nije moguce ucitati broj porta! Program se prekida!");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Nije moguce ucitati broj porta! Program se prekida!</font></html>");
             dispose();
         }
     }
@@ -76,6 +77,11 @@ public class FServer extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Server");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jBtnServerStart.setBackground(new java.awt.Color(51, 204, 255));
         jBtnServerStart.setForeground(new java.awt.Color(255, 255, 255));
@@ -182,7 +188,7 @@ public class FServer extends javax.swing.JFrame {
                         SettingsLoader.getInstance().getValue(Constants.USER),
                         SettingsLoader.getInstance().getValue(Constants.PASSWORD));
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Nije moguce konektovati se na bazu podataka! Server nece biti startovan", "Greska", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Nije moguce konektovati se na bazu podataka! Server nece biti startovan</font></html>", "Greska", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -199,7 +205,7 @@ public class FServer extends javax.swing.JFrame {
             jLabelStatus.setForeground(Color.GREEN);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska kod pokretanja servera! Greska: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska kod pokretanja servera! Greska: " + e.getMessage()+"</font></html>");
         }
     }//GEN-LAST:event_jBtnServerStartActionPerformed
 
@@ -228,7 +234,7 @@ public class FServer extends javax.swing.JFrame {
             jLabelStatus.setText(msgStop);
             jLabelStatus.setForeground(Color.RED);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom zaustavljanja servera.");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom zaustavljanja servera.</font></html>");
         }
     }//GEN-LAST:event_jBtnServerStopActionPerformed
 
@@ -236,6 +242,12 @@ public class FServer extends javax.swing.JFrame {
         JDialog fKonfiguracijaBaze = new FKonfiguracijaBaze(this, true);
         fKonfiguracijaBaze.setVisible(true);
     }//GEN-LAST:event_jMenuItemKonekcijaSaBazomActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        UIManager uim = new UIManager();
+        uim.put("OptionPane.background", new Color(51, 0, 102));
+        uim.put("Panel.background", new Color(51, 0, 102));
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments

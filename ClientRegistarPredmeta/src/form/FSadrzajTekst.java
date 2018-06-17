@@ -93,7 +93,7 @@ public class FSadrzajTekst extends javax.swing.JDialog {
             String tekst = jTextAreaSadrzajTekst.getText().trim();
 
             if (tekst.length() == 0) {
-                JOptionPane.showMessageDialog(this, "Morate uneti sadrzaj predmeta.");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Morate uneti sadrzaj predmeta.</font></html>");
                 return;
             }
 
@@ -101,7 +101,7 @@ public class FSadrzajTekst extends javax.swing.JDialog {
             dispose();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
         }
     }//GEN-LAST:event_jBtnSacuvajActionPerformed
 
@@ -128,7 +128,7 @@ public class FSadrzajTekst extends javax.swing.JDialog {
             jTextAreaSadrzajTekst.setText(tekst);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
         }
     }
 

@@ -111,13 +111,13 @@ public class FLogin extends javax.swing.JDialog {
             if (brojacPokusaja < 3) {
                 String username = jTxtUsername.getText().trim();
                 if (username.length() == 0) {
-                    JOptionPane.showMessageDialog(this, "Niste uneli korisnicko ime!");
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Niste uneli korisnicko ime!</font></html>");
                     return;
                 }
 
                 String password = new String(jPassword.getPassword()).trim();
                 if (password.length() == 0) {
-                    JOptionPane.showMessageDialog(this, "Niste uneli password!");
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Niste uneli password!</font></html>");
                     return;
                 }
 
@@ -137,14 +137,14 @@ public class FLogin extends javax.swing.JDialog {
                     brojacPokusaja++;
                     jTxtUsername.setText("");
                     jPassword.setText("");
-                    JOptionPane.showMessageDialog(this, "Korisnicko ime ili lozinka nisu ispravni. Preostalo pokusaja:" + (3 - brojacPokusaja));
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Korisnicko ime ili lozinka nisu ispravni. Preostalo pokusaja:" + (3 - brojacPokusaja)+"</font></html>");
                 }
             } else {
                 dispose();
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom prijavljivanja na sistem!");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom prijavljivanja na sistem!</font></html>");
         }
     }//GEN-LAST:event_jBtnLoginActionPerformed
 

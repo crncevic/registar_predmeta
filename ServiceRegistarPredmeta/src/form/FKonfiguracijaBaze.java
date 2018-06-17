@@ -161,11 +161,11 @@ public class FKonfiguracijaBaze extends javax.swing.JDialog {
         try {
             Class.forName(driver);
             Connection connection = DriverManager.getConnection(url, username, password);
-            JOptionPane.showMessageDialog(this, "Uspesno povezivanje sa bazom podataka!", "Uspesna konekcija", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Uspesno povezivanje sa bazom podataka!</font></html>", "Uspesna konekcija", JOptionPane.INFORMATION_MESSAGE);
         } catch (ClassNotFoundException cnfe) {
-            JOptionPane.showMessageDialog(this, "Driver nije odgovarajuci!", "Neuspesna konekcija", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Driver nije odgovarajuci!</font></html>", "Neuspesna konekcija", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "URL , username ili password nisu odgovarajucu!", "Neuspesna konekcija", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>URL , username ili password nisu odgovarajucu!</font></html>", "Neuspesna konekcija", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_jBtnTestKonekcijaActionPerformed
@@ -186,14 +186,14 @@ public class FKonfiguracijaBaze extends javax.swing.JDialog {
             sl.setValue(Constants.USER, username);
             sl.setValue(Constants.PASSWORD, password);
 
-            JOptionPane.showMessageDialog(this, "Uspesno povezivanje sa bazom podataka!Parametri su zapamceni", "Uspesna konekcija", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Uspesno povezivanje sa bazom podataka!Parametri su zapamceni</font></html>", "Uspesna konekcija", JOptionPane.INFORMATION_MESSAGE);
             dispose();
         } catch (ClassNotFoundException cnfe) {
-            JOptionPane.showMessageDialog(this, "Driver nije odgovarajuci!", "Neuspesna konekcija", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Driver nije odgovarajuci!</font></html>", "Neuspesna konekcija", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "URL , username ili password nisu odgovarajucu!", "Neuspesna konekcija", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>URL , username ili password nisu odgovarajucu!</font></html>", "Neuspesna konekcija", JOptionPane.ERROR_MESSAGE);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "ERROR![cannot load db.properties file]", "Neuspesna konekcija", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>ERROR![cannot load db.properties file]</font></html>", "Neuspesna konekcija", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jBtnZapamtiKonekcijuActionPerformed
 
@@ -204,8 +204,8 @@ public class FKonfiguracijaBaze extends javax.swing.JDialog {
             jTxtUsername.setText(SettingsLoader.getInstance().getValue(Constants.USER));
             jPassword.setText(SettingsLoader.getInstance().getValue(Constants.PASSWORD));
         } catch (Exception e) {
-            System.out.println("Dogodila se greska prilikom inicijalizovanja forme za konfiguraciju konekcije.Greska: "
-                    + e.getMessage());
+            System.out.println("<html><font color=#ffffff>Dogodila se greska prilikom inicijalizovanja forme za konfiguraciju konekcije.Greska: "
+                    + e.getMessage()+"</font></html>");
         }
     }//GEN-LAST:event_formWindowActivated
 

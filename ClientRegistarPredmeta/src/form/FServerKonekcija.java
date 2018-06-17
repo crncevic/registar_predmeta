@@ -134,7 +134,7 @@ public class FServerKonekcija extends javax.swing.JDialog {
             properties.setProperty("server_port", jTxtPort.getText().trim());
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom povezivanja na server");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom povezivanja na server</font></html>");
         }
     }//GEN-LAST:event_jBtnKonekcijaActionPerformed
 
@@ -161,7 +161,7 @@ public class FServerKonekcija extends javax.swing.JDialog {
             properties.load(fis);
             return true;
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom ucitavanja user.ptoperties.fajla");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom ucitavanja user.ptoperties.fajla</font></html>");
             return false;
         }
     }

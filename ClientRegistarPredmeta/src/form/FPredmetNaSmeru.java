@@ -183,7 +183,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
                     throw new Exception();
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Dozvoljeno je unos samo celih nenegaticnih brojeva!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dozvoljeno je unos samo celih nenegaticnih brojeva!</font></html>");
                 return;
             }
 
@@ -193,16 +193,16 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
             PredmetNaStudijskomProgramu azuriranPredmetNaStudijskomProgramu = (PredmetNaStudijskomProgramu) Kontroler.getInstance().primiOdgovor();
 
             if (azuriranPredmetNaStudijskomProgramu != null) {
-                JOptionPane.showMessageDialog(this, "Predmet: " + predmet.getNaziv() + " je uspesno azuriran na studijskom programu:" + azuriranPredmetNaStudijskomProgramu.getStudijskiProgram().getNaziv());
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet: " + predmet.getNaziv() + " je uspesno azuriran na studijskom programu:" + azuriranPredmetNaStudijskomProgramu.getStudijskiProgram().getNaziv() + "</font></html>");
 
                 dispose();
                 JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(FMain.getInstance(), true);
                 fSelectPredmetNaSmeru.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom azuriranja!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom azuriranja!</font></html>");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom azuriranja!");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom azuriranja!</font></html>");
         }
     }//GEN-LAST:event_jBtnAzurirajActionPerformed
 
@@ -222,7 +222,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
                     throw new Exception();
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Dozvoljeno je unos samo celih nenegaticnih brojeva!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dozvoljeno je unos samo celih nenegaticnih brojeva!</font></html>");
                 return;
             }
 
@@ -232,17 +232,17 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
             PredmetNaStudijskomProgramu kreiranPredmetNaStudijskomProgramu = (PredmetNaStudijskomProgramu) Kontroler.getInstance().primiOdgovor();
 
             if (kreiranPredmetNaStudijskomProgramu != null) {
-                JOptionPane.showMessageDialog(this, "Predmet: " + predmet.getNaziv() + " je uspesno dodat na studijski program: " + studijskiProgram.getNaziv());
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet: " + predmet.getNaziv() + " je uspesno dodat na studijski program: " + studijskiProgram.getNaziv() + "</font></html>");
 
                 dispose();
                 JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(FMain.getInstance(), true);
                 fSelectPredmetNaSmeru.setVisible(true);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom azuriranja!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom azuriranja!</font></html>");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom kreiranja!");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom kreiranja!</font></html>");
         }
     }//GEN-LAST:event_jBtnSacuvajActionPerformed
 
@@ -262,7 +262,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
                     throw new Exception();
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Dozvoljeno je unos samo celih nenegaticnih brojeva!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dozvoljeno je unos samo celih nenegaticnih brojeva!</font></html>");
                 return;
             }
 
@@ -272,18 +272,18 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
             PredmetNaStudijskomProgramu obrisanPredmetNaStdProgramu = (PredmetNaStudijskomProgramu) Kontroler.getInstance().primiOdgovor();
 
             if (obrisanPredmetNaStdProgramu != null) {
-                JOptionPane.showMessageDialog(this, "Predmet: " + predmet.getNaziv() + " je uspesno obrisan  sa studijskog programa: " + studijskiProgram.getNaziv());
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet: " + predmet.getNaziv() + " je uspesno obrisan  sa studijskog programa: " + studijskiProgram.getNaziv() + "</font></html>");
 
                 dispose();
                 JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(FMain.getInstance(), true);
                 fSelectPredmetNaSmeru.setVisible(true);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom brisanja!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom brisanja!</font></html>");
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dogodila se greska prilikom brisanja!");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom brisanja!</font></html>");
         }
     }//GEN-LAST:event_jBtnObrisiActionPerformed
 
@@ -319,7 +319,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
 
             jComboSmerovi.setRenderer(new StudijskiProgramRenderer());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + e.getMessage() + "</font></html>");
         }
     }
 
@@ -334,7 +334,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
 
             jComboPredmeti.setRenderer(new PredmetRenderer());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + e.getMessage() + "</font></html>");
         }
     }
 
@@ -349,7 +349,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
 
             jComboStatus.setRenderer(new StatusRenderer());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + e.getMessage() + "</font></html>");
         }
     }
 
@@ -393,7 +393,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
             jComboSmerovi.setSelectedItem(predmet.getStudijskiProgram());
             jSpinnerESPB.setValue(predmet.getEspb());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + e.getMessage() + "</font></html>");
         }
     }
 

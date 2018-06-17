@@ -358,7 +358,7 @@ public class FUdzbenik extends javax.swing.JDialog {
             OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
             atm.dodajNovuOsobuZaUdzbenik("autor");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Neuspesno dodavanje autora!");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Neuspesno dodavanje autora!</font></html>");
         }
     }//GEN-LAST:event_jBtnDodajAutoraActionPerformed
 
@@ -370,6 +370,7 @@ public class FUdzbenik extends javax.swing.JDialog {
                 atm.obrisiAutora(selectedIndex);
             }
         } catch (Exception e) {
+             JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Neuspesno brisanje autora!</font></html>");
         }
     }//GEN-LAST:event_jBtnObrisiAutoraActionPerformed
 
@@ -381,13 +382,13 @@ public class FUdzbenik extends javax.swing.JDialog {
                 udzbenikId = Integer.parseInt(jTxtUdbzenikId.getText().trim());
                 udzbenik.setUdzbenikId(udzbenikId);
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Doslo je do greske! Nije moguce odrediti id udzbenika!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske! Nije moguce odrediti id udzbenika!</font></html>");
                 return;
             }
 
             String naziv = jTxtNaziv.getText().trim();
             if (naziv.length() == 0) {
-                JOptionPane.showMessageDialog(this, "Morate uneti naziv");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Morate uneti naziv</font></html>");
                 return;
             } else {
                 udzbenik.setNaziv(naziv);
@@ -412,7 +413,7 @@ public class FUdzbenik extends javax.swing.JDialog {
                     udzbenik.setRbrIzdanja(rbrIzdanja);
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Redni broj izdanja mora biti ceo broj");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Redni broj izdanja mora biti ceo broj</font></html>");
                 return;
             }
 
@@ -425,7 +426,7 @@ public class FUdzbenik extends javax.swing.JDialog {
                     udzbenik.setTiraz(tiraz);
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Tiraz mora biti ceo broj");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Tiraz mora biti ceo broj</font></html>");
                 return;
             }
 
@@ -438,7 +439,7 @@ public class FUdzbenik extends javax.swing.JDialog {
                     udzbenik.setIsbn(isbn);
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "ISBN mora biti ceo broj");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>ISBN mora biti ceo broj</font></html>");
                 return;
             }
 
@@ -455,7 +456,7 @@ public class FUdzbenik extends javax.swing.JDialog {
             }
 
             if (proveriDaLiJeUObeListe(autoriFromTbl, recenzentiFromTbl)) {
-                JOptionPane.showMessageDialog(this, "Osoba ne moze biti recenzent i autor u isto vreme!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Osoba ne moze biti recenzent i autor u isto vreme!</font></html>");
                 return;
             }
 
@@ -468,18 +469,18 @@ public class FUdzbenik extends javax.swing.JDialog {
             Kontroler.getInstance().posaljiZahtev(IOperation.AZURIRAJ_UDZBENIK, udzbenik);
             Udzbenik udzbenikFromDB = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             if (udzbenikFromDB != null) {
-                JOptionPane.showMessageDialog(this, "Udzbenik je uspesno azuriran!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik je uspesno azuriran!</font></html>");
 
                 dispose();
 
                 JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
                 fSelectUdzbenik.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Doslo je do greske prilikom azuriranja  udzbenika!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom azuriranja  udzbenika!</font></html>");
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Doslo je do greske prilikom azuriranja  udzbenika!.Greska:" + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom azuriranja  udzbenika!.Greska:" + ex.getMessage()+"</font></html>");
         }
     }//GEN-LAST:event_jBtnAzurirajActionPerformed
 
@@ -489,15 +490,15 @@ public class FUdzbenik extends javax.swing.JDialog {
             Kontroler.getInstance().posaljiZahtev(IOperation.OBRISI_UDZBENIK, udzbenikId);
             Udzbenik udzbenik = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             if (udzbenik != null) {
-                JOptionPane.showMessageDialog(this, "Udzbenik: " + udzbenik.getNaziv() + " je uspesno obrisan!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik: " + udzbenik.getNaziv() + " je uspesno obrisan!</font></html>");
                 dispose();
                 JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
                 fSelectUdzbenik.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Doslo je do greske prilikom brisanja udzbenika!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom brisanja udzbenika!</font></html>");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Doslo je do greske prilikom brisanja udzbenika!");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom brisanja udzbenika!</font></html>");
         }
     }//GEN-LAST:event_jBtnObrisiActionPerformed
 
@@ -507,7 +508,7 @@ public class FUdzbenik extends javax.swing.JDialog {
 
             String naziv = jTxtNaziv.getText();
             if (naziv.trim().length() == 0) {
-                JOptionPane.showMessageDialog(this, "Morate uneti naziv");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Morate uneti naziv</font></html>");
                 return;
             } else {
                 udzbenik.setNaziv(naziv);
@@ -532,7 +533,7 @@ public class FUdzbenik extends javax.swing.JDialog {
                     udzbenik.setRbrIzdanja(rbrIzdanja);
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Redni broj izdanja mora biti ceo broj");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Redni broj izdanja mora biti ceo broj</font></html>");
                 return;
             }
 
@@ -545,7 +546,7 @@ public class FUdzbenik extends javax.swing.JDialog {
                     udzbenik.setTiraz(tiraz);
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Tiraz mora biti ceo broj");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Tiraz mora biti ceo broj</font></html>");
                 return;
             }
 
@@ -558,7 +559,7 @@ public class FUdzbenik extends javax.swing.JDialog {
                     udzbenik.setIsbn(isbn);
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "ISBN mora biti ceo broj");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>ISBN mora biti ceo broj</font></html>");
                 return;
             }
 
@@ -569,7 +570,7 @@ public class FUdzbenik extends javax.swing.JDialog {
             List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl = outm.vratiSveRecenzente();
 
             if (proveriDaLiJeUObeListe(autoriFromTbl, recenzentiFromTbl)) {
-                JOptionPane.showMessageDialog(this, "Osoba ne moze biti recenzent i autor u isto vreme!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Osoba ne moze biti recenzent i autor u isto vreme!</font></html>");
                 return;
             }
 
@@ -581,18 +582,18 @@ public class FUdzbenik extends javax.swing.JDialog {
             Kontroler.getInstance().posaljiZahtev(IOperation.KREIRAJ_UDZBENIK, udzbenik);
             Udzbenik udzbenikFromDB = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             if (udzbenikFromDB != null) {
-                JOptionPane.showMessageDialog(this, "Udzbenik je uspesno kreiran!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik je uspesno kreiran!</font></html>");
 
                 dispose();
 
                 JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
                 fSelectUdzbenik.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Doslo je do greske prilikom kreiranja  udzbenika!");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom kreiranja  udzbenika!</font></html>");
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Doslo je do greske prilikom kreiranja  udzbenika!");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom kreiranja  udzbenika!<font></html>");
         }
     }//GEN-LAST:event_jBtnSacuvajActionPerformed
 
@@ -606,7 +607,7 @@ public class FUdzbenik extends javax.swing.JDialog {
             rtm.dodajNovuOsobuZaUdzbenik("recenzent");
         } catch (Exception e) {
             System.out.println("Dogodila se greska prilikom brisanja recenzenta iz tabele");
-            JOptionPane.showMessageDialog(this, "Neuspesno dodavanje recenzenta!");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Neuspesno dodavanje recenzenta!</font></html>");
         }
     }//GEN-LAST:event_jBtnDodajRecenzentaActionPerformed
 
@@ -618,7 +619,7 @@ public class FUdzbenik extends javax.swing.JDialog {
                 rtm.obrisiOsobuNaUdzbeniku(selectedIndex);
             }
         } catch (Exception e) {
-            System.out.println("Dogodila se greska prilikom brisanja recenzenta iz tabele");
+            System.out.println("<html><font color=#ffffff>Dogodila se greska prilikom brisanja recenzenta iz tabele</font></html>");
         }
     }//GEN-LAST:event_jBtnObrisiRecenzentaActionPerformed
 
@@ -678,7 +679,7 @@ public class FUdzbenik extends javax.swing.JDialog {
             TableModel rtm = new OsobaUdzbenikTableModel(new ArrayList<>());
             jTblRecenzenti.setModel(rtm);
         } catch (Exception e) {
-            System.out.println("Dogodila se greska prilikom postavljanja table modela-a");
+            System.out.println("<html><font color=#ffffff>Dogodila se greska prilikom postavljanja table modela-a</font></html>");
         }
     }
 
@@ -759,7 +760,7 @@ public class FUdzbenik extends javax.swing.JDialog {
             pripremiFormu(FormMode.VIEW);
 
         } catch (Exception e) {
-            System.out.println("Dogodila se greska prilikom sredjivanja forme za prikaz. Greska: " + e.getMessage());
+            System.out.println("<html><font color=#ffffff>Dogodila se greska prilikom sredjivanja forme za prikaz. Greska: " + e.getMessage()+"</font></html>");
         }
     }
 
@@ -775,7 +776,7 @@ public class FUdzbenik extends javax.swing.JDialog {
             TableModel rtm = new OsobaUdzbenikTableModel(recenzenti);
             jTblRecenzenti.setModel(rtm);
         } catch (Exception e) {
-            System.out.println("Dogodila se greska prilikom postavljanja Table model-a ");
+            System.out.println("<html><font color=#ffffff>Dogodila se greska prilikom postavljanja Table model-a </font></html>");
         }
     }
 
