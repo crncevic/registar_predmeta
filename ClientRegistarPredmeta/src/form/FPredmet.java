@@ -790,7 +790,10 @@ public class FPredmet extends javax.swing.JFrame {
             if (predmetId < 0) {
                 throw new Exception();
             }
-            JDialog fPotvrdaBrisanjaPredmeta = new FPotvrdaBrisanjaPredmeta(this, true, predmetId);
+            Predmet predmet = new Predmet();
+            predmet.setPredmetId(predmetId);
+            
+            JDialog fPotvrdaBrisanjaPredmeta = new FPotvrdaBrisanjaPredmeta(this, true, predmet);
             fPotvrdaBrisanjaPredmeta.setVisible(true);
             dispose();
         } catch (Exception ex) {

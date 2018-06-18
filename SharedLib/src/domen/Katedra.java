@@ -7,7 +7,6 @@ package domen;
 
 import java.io.Serializable;
 import java.sql.ResultSet;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *

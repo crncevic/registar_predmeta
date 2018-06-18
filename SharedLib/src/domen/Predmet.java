@@ -5,7 +5,7 @@
  */
 package domen;
 
-import db.dao.impl.VrstaINivoStudijaDaoImpl;
+
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.List;
@@ -258,9 +258,10 @@ public class Predmet implements OpstiDomenskiObjekat, Serializable {
 
     @Override
     public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws Exception {
-        return new Predmet(rs.getInt("predmetId"), rs.getString("naziv"), rs.getInt("br_casova_predavanja_nedeljno"), rs.getInt("br_casova_vezbi_nedeljno"), rs.getInt("ostali_casovi"), rs.getString("drugi_oblici_nastave"), rs.getString("studijski_istrazivacki_rad"), rs.getString("cilj"), rs.getString("ishod"), rs.getString("uslov"), VrstaINivoStudijaDaoImpl
-                .getInstance()
-                .vratiVrstuINivoStudijaZaId(rs.getInt("vrsta_i_nivo_studija")), null, null, rs.getString("sadrzaj_tekst"), null, null);
+        VrstaINivoStudija vins = new VrstaINivoStudija();
+        vins.setVrstaINivoId(rs.getInt("vrsta_i_nivo_studija"));
+        
+        return new Predmet(rs.getInt("predmetId"), rs.getString("naziv"), rs.getInt("br_casova_predavanja_nedeljno"), rs.getInt("br_casova_vezbi_nedeljno"), rs.getInt("ostali_casovi"), rs.getString("drugi_oblici_nastave"), rs.getString("studijski_istrazivacki_rad"), rs.getString("cilj"), rs.getString("ishod"), rs.getString("uslov"), vins, null, null, rs.getString("sadrzaj_tekst"), null, null);
     }
 
     @Override

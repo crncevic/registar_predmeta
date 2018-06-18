@@ -5,9 +5,7 @@
  */
 package domen;
 
-import db.dao.impl.NastavnikDaoImpl;
-import db.dao.impl.PredmetDaoImpl;
-import db.dao.impl.TipNastaveDaoImpl;
+
 import java.io.Serializable;
 import java.sql.ResultSet;
 
@@ -81,7 +79,16 @@ public class NastavnikNaPredmetu implements Serializable, OpstiDomenskiObjekat {
 
     @Override
     public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws Exception {
-        return new NastavnikNaPredmetu(PredmetDaoImpl.getInstance().pronadjiPredmetPoId(rs.getInt("predmetId")), NastavnikDaoImpl.getInstance().vratiNastavnikaZaId(rs.getInt("nastavnikId")), TipNastaveDaoImpl.getInstance().pronadjiTipNastavePoId(rs.getInt("tipNastaveId")));
+        Predmet predmet = new Predmet();
+        predmet.setPredmetId(rs.getInt("predmetId"));
+        
+        TipNastave tipNastave = new TipNastave();
+        tipNastave.setTipNastaveId(rs.getInt("tipNastaveId"));
+        
+        Nastavnik nastavnik = new Nastavnik();
+        nastavnik.setNastavnikId(rs.getInt("nastavnikId"));
+        
+        return new NastavnikNaPredmetu(predmet, nastavnik, tipNastave);
     }
 
     @Override

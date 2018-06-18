@@ -5,9 +5,7 @@
  */
 package domen;
 
-import db.dao.impl.PredmetDaoImpl;
-import db.dao.impl.StatusDaoImpl;
-import db.dao.impl.StudijskiProgramDaoImpl;
+
 import java.io.Serializable;
 import java.sql.ResultSet;
 
@@ -91,9 +89,18 @@ public class PredmetNaStudijskomProgramu implements OpstiDomenskiObjekat, Serial
 
     @Override
     public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws Exception {
-        return new PredmetNaStudijskomProgramu(PredmetDaoImpl.getInstance().pronadjiPredmetPoId(rs.getInt("predmetId")),
-                StudijskiProgramDaoImpl.getInstance().vratiStudijkiProgramZaId(rs.getInt("studijski_programId")),
-                StatusDaoImpl.getInstance().vratiStatusZaId(rs.getInt("statusId")), rs.getInt("espb"));
+        Predmet predmet = new Predmet();
+        predmet.setPredmetId(rs.getInt("predmetId"));
+
+        StudijskiProgram studijskiProgram = new StudijskiProgram();
+        studijskiProgram.setStudijskiProgramId(rs.getInt("studijski_programId"));
+
+        Status status = new Status();
+        status.setStatusId(rs.getInt("statusId"));
+
+        return new PredmetNaStudijskomProgramu(predmet,
+                studijskiProgram,
+                status, rs.getInt("espb"));
     }
 
     @Override

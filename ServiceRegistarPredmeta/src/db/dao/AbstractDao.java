@@ -6,6 +6,7 @@
 package db.dao;
 
 import db.DbBroker;
+import domen.OpstiDomenskiObjekat;
 
 /**
  *
@@ -18,5 +19,13 @@ public abstract class AbstractDao {
     public AbstractDao() throws Exception {
         dbbr = DbBroker.getInstance();
     }
+
+    public abstract OpstiDomenskiObjekat vratiPoId(int id) throws Exception;
+
+    public abstract OpstiDomenskiObjekat kreiraj(OpstiDomenskiObjekat odo) throws Exception;
+
+    public abstract OpstiDomenskiObjekat azuriraj(OpstiDomenskiObjekat odo) throws Exception;
+
+    public abstract OpstiDomenskiObjekat obrisi(OpstiDomenskiObjekat odo) throws Exception;
 
 }

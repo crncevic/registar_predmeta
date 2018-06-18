@@ -505,7 +505,9 @@ public class FUdzbenik extends javax.swing.JDialog {
     private void jBtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnObrisiActionPerformed
         try {
             int udzbenikId = Integer.parseInt(jTxtUdbzenikId.getText());
-            Kontroler.getInstance().posaljiZahtev(IOperation.OBRISI_UDZBENIK, udzbenikId);
+            Udzbenik u = new Udzbenik();
+            u.setUdzbenikId(udzbenikId);
+            Kontroler.getInstance().posaljiZahtev(IOperation.OBRISI_UDZBENIK, u);
             Udzbenik udzbenik = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             if (udzbenik != null) {
                 JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik: " + udzbenik.getNaziv() + " je uspesno obrisan!</font></html>");

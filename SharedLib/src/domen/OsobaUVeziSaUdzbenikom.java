@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package domen;
-
-import db.dao.impl.UlogaUdzbenikDaoImpl;
 import java.io.Serializable;
 import java.sql.ResultSet;
 
@@ -123,7 +121,10 @@ public class OsobaUVeziSaUdzbenikom implements OpstiDomenskiObjekat, Serializabl
 
     @Override
     public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws Exception {
-        return new OsobaUVeziSaUdzbenikom(rs.getString("ime"), rs.getString("prezime"), rs.getString("titula"), rs.getInt("udzbenikId"), UlogaUdzbenikDaoImpl.getInstance().nadjiUloguNaUdzbenikuZaId(rs.getInt("ulogaId")));
+        UlogaUdzbenik ulogaUdzbenik = new UlogaUdzbenik();
+        ulogaUdzbenik.setUlogaId(rs.getInt("ulogaId"));
+        
+        return new OsobaUVeziSaUdzbenikom(rs.getString("ime"), rs.getString("prezime"), rs.getString("titula"), rs.getInt("udzbenikId"),ulogaUdzbenik);
     }
 
     @Override

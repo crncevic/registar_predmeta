@@ -7,7 +7,7 @@ package form;
 
 import constants.Constants;
 import db.SettingsLoader;
-import db.dao.impl.KorisnikDaoImpl;
+import db.dao.KorisnikDaoImpl;
 import domen.Korisnik;
 import java.awt.Color;
 import java.io.IOException;

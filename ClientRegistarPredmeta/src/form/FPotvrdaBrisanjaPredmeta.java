@@ -16,15 +16,15 @@ import transfer.util.IOperation;
  */
 public class FPotvrdaBrisanjaPredmeta extends javax.swing.JDialog {
 
-    int predmetId;
+    Predmet predmet;
 
     /**
      * Creates new form FPotvrdaBrisanjaPredmeta
      */
-    public FPotvrdaBrisanjaPredmeta(java.awt.Frame parent, boolean modal, int predmetId) {
+    public FPotvrdaBrisanjaPredmeta(java.awt.Frame parent, boolean modal, Predmet predmet) {
         super(parent, modal);
         initComponents();
-        this.predmetId = predmetId;
+        this.predmet = predmet;
         centrirajFormu();
         postaviBojuPozadine();
     }
@@ -104,7 +104,7 @@ public class FPotvrdaBrisanjaPredmeta extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             dispose();
-            Kontroler.getInstance().posaljiZahtev(IOperation.OBRISI_PREDMET, predmetId);
+            Kontroler.getInstance().posaljiZahtev(IOperation.OBRISI_PREDMET, predmet);
             Predmet predmet = (Predmet) Kontroler.getInstance().primiOdgovor();
 
             if (predmet != null) {
