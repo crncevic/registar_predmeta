@@ -681,15 +681,7 @@ public class FPredmet extends javax.swing.JFrame {
                 return;
             }
 
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_PREDMETE, null);
-            List<Predmet> predmeti = (List<Predmet>) Kontroler.getInstance().primiOdgovor();
-
-            for (Predmet predmet : predmeti) {
-                if (predmet.getNaziv().equalsIgnoreCase(naziv)) {
-                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet sa nazivom " + naziv + " vec postoji u bazi podataka</font></html>");
-                    return;
-                }
-            }
+           
 
             String uslov = jTxtUslov.getText().trim();
 

@@ -394,15 +394,7 @@ public class FUdzbenik extends javax.swing.JDialog {
                 udzbenik.setNaziv(naziv);
             }
 
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, null);
-            List<Udzbenik> udzbenici = (List<Udzbenik>) Kontroler.getInstance().primiOdgovor();
-
-            for (Udzbenik udzbenik1 : udzbenici) {
-                if (udzbenik1.getNaziv().equalsIgnoreCase(naziv)) {
-                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik sa nazivom " + naziv + " vec postoji u bazi podataka!</font></html>");
-                    return;
-                }
-            }
+          
 
             String izdavac = jTxtIzdavac.getText().trim();
             udzbenik.setIzdavac(izdavac);

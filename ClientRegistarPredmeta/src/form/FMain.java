@@ -37,7 +37,7 @@ public class FMain extends javax.swing.JFrame {
         initComponents();
         maksimizirajFormu();
         postaviStatusBar();
-        onemoguciMenije();
+        omoguceSamoKonekcijuNaServer();
         postaviBojuPozadine();
         postaviBojuSlovaMenuBar();
 

@@ -437,7 +437,7 @@ public class NitKlijent extends Thread {
                 output.writeObject(responseObject);
                 output.flush();
             } catch (Exception ex) {
-                ex.printStackTrace();
+              
             }
         }
     }
