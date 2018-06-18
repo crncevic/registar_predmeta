@@ -147,7 +147,7 @@ public class Nastavnik implements OpstiDomenskiObjekat, Serializable {
 
     @Override
     public OpstiDomenskiObjekat napraviDomenskiObjekat(ResultSet rs) throws Exception {
-        return new Nastavnik(rs.getInt("nastavnikId"), rs.getString("ime"), rs.getString("prezime"), rs.getString("zvanje"), rs.getString("kabinet"), rs.getString("telefon"), rs.getString("ePosta"));
+        return new Nastavnik(rs.getInt("nastavnikId"), rs.getString("ime"), rs.getString("prezime"), rs.getString("zvanje"), rs.getString("telefon"), rs.getString("kabinet"), rs.getString("ePosta"));
     }
 
     @Override

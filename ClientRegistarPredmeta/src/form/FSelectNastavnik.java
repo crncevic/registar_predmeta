@@ -35,6 +35,8 @@ public class FSelectNastavnik extends javax.swing.JDialog {
         postaviBojuPozadine();
         postaviTableModel();
         pripremiTabeluZaSortiranje();
+        postaviSirinuKolona();
+              
     }
 
     /**
@@ -54,6 +56,7 @@ public class FSelectNastavnik extends javax.swing.JDialog {
         jBtnPrikazi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Pretraga nastavnika");
 
         jPanel1.setBackground(new java.awt.Color(51, 0, 102));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pronadjite nastavnika", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
@@ -214,6 +217,14 @@ public class FSelectNastavnik extends javax.swing.JDialog {
             });
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + e.getMessage() + "</font></html>");
+        }
+    }
+
+    private void postaviSirinuKolona() {
+        try {
+          jTblNastavnici.getColumnModel().getColumn(0).setPreferredWidth(15);
+        } catch (Exception e) {
+          
         }
     }
 }

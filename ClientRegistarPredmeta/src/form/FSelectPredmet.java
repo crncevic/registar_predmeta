@@ -57,6 +57,11 @@ public class FSelectPredmet extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pretraga predmeta");
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(51, 0, 102));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pronadjite predmet po nazivu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
@@ -150,6 +155,9 @@ public class FSelectPredmet extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
         }
     }//GEN-LAST:event_jBtnPrikaziActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+    }//GEN-LAST:event_formMouseClicked
 
     private void centrirajFormu() {
         setLocationRelativeTo(null);

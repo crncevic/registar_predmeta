@@ -370,7 +370,7 @@ public class FUdzbenik extends javax.swing.JDialog {
                 atm.obrisiAutora(selectedIndex);
             }
         } catch (Exception e) {
-             JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Neuspesno brisanje autora!</font></html>");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Neuspesno brisanje autora!</font></html>");
         }
     }//GEN-LAST:event_jBtnObrisiAutoraActionPerformed
 
@@ -392,6 +392,16 @@ public class FUdzbenik extends javax.swing.JDialog {
                 return;
             } else {
                 udzbenik.setNaziv(naziv);
+            }
+
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, null);
+            List<Udzbenik> udzbenici = (List<Udzbenik>) Kontroler.getInstance().primiOdgovor();
+
+            for (Udzbenik udzbenik1 : udzbenici) {
+                if (udzbenik1.getNaziv().equalsIgnoreCase(naziv)) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik sa nazivom " + naziv + " vec postoji u bazi podataka!</font></html>");
+                    return;
+                }
             }
 
             String izdavac = jTxtIzdavac.getText().trim();
@@ -445,12 +455,20 @@ public class FUdzbenik extends javax.swing.JDialog {
 
             OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
             List<OsobaUVeziSaUdzbenikom> autoriFromTbl = atm.vratiSveAutore();
+            if (autoriFromTbl.size() == 1 && (autoriFromTbl.get(0).getIme()==null || autoriFromTbl.get(0).getPrezime()==null || autoriFromTbl.get(0).getTitula() == null)) {
+                 JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas popunite sve podatke za autora!</font></html>");
+                 return;
+            }
             for (OsobaUVeziSaUdzbenikom ouvsu : autoriFromTbl) {
                 ouvsu.setUlogaUdzbenik(new UlogaUdzbenik(1, "autor"));
             }
 
             OsobaUdzbenikTableModel outm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
             List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl = outm.vratiSveRecenzente();
+            if (recenzentiFromTbl.size() == 1 && (recenzentiFromTbl.get(0).getIme()==null || recenzentiFromTbl.get(0).getPrezime()==null || recenzentiFromTbl.get(0).getTitula() == null)) {
+                 JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas popunite sve podatke za recenzente!</font></html>");
+                 return;
+            }
             for (OsobaUVeziSaUdzbenikom ouvsu : recenzentiFromTbl) {
                 ouvsu.setUlogaUdzbenik(new UlogaUdzbenik(2, "recenzent"));
             }
@@ -480,7 +498,7 @@ public class FUdzbenik extends javax.swing.JDialog {
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom azuriranja  udzbenika!.Greska:" + ex.getMessage()+"</font></html>");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom azuriranja  udzbenika!.Greska:" + ex.getMessage() + "</font></html>");
         }
     }//GEN-LAST:event_jBtnAzurirajActionPerformed
 
@@ -514,6 +532,16 @@ public class FUdzbenik extends javax.swing.JDialog {
                 udzbenik.setNaziv(naziv);
             }
 
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, null);
+            List<Udzbenik> udzbenici = (List<Udzbenik>) Kontroler.getInstance().primiOdgovor();
+
+            for (Udzbenik udzbenik1 : udzbenici) {
+                if (udzbenik1.getNaziv().equalsIgnoreCase(naziv)) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik sa nazivom " + naziv + " vec postoji u bazi podataka!</font></html>");
+                    return;
+                }
+            }
+
             String izdavac = jTxtIzdavac.getText().trim();
             udzbenik.setIzdavac(izdavac);
 
@@ -565,9 +593,19 @@ public class FUdzbenik extends javax.swing.JDialog {
 
             OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
             List<OsobaUVeziSaUdzbenikom> autoriFromTbl = atm.vratiSveAutore();
+            if (autoriFromTbl.size() == 1 && (autoriFromTbl.get(0).getIme()==null || autoriFromTbl.get(0).getPrezime()==null || autoriFromTbl.get(0).getTitula() == null)) {
+                 JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas popunite sve podatke za autora!</font></html>");
+                 return;
+            }
+            
 
             OsobaUdzbenikTableModel outm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
             List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl = outm.vratiSveRecenzente();
+            
+            if (recenzentiFromTbl.size() == 1 && (recenzentiFromTbl.get(0)==null || recenzentiFromTbl.get(0).getPrezime()== null || recenzentiFromTbl.get(0).getTitula()==null)) {
+                 JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas popunite sve podatke za recenzenta!</font></html>");
+                 return;
+            }
 
             if (proveriDaLiJeUObeListe(autoriFromTbl, recenzentiFromTbl)) {
                 JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Osoba ne moze biti recenzent i autor u isto vreme!</font></html>");
@@ -728,7 +766,7 @@ public class FUdzbenik extends javax.swing.JDialog {
                 jBtnAzuriraj.setEnabled(true);
                 jBtnSacuvaj.setEnabled(false);
 
-                jBtnAzuriraj.setBackground(Color.yellow);
+                jBtnAzuriraj.setBackground(new Color(204, 204, 0));
                 jBtnAzuriraj.setForeground(Color.white);
 
                 jBtnObrisi.setBackground(Color.red);
@@ -760,7 +798,7 @@ public class FUdzbenik extends javax.swing.JDialog {
             pripremiFormu(FormMode.VIEW);
 
         } catch (Exception e) {
-            System.out.println("<html><font color=#ffffff>Dogodila se greska prilikom sredjivanja forme za prikaz. Greska: " + e.getMessage()+"</font></html>");
+            System.out.println("<html><font color=#ffffff>Dogodila se greska prilikom sredjivanja forme za prikaz. Greska: " + e.getMessage() + "</font></html>");
         }
     }
 

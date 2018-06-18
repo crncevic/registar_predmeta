@@ -58,7 +58,12 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
         jBtnPrikazi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Pretrazite predmete na smeru");
+        setTitle("Pretrazite predmete na studijskom programu");
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Izaberite studijski program:");
@@ -70,7 +75,7 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
         });
 
         jPanel1.setBackground(new java.awt.Color(51, 0, 102));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pretrazite predmet na smeru", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pretrazite predmet na std programu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Unesite naziv predmeta:");
@@ -187,6 +192,9 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
         }
     }//GEN-LAST:event_jBtnPrikaziActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+    }//GEN-LAST:event_formMouseClicked
 
     private void centrirajFormu() {
         setLocationRelativeTo(null);

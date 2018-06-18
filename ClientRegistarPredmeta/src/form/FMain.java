@@ -363,6 +363,8 @@ public class FMain extends javax.swing.JFrame {
     private void jMenuPronadjiNastavnikeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPronadjiNastavnikeActionPerformed
         JDialog fSelectNastavnik = new FSelectNastavnik(this, true);
         fSelectNastavnik.setVisible(true);
+        
+         statusLabel.setText("Use case: Pretraga nastavnika!");
     }//GEN-LAST:event_jMenuPronadjiNastavnikeActionPerformed
 
     /**

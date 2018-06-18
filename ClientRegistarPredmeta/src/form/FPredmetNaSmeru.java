@@ -74,7 +74,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
         jBtnSacuvaj = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Predmeti na smeru");
+        setTitle("Predmeti na studijskom programu");
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Izaberite std program:");
@@ -212,13 +212,23 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
             Predmet predmet = (Predmet) jComboPredmeti.getSelectedItem();
             Status status = (Status) jComboStatus.getSelectedItem();
 
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM, studijskiProgram.getStudijskiProgramId());
+            List<PredmetNaStudijskomProgramu> list = (List<PredmetNaStudijskomProgramu>) Kontroler.getInstance().primiOdgovor();
+
+            for (PredmetNaStudijskomProgramu predmetNaStudijskomProgramu : list) {
+                if (predmetNaStudijskomProgramu.getPredmet().equals(predmet)) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet " + predmet.getNaziv() + " vec postoji na tom studijskom programu!</font></html>");
+                    return;
+                }
+            }
+
             int espb;
 
             try {
                 jSpinnerESPB.commitEdit();
                 espb = (int) jSpinnerESPB.getValue();
 
-                if (espb < 0) {
+                if (espb < 0 || espb > 50) {
                     throw new Exception();
                 }
             } catch (Exception e) {
@@ -232,8 +242,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
             PredmetNaStudijskomProgramu kreiranPredmetNaStudijskomProgramu = (PredmetNaStudijskomProgramu) Kontroler.getInstance().primiOdgovor();
 
             if (kreiranPredmetNaStudijskomProgramu != null) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet: " + predmet.getNaziv() + " je uspesno dodat na studijski program: " + studijskiProgram.getNaziv() + "</font></html>");
-
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Sistem je zapamtio predmet na studijskom programu!</font></html>");
                 dispose();
                 JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(FMain.getInstance(), true);
                 fSelectPredmetNaSmeru.setVisible(true);
@@ -258,7 +267,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
                 jSpinnerESPB.commitEdit();
                 espb = (int) jSpinnerESPB.getValue();
 
-                if (espb < 0) {
+                if (espb < 0 || espb > 50) {
                     throw new Exception();
                 }
             } catch (Exception e) {
@@ -373,7 +382,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
                 jBtnSacuvaj.setEnabled(false);
 
                 jBtnAzuriraj.setForeground(Color.white);
-                jBtnAzuriraj.setBackground(Color.yellow);
+                jBtnAzuriraj.setBackground(new Color(204, 204, 0));
 
                 jBtnObrisi.setForeground(Color.white);
                 jBtnObrisi.setBackground(Color.red);
