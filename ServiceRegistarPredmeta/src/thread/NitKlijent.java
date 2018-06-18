@@ -114,7 +114,7 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.OBRISI_UDZBENIK:
                         try {
-                            Udzbenik obrisanUdzbenik = UdzbenikDaoImpl.getInstance().obrisi((Predmet) requestObject.getData());
+                            Udzbenik obrisanUdzbenik = UdzbenikDaoImpl.getInstance().obrisi((Udzbenik) requestObject.getData());
                             responseObject.setData(obrisanUdzbenik);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {

@@ -42,7 +42,7 @@ public class PredmetDaoImpl extends AbstractDao {
             Predmet predmet = new Predmet();
             predmet.setPredmetId(predmetId);
             Predmet predmetFromDb = (Predmet) dbbr.vratiPoId(predmet);
-            predmet.setVrstaINivoStudija(VrstaINivoStudijaDaoImpl.getInstance().vratiPoId(predmet.getVrstaINivoStudija().getVrstaINivoId()));
+            predmet.setVrstaINivoStudija(VrstaINivoStudijaDaoImpl.getInstance().vratiPoId(predmetFromDb.getVrstaINivoStudija().getVrstaINivoId()));
 
             if (predmetFromDb != null) {
                 // ucitavanje tematskih celina za predmet
