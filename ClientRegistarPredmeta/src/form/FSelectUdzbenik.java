@@ -181,6 +181,7 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
     }
 
     private void promeniSirinuKolona() {
+        try{
         jTblUdzbenici.getColumnModel().getColumn(0).setPreferredWidth(10);
         jTblUdzbenici.getColumnModel().getColumn(1).setPreferredWidth(100);
         jTblUdzbenici.getColumnModel().getColumn(2).setPreferredWidth(200);
@@ -191,6 +192,9 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
         jTblUdzbenici.getColumnModel().getColumn(7).setPreferredWidth(10);
         jTblUdzbenici.getColumnModel().getColumn(8).setPreferredWidth(15);
         jTblUdzbenici.getColumnModel().getColumn(9).setPreferredWidth(80);
+        }catch(Exception ex){
+            
+        }
 
     }
 

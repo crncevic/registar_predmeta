@@ -189,8 +189,12 @@ public class FSelectPredmet extends javax.swing.JDialog {
     }
 
     private void postaviSirinuKolona() {
+        try{
         jTblPredmeti.getColumnModel().getColumn(0).setPreferredWidth(20);
         jTblPredmeti.getColumnModel().getColumn(1).setPreferredWidth(200);
+        }catch(Exception ex){
+            
+        }
     }
 
     private void pripremiTabeluZaSortiranje() {

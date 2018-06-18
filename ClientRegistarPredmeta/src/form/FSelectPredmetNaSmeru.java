@@ -31,12 +31,14 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
      */
     public FSelectPredmetNaSmeru(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+
         initComponents();
         centrirajFormu();
         popuniStudijskiProgramiCombo();
         postaviTableModel();
         pripremiTabeluZaSortiranje();
         postaviBojuPozadine();
+
     }
 
     /**
@@ -169,7 +171,7 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + e.getMessage() + "</font></html>");
         }
     }//GEN-LAST:event_jComboStudijskiProgramActionPerformed
 
@@ -189,7 +191,7 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Niste selektovali nijedan predmet!</font></html>");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + e.getMessage() + "</font></html>");
         }
     }//GEN-LAST:event_jBtnPrikaziActionPerformed
 
@@ -223,10 +225,10 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
 
             TableModel pnsp = new PredmetNaStudijskomProgramuTableModel(predmetiNaStudijskomProgramu);
             jTblPredmetiNaSmeru.setModel(pnsp);
+        } catch (Exception ex) {
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
         }
+
     }
 
     private void popuniStudijskiProgramiCombo() {
@@ -239,9 +241,10 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
             }
 
             jComboStudijskiProgram.setRenderer(new StudijskiProgramRenderer());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>" + e.getMessage()+"</font></html>");
+        } catch (Exception ex) {
+
         }
+
     }
 
     private void pripremiTabeluZaSortiranje() {
@@ -277,9 +280,10 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
                     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
             });
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
+        } catch (Exception ex) {
+
         }
+
     }
 
     private void postaviBojuPozadine() {
