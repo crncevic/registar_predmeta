@@ -8,6 +8,7 @@ package form;
 import domen.Predmet;
 import javax.swing.JOptionPane;
 import kontroler.Kontroler;
+import session.Session;
 import transfer.util.IOperation;
 
 /**
@@ -103,12 +104,20 @@ public class FPotvrdaBrisanjaPredmeta extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            dispose();
-            Kontroler.getInstance().posaljiZahtev(IOperation.OBRISI_PREDMET, predmet);
-            Predmet predmet = (Predmet) Kontroler.getInstance().primiOdgovor();
+            if (Session.getInstance().getMap().get("ulogovani_korisnik") != null) {
 
-            if (predmet != null) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet je uspesno obrisan iz baze podataka!</font></html>");
+                Kontroler.getInstance().posaljiZahtev(IOperation.OBRISI_PREDMET, predmet);
+                Predmet predmet = (Predmet) Kontroler.getInstance().primiOdgovor();
+
+                if (predmet != null) {
+                    dispose();
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet je uspesno obrisan iz baze podataka!</font></html>");
+                    FSelectPredmet fSelectPredmet = new FSelectPredmet(FMain.getInstance(), true);
+                    fSelectPredmet.setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas ulogujte se !</font></html>");
+                dispose();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + e.getMessage() + "</html></font>");

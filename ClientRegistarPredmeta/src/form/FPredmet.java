@@ -550,109 +550,113 @@ public class FPredmet extends javax.swing.JFrame {
 
     private void jBtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSacuvajActionPerformed
         try {
+            if (Session.getInstance().getMap().get("ulogovani_korisnik") != null) {
+                String naziv = jTxtNazivPredmeta.getText().trim();
 
-            String naziv = jTxtNazivPredmeta.getText().trim();
-
-            if (naziv.length() == 0) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Morate uneti naziv predmeta!</font></html>");
-                return;
-            }
-
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_PREDMETE, null);
-            List<Predmet> predmeti = (List<Predmet>) Kontroler.getInstance().primiOdgovor();
-
-            for (Predmet predmet : predmeti) {
-                if (predmet.getNaziv().equalsIgnoreCase(naziv)) {
-                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet sa nazivom " + naziv + " vec postoji u bazi podataka</font></html>");
+                if (naziv.length() == 0) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Morate uneti naziv predmeta!</font></html>");
                     return;
                 }
-            }
 
-            String uslov = jTxtUslov.getText().trim();
+                Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_PREDMETE, null);
+                List<Predmet> predmeti = (List<Predmet>) Kontroler.getInstance().primiOdgovor();
 
-            String cilj = jTextAreaCilj.getText().trim();
-
-            String ishod = jTextAreaIshod.getText().trim();
-
-            VrstaINivoStudija vrstaINivoStudija = (VrstaINivoStudija) jComboVrstaINivoStudija.getSelectedItem();
-
-            int brCasovaPredavanjaNedeljno;
-            try {
-                jSpinnerBrCasovaPredavanjaNedeljno.commitEdit();
-
-                brCasovaPredavanjaNedeljno = (Integer) jSpinnerBrCasovaPredavanjaNedeljno.getValue();
-                if (brCasovaPredavanjaNedeljno < 0) {
-                    throw new Exception();
+                for (Predmet predmet : predmeti) {
+                    if (predmet.getNaziv().equalsIgnoreCase(naziv)) {
+                        JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet sa nazivom " + naziv + " vec postoji u bazi podataka</font></html>");
+                        return;
+                    }
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
-                return;
-            }
 
-            int brCasovaVezbiNedeljno;
-            try {
-                jSpinnerBrCasovaVezbiNedeljno.commitEdit();
-                brCasovaVezbiNedeljno = (Integer) jSpinnerBrCasovaVezbiNedeljno.getValue();
-                if (brCasovaVezbiNedeljno < 0) {
-                    throw new Exception();
+                String uslov = jTxtUslov.getText().trim();
+
+                String cilj = jTextAreaCilj.getText().trim();
+
+                String ishod = jTextAreaIshod.getText().trim();
+
+                VrstaINivoStudija vrstaINivoStudija = (VrstaINivoStudija) jComboVrstaINivoStudija.getSelectedItem();
+
+                int brCasovaPredavanjaNedeljno;
+                try {
+                    jSpinnerBrCasovaPredavanjaNedeljno.commitEdit();
+
+                    brCasovaPredavanjaNedeljno = (Integer) jSpinnerBrCasovaPredavanjaNedeljno.getValue();
+                    if (brCasovaPredavanjaNedeljno < 0) {
+                        throw new Exception();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
+                    return;
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Moguc je izbor samo nenegativnih brojeva!");
-                return;
-            }
 
-            int ostaliCasovi;
-            try {
-                jSpinnerOstaliCasovi.commitEdit();
-                ostaliCasovi = (Integer) jSpinnerOstaliCasovi.getValue();
-                if (ostaliCasovi < 0) {
-                    throw new Exception();
+                int brCasovaVezbiNedeljno;
+                try {
+                    jSpinnerBrCasovaVezbiNedeljno.commitEdit();
+                    brCasovaVezbiNedeljno = (Integer) jSpinnerBrCasovaVezbiNedeljno.getValue();
+                    if (brCasovaVezbiNedeljno < 0) {
+                        throw new Exception();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Moguc je izbor samo nenegativnih brojeva!");
+                    return;
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
-                return;
+
+                int ostaliCasovi;
+                try {
+                    jSpinnerOstaliCasovi.commitEdit();
+                    ostaliCasovi = (Integer) jSpinnerOstaliCasovi.getValue();
+                    if (ostaliCasovi < 0) {
+                        throw new Exception();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
+                    return;
+                }
+
+                String drugiObliciNastave = jTxtDrugiObliciNastave.getText().trim();
+
+                String studijskiIstrazivackiRad = jTxtStudijskiIstrazivackiRad.getText().trim();
+
+                //   List<TematskaCelina> tematskeCelineStruktura = Session.getInstance().getTematskeCelineStruktura();
+                String tematskeCelineTekst = Session.getInstance().getTematskeCelineTekst();
+
+                NastavnikNaPredmetuTableModel nnptm = (NastavnikNaPredmetuTableModel) jTblNastavnici.getModel();
+                List<NastavnikNaPredmetu> nastavniciNaPredmetu = nnptm.getNastavniciNaPredmetu();
+
+                UdzbenikSkraceniTableModel ustm = (UdzbenikSkraceniTableModel) jTblUdzbenici.getModel();
+                List<Udzbenik> udzbenici = ustm.getUdzbenici();
+
+                Predmet predmet = new Predmet();
+                predmet.setNaziv(naziv);
+                predmet.setUslov(uslov);
+                predmet.setCilj(cilj);
+                predmet.setIshod(ishod);
+                predmet.setVrstaINivoStudija(vrstaINivoStudija);
+                predmet.setBrCasovaPredavanjaNedeljno(brCasovaPredavanjaNedeljno);
+                predmet.setBrCasovaVezbiNedeljno(brCasovaVezbiNedeljno);
+                predmet.setDrugiObliciNastave(drugiObliciNastave);
+                predmet.setStudijskiIstrazivackiRad(studijskiIstrazivackiRad);
+                predmet.setSadrzajTekst(tematskeCelineTekst);
+                //predmet.setSadrzajTematskeCeline(tematskeCelineStruktura);
+                predmet.setNastavnici(nastavniciNaPredmetu);
+                predmet.setUdzbenici(udzbenici);
+
+                Kontroler.getInstance().posaljiZahtev(IOperation.KREIRAJ_PREDMET, predmet);
+                Predmet kreiraniPredmet = (Predmet) Kontroler.getInstance().primiOdgovor();
+
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet :" + kreiraniPredmet.getNaziv() + " je uspesno sacuvan u bazi podataka!</font></html>");
+
+                dispose();
+
+                JDialog fSelecetPredmet = new FSelectPredmet(fMain, true);
+                fSelecetPredmet.setVisible(true);
+                Session.getInstance().setTematskeCelineTekst("");
+            } else {
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas ulogujte se!</font></html>");
             }
-
-            String drugiObliciNastave = jTxtDrugiObliciNastave.getText().trim();
-
-            String studijskiIstrazivackiRad = jTxtStudijskiIstrazivackiRad.getText().trim();
-
-            //   List<TematskaCelina> tematskeCelineStruktura = Session.getInstance().getTematskeCelineStruktura();
-            String tematskeCelineTekst = Session.getInstance().getTematskeCelineTekst();
-
-            NastavnikNaPredmetuTableModel nnptm = (NastavnikNaPredmetuTableModel) jTblNastavnici.getModel();
-            List<NastavnikNaPredmetu> nastavniciNaPredmetu = nnptm.getNastavniciNaPredmetu();
-
-            UdzbenikSkraceniTableModel ustm = (UdzbenikSkraceniTableModel) jTblUdzbenici.getModel();
-            List<Udzbenik> udzbenici = ustm.getUdzbenici();
-
-            Predmet predmet = new Predmet();
-            predmet.setNaziv(naziv);
-            predmet.setUslov(uslov);
-            predmet.setCilj(cilj);
-            predmet.setIshod(ishod);
-            predmet.setVrstaINivoStudija(vrstaINivoStudija);
-            predmet.setBrCasovaPredavanjaNedeljno(brCasovaPredavanjaNedeljno);
-            predmet.setBrCasovaVezbiNedeljno(brCasovaVezbiNedeljno);
-            predmet.setDrugiObliciNastave(drugiObliciNastave);
-            predmet.setStudijskiIstrazivackiRad(studijskiIstrazivackiRad);
-            predmet.setSadrzajTekst(tematskeCelineTekst);
-            //predmet.setSadrzajTematskeCeline(tematskeCelineStruktura);
-            predmet.setNastavnici(nastavniciNaPredmetu);
-            predmet.setUdzbenici(udzbenici);
-
-            Kontroler.getInstance().posaljiZahtev(IOperation.KREIRAJ_PREDMET, predmet);
-            Predmet kreiraniPredmet = (Predmet) Kontroler.getInstance().primiOdgovor();
-
-            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet :" + kreiraniPredmet.getNaziv() + " je uspesno sacuvan u bazi podataka!</font></html>");
-
-            dispose();
-
-            JDialog fSelecetPredmet = new FSelectPredmet(fMain, true);
-            fSelecetPredmet.setVisible(true);
-            Session.getInstance().setTematskeCelineTekst("");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + e.getMessage() + "</font></html>");
+            dispose();
         }
     }//GEN-LAST:event_jBtnSacuvajActionPerformed
 
@@ -662,112 +666,115 @@ public class FPredmet extends javax.swing.JFrame {
 
     private void jBtnAzurirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAzurirajActionPerformed
         try {
-            int predmetId;
-            try {
-                predmetId = Integer.parseInt(jTxtPredmetId.getText().trim());
+            if (Session.getInstance().getMap().get("ulogovani_korisnik") != null) {
+                int predmetId;
+                try {
+                    predmetId = Integer.parseInt(jTxtPredmetId.getText().trim());
 
-                if (predmetId < 0) {
-                    throw new Exception();
+                    if (predmetId < 0) {
+                        throw new Exception();
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>PredmetId mora biti ceo nenegativan broj!</font></html>");
+                    return;
                 }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>PredmetId mora biti ceo nenegativan broj!</font></html>");
-                return;
-            }
 
-            String naziv = jTxtNazivPredmeta.getText().trim();
+                String naziv = jTxtNazivPredmeta.getText().trim();
 
-            if (naziv.length() == 0) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Morate uneti naziv predmeta!</font></html>");
-                return;
-            }
-
-           
-
-            String uslov = jTxtUslov.getText().trim();
-
-            String cilj = jTextAreaCilj.getText().trim();
-
-            String ishod = jTextAreaIshod.getText().trim();
-
-            VrstaINivoStudija vrstaINivoStudija = (VrstaINivoStudija) jComboVrstaINivoStudija.getSelectedItem();
-
-            int brCasovaPredavanjaNedeljno;
-            try {
-                jSpinnerBrCasovaPredavanjaNedeljno.commitEdit();
-
-                brCasovaPredavanjaNedeljno = (Integer) jSpinnerBrCasovaPredavanjaNedeljno.getValue();
-                if (brCasovaPredavanjaNedeljno < 0) {
-                    throw new Exception();
+                if (naziv.length() == 0) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Morate uneti naziv predmeta!</font></html>");
+                    return;
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
-                return;
-            }
 
-            int brCasovaVezbiNedeljno;
-            try {
-                jSpinnerBrCasovaVezbiNedeljno.commitEdit();
-                brCasovaVezbiNedeljno = (Integer) jSpinnerBrCasovaVezbiNedeljno.getValue();
-                if (brCasovaVezbiNedeljno < 0) {
-                    throw new Exception();
+                String uslov = jTxtUslov.getText().trim();
+
+                String cilj = jTextAreaCilj.getText().trim();
+
+                String ishod = jTextAreaIshod.getText().trim();
+
+                VrstaINivoStudija vrstaINivoStudija = (VrstaINivoStudija) jComboVrstaINivoStudija.getSelectedItem();
+
+                int brCasovaPredavanjaNedeljno;
+                try {
+                    jSpinnerBrCasovaPredavanjaNedeljno.commitEdit();
+
+                    brCasovaPredavanjaNedeljno = (Integer) jSpinnerBrCasovaPredavanjaNedeljno.getValue();
+                    if (brCasovaPredavanjaNedeljno < 0) {
+                        throw new Exception();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
+                    return;
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
-                return;
-            }
 
-            int ostaliCasovi;
-            try {
-                jSpinnerOstaliCasovi.commitEdit();
-                ostaliCasovi = (Integer) jSpinnerOstaliCasovi.getValue();
-                if (ostaliCasovi < 0) {
-                    throw new Exception();
+                int brCasovaVezbiNedeljno;
+                try {
+                    jSpinnerBrCasovaVezbiNedeljno.commitEdit();
+                    brCasovaVezbiNedeljno = (Integer) jSpinnerBrCasovaVezbiNedeljno.getValue();
+                    if (brCasovaVezbiNedeljno < 0) {
+                        throw new Exception();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
+                    return;
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
-                return;
+
+                int ostaliCasovi;
+                try {
+                    jSpinnerOstaliCasovi.commitEdit();
+                    ostaliCasovi = (Integer) jSpinnerOstaliCasovi.getValue();
+                    if (ostaliCasovi < 0) {
+                        throw new Exception();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Moguc je izbor samo nenegativnih brojeva!</font></html>");
+                    return;
+                }
+
+                String drugiObliciNastave = jTxtDrugiObliciNastave.getText().trim();
+
+                String studijskiIstrazivackiRad = jTxtStudijskiIstrazivackiRad.getText().trim();
+
+                // List<TematskaCelina> tematskeCelineStruktura = Session.getInstance().getTematskeCelineStruktura();
+                String tematskeCelineTekst = Session.getInstance().getTematskeCelineTekst();
+
+                NastavnikNaPredmetuTableModel nnptm = (NastavnikNaPredmetuTableModel) jTblNastavnici.getModel();
+                List<NastavnikNaPredmetu> nastavniciNaPredmetu = nnptm.getNastavniciNaPredmetu();
+
+                UdzbenikSkraceniTableModel ustm = (UdzbenikSkraceniTableModel) jTblUdzbenici.getModel();
+                List<Udzbenik> udzbenici = ustm.getUdzbenici();
+
+                Predmet predmet = new Predmet();
+
+                predmet.setPredmetId(predmetId);
+                predmet.setNaziv(naziv);
+                predmet.setUslov(uslov);
+                predmet.setCilj(cilj);
+                predmet.setIshod(ishod);
+                predmet.setVrstaINivoStudija(vrstaINivoStudija);
+                predmet.setBrCasovaPredavanjaNedeljno(brCasovaPredavanjaNedeljno);
+                predmet.setBrCasovaVezbiNedeljno(brCasovaVezbiNedeljno);
+                predmet.setDrugiObliciNastave(drugiObliciNastave);
+                predmet.setStudijskiIstrazivackiRad(studijskiIstrazivackiRad);
+                predmet.setSadrzajTekst(tematskeCelineTekst);
+                // predmet.setSadrzajTematskeCeline(tematskeCelineStruktura);
+                predmet.setNastavnici(nastavniciNaPredmetu);
+                predmet.setUdzbenici(udzbenici);
+
+                Kontroler.getInstance().posaljiZahtev(IOperation.AZURIRAJ_PREDMET, predmet);
+                Predmet kreiraniPredmet = (Predmet) Kontroler.getInstance().primiOdgovor();
+
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet : " + kreiraniPredmet.getNaziv() + " je uspesno azuriran!</font></html>");
+                dispose();
+
+                Session.getInstance().setTematskeCelineTekst("");
+
+                JDialog fSelecetPredmet = new FSelectPredmet(fMain, true);
+                fSelecetPredmet.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas ulogujte se!</font></html>");
+                dispose();
             }
-
-            String drugiObliciNastave = jTxtDrugiObliciNastave.getText().trim();
-
-            String studijskiIstrazivackiRad = jTxtStudijskiIstrazivackiRad.getText().trim();
-
-            // List<TematskaCelina> tematskeCelineStruktura = Session.getInstance().getTematskeCelineStruktura();
-            String tematskeCelineTekst = Session.getInstance().getTematskeCelineTekst();
-
-            NastavnikNaPredmetuTableModel nnptm = (NastavnikNaPredmetuTableModel) jTblNastavnici.getModel();
-            List<NastavnikNaPredmetu> nastavniciNaPredmetu = nnptm.getNastavniciNaPredmetu();
-
-            UdzbenikSkraceniTableModel ustm = (UdzbenikSkraceniTableModel) jTblUdzbenici.getModel();
-            List<Udzbenik> udzbenici = ustm.getUdzbenici();
-
-            Predmet predmet = new Predmet();
-
-            predmet.setPredmetId(predmetId);
-            predmet.setNaziv(naziv);
-            predmet.setUslov(uslov);
-            predmet.setCilj(cilj);
-            predmet.setIshod(ishod);
-            predmet.setVrstaINivoStudija(vrstaINivoStudija);
-            predmet.setBrCasovaPredavanjaNedeljno(brCasovaPredavanjaNedeljno);
-            predmet.setBrCasovaVezbiNedeljno(brCasovaVezbiNedeljno);
-            predmet.setDrugiObliciNastave(drugiObliciNastave);
-            predmet.setStudijskiIstrazivackiRad(studijskiIstrazivackiRad);
-            predmet.setSadrzajTekst(tematskeCelineTekst);
-            // predmet.setSadrzajTematskeCeline(tematskeCelineStruktura);
-            predmet.setNastavnici(nastavniciNaPredmetu);
-            predmet.setUdzbenici(udzbenici);
-
-            Kontroler.getInstance().posaljiZahtev(IOperation.AZURIRAJ_PREDMET, predmet);
-            Predmet kreiraniPredmet = (Predmet) Kontroler.getInstance().primiOdgovor();
-
-            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet : " + kreiraniPredmet.getNaziv() + " je uspesno azuriran!</font></html>");
-            dispose();
-
-            Session.getInstance().setTematskeCelineTekst("");
-
-            JDialog fSelecetPredmet = new FSelectPredmet(fMain, true);
-            fSelecetPredmet.setVisible(true);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom azuriranja predmeta! Greska:" + e.getMessage() + "</font></html>");
@@ -784,7 +791,7 @@ public class FPredmet extends javax.swing.JFrame {
             }
             Predmet predmet = new Predmet();
             predmet.setPredmetId(predmetId);
-            
+
             JDialog fPotvrdaBrisanjaPredmeta = new FPotvrdaBrisanjaPredmeta(this, true, predmet);
             fPotvrdaBrisanjaPredmeta.setVisible(true);
             dispose();

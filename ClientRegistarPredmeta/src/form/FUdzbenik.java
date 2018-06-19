@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import kontroler.Kontroler;
+import session.Session;
 import table.model.OsobaUdzbenikTableModel;
 import transfer.util.IOperation;
 
@@ -376,117 +377,121 @@ public class FUdzbenik extends javax.swing.JDialog {
 
     private void jBtnAzurirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAzurirajActionPerformed
         try {
-            Udzbenik udzbenik = new Udzbenik();
-            int udzbenikId = 0;
-            try {
-                udzbenikId = Integer.parseInt(jTxtUdbzenikId.getText().trim());
-                udzbenik.setUdzbenikId(udzbenikId);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske! Nije moguce odrediti id udzbenika!</font></html>");
-                return;
-            }
+            if (Session.getInstance().getMap().get("ulogovani_korisnik") != null) {
 
-            String naziv = jTxtNaziv.getText().trim();
-            if (naziv.length() == 0) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Morate uneti naziv</font></html>");
-                return;
+                Udzbenik udzbenik = new Udzbenik();
+                int udzbenikId = 0;
+                try {
+                    udzbenikId = Integer.parseInt(jTxtUdbzenikId.getText().trim());
+                    udzbenik.setUdzbenikId(udzbenikId);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske! Nije moguce odrediti id udzbenika!</font></html>");
+                    return;
+                }
+
+                String naziv = jTxtNaziv.getText().trim();
+                if (naziv.length() == 0) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Morate uneti naziv</font></html>");
+                    return;
+                } else {
+                    udzbenik.setNaziv(naziv);
+                }
+
+                String izdavac = jTxtIzdavac.getText().trim();
+                udzbenik.setIzdavac(izdavac);
+
+                int godinaIzdanja = (int) jComboGodinaIzdanja.getSelectedItem();
+                udzbenik.setGodinaIzdanja(godinaIzdanja);
+
+                String stampa = jTxtStampa.getText().trim();
+                udzbenik.setStampa(stampa);
+
+                int rbrIzdanja = 0;
+
+                try {
+                    if (jTxtRedniBrojIzdanja.getText().trim().length() == 0) {
+                        udzbenik.setRbrIzdanja(0);
+                    } else {
+                        rbrIzdanja = Integer.parseInt(jTxtRedniBrojIzdanja.getText());
+                        udzbenik.setRbrIzdanja(rbrIzdanja);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Redni broj izdanja mora biti ceo broj</font></html>");
+                    return;
+                }
+
+                int tiraz = 0;
+                try {
+                    if (jTxtTiraz.getText().trim().length() == 0) {
+                        udzbenik.setTiraz(0);
+                    } else {
+                        tiraz = Integer.parseInt(jTxtTiraz.getText());
+                        udzbenik.setTiraz(tiraz);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Tiraz mora biti ceo broj</font></html>");
+                    return;
+                }
+
+                int isbn = 0;
+                try {
+                    if (jTxtIsbn.getText().trim().length() == 0) {
+                        udzbenik.setIsbn(0);
+                    } else {
+                        isbn = Integer.parseInt(jTxtIsbn.getText());
+                        udzbenik.setIsbn(isbn);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>ISBN mora biti ceo broj</font></html>");
+                    return;
+                }
+
+                OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
+                List<OsobaUVeziSaUdzbenikom> autoriFromTbl = atm.vratiSveAutore();
+                if (autoriFromTbl.size() == 1 && (autoriFromTbl.get(0).getIme() == null || autoriFromTbl.get(0).getPrezime() == null || autoriFromTbl.get(0).getTitula() == null)) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas popunite sve podatke za autora!</font></html>");
+                    return;
+                }
+                for (OsobaUVeziSaUdzbenikom ouvsu : autoriFromTbl) {
+                    ouvsu.setUlogaUdzbenik(new UlogaUdzbenik(1, "autor"));
+                }
+
+                OsobaUdzbenikTableModel outm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
+                List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl = outm.vratiSveRecenzente();
+                if (recenzentiFromTbl.size() == 1 && (recenzentiFromTbl.get(0).getIme() == null || recenzentiFromTbl.get(0).getPrezime() == null || recenzentiFromTbl.get(0).getTitula() == null)) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas popunite sve podatke za recenzente!</font></html>");
+                    return;
+                }
+                for (OsobaUVeziSaUdzbenikom ouvsu : recenzentiFromTbl) {
+                    ouvsu.setUlogaUdzbenik(new UlogaUdzbenik(2, "recenzent"));
+                }
+
+                if (proveriDaLiJeUObeListe(autoriFromTbl, recenzentiFromTbl)) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Osoba ne moze biti recenzent i autor u isto vreme!</font></html>");
+                    return;
+                }
+
+                List<OsobaUVeziSaUdzbenikom> list = new ArrayList<>();
+                list.addAll(autoriFromTbl);
+                list.addAll(recenzentiFromTbl);
+
+                udzbenik.setOsobeUVeziSaUdzbenikom(list);
+
+                Kontroler.getInstance().posaljiZahtev(IOperation.AZURIRAJ_UDZBENIK, udzbenik);
+                Udzbenik udzbenikFromDB = (Udzbenik) Kontroler.getInstance().primiOdgovor();
+                if (udzbenikFromDB != null) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik je uspesno azuriran!</font></html>");
+
+                    dispose();
+
+                    JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
+                    fSelectUdzbenik.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom azuriranja  udzbenika!</font></html>");
+                }
             } else {
-                udzbenik.setNaziv(naziv);
-            }
-
-          
-
-            String izdavac = jTxtIzdavac.getText().trim();
-            udzbenik.setIzdavac(izdavac);
-
-            int godinaIzdanja = (int) jComboGodinaIzdanja.getSelectedItem();
-            udzbenik.setGodinaIzdanja(godinaIzdanja);
-
-            String stampa = jTxtStampa.getText().trim();
-            udzbenik.setStampa(stampa);
-
-            int rbrIzdanja = 0;
-
-            try {
-                if (jTxtRedniBrojIzdanja.getText().trim().length() == 0) {
-                    udzbenik.setRbrIzdanja(0);
-                } else {
-                    rbrIzdanja = Integer.parseInt(jTxtRedniBrojIzdanja.getText());
-                    udzbenik.setRbrIzdanja(rbrIzdanja);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Redni broj izdanja mora biti ceo broj</font></html>");
-                return;
-            }
-
-            int tiraz = 0;
-            try {
-                if (jTxtTiraz.getText().trim().length() == 0) {
-                    udzbenik.setTiraz(0);
-                } else {
-                    tiraz = Integer.parseInt(jTxtTiraz.getText());
-                    udzbenik.setTiraz(tiraz);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Tiraz mora biti ceo broj</font></html>");
-                return;
-            }
-
-            int isbn = 0;
-            try {
-                if (jTxtIsbn.getText().trim().length() == 0) {
-                    udzbenik.setIsbn(0);
-                } else {
-                    isbn = Integer.parseInt(jTxtIsbn.getText());
-                    udzbenik.setIsbn(isbn);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>ISBN mora biti ceo broj</font></html>");
-                return;
-            }
-
-            OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
-            List<OsobaUVeziSaUdzbenikom> autoriFromTbl = atm.vratiSveAutore();
-            if (autoriFromTbl.size() == 1 && (autoriFromTbl.get(0).getIme()==null || autoriFromTbl.get(0).getPrezime()==null || autoriFromTbl.get(0).getTitula() == null)) {
-                 JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas popunite sve podatke za autora!</font></html>");
-                 return;
-            }
-            for (OsobaUVeziSaUdzbenikom ouvsu : autoriFromTbl) {
-                ouvsu.setUlogaUdzbenik(new UlogaUdzbenik(1, "autor"));
-            }
-
-            OsobaUdzbenikTableModel outm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
-            List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl = outm.vratiSveRecenzente();
-            if (recenzentiFromTbl.size() == 1 && (recenzentiFromTbl.get(0).getIme()==null || recenzentiFromTbl.get(0).getPrezime()==null || recenzentiFromTbl.get(0).getTitula() == null)) {
-                 JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas popunite sve podatke za recenzente!</font></html>");
-                 return;
-            }
-            for (OsobaUVeziSaUdzbenikom ouvsu : recenzentiFromTbl) {
-                ouvsu.setUlogaUdzbenik(new UlogaUdzbenik(2, "recenzent"));
-            }
-
-            if (proveriDaLiJeUObeListe(autoriFromTbl, recenzentiFromTbl)) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Osoba ne moze biti recenzent i autor u isto vreme!</font></html>");
-                return;
-            }
-
-            List<OsobaUVeziSaUdzbenikom> list = new ArrayList<>();
-            list.addAll(autoriFromTbl);
-            list.addAll(recenzentiFromTbl);
-
-            udzbenik.setOsobeUVeziSaUdzbenikom(list);
-
-            Kontroler.getInstance().posaljiZahtev(IOperation.AZURIRAJ_UDZBENIK, udzbenik);
-            Udzbenik udzbenikFromDB = (Udzbenik) Kontroler.getInstance().primiOdgovor();
-            if (udzbenikFromDB != null) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik je uspesno azuriran!</font></html>");
-
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas ulogujte se!</font></html>");
                 dispose();
-
-                JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
-                fSelectUdzbenik.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom azuriranja  udzbenika!</font></html>");
             }
 
         } catch (Exception ex) {
@@ -496,18 +501,23 @@ public class FUdzbenik extends javax.swing.JDialog {
 
     private void jBtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnObrisiActionPerformed
         try {
-            int udzbenikId = Integer.parseInt(jTxtUdbzenikId.getText());
-            Udzbenik u = new Udzbenik();
-            u.setUdzbenikId(udzbenikId);
-            Kontroler.getInstance().posaljiZahtev(IOperation.OBRISI_UDZBENIK, u);
-            Udzbenik udzbenik = (Udzbenik) Kontroler.getInstance().primiOdgovor();
-            if (udzbenik != null) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik: " + udzbenik.getNaziv() + " je uspesno obrisan!</font></html>");
-                dispose();
-                JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
-                fSelectUdzbenik.setVisible(true);
+            if (Session.getInstance().getMap().get("ulogovani_korisnik")!=null) {
+                int udzbenikId = Integer.parseInt(jTxtUdbzenikId.getText());
+                Udzbenik u = new Udzbenik();
+                u.setUdzbenikId(udzbenikId);
+                Kontroler.getInstance().posaljiZahtev(IOperation.OBRISI_UDZBENIK, u);
+                Udzbenik udzbenik = (Udzbenik) Kontroler.getInstance().primiOdgovor();
+                if (udzbenik != null) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik: " + udzbenik.getNaziv() + " je uspesno obrisan!</font></html>");
+                    dispose();
+                    JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
+                    fSelectUdzbenik.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom brisanja udzbenika!</font></html>");
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom brisanja udzbenika!</font></html>");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas ulogujte se!</font></html>");
+                dispose();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom brisanja udzbenika!</font></html>");
@@ -516,112 +526,118 @@ public class FUdzbenik extends javax.swing.JDialog {
 
     private void jBtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSacuvajActionPerformed
         try {
-            Udzbenik udzbenik = new Udzbenik();
+            if (Session.getInstance().getMap().get("ulogovani_korisnik") != null) {
 
-            String naziv = jTxtNaziv.getText();
-            if (naziv.trim().length() == 0) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Morate uneti naziv</font></html>");
-                return;
-            } else {
-                udzbenik.setNaziv(naziv);
-            }
+                Udzbenik udzbenik = new Udzbenik();
 
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, null);
-            List<Udzbenik> udzbenici = (List<Udzbenik>) Kontroler.getInstance().primiOdgovor();
+                String naziv = jTxtNaziv.getText();
+                if (naziv.trim().length() == 0) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Morate uneti naziv</font></html>");
+                    return;
+                } else {
+                    udzbenik.setNaziv(naziv);
+                }
 
-            for (Udzbenik udzbenik1 : udzbenici) {
-                if (udzbenik1.getNaziv().equalsIgnoreCase(naziv)) {
-                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik sa nazivom " + naziv + " vec postoji u bazi podataka!</font></html>");
+                Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, null);
+                List<Udzbenik> udzbenici = (List<Udzbenik>) Kontroler.getInstance().primiOdgovor();
+
+                for (Udzbenik udzbenik1 : udzbenici) {
+                    if (udzbenik1.getNaziv().equalsIgnoreCase(naziv)) {
+                        JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik sa nazivom " + naziv + " vec postoji u bazi podataka!</font></html>");
+                        return;
+                    }
+                }
+
+                String izdavac = jTxtIzdavac.getText().trim();
+                udzbenik.setIzdavac(izdavac);
+
+                int godinaIzdanja = (int) jComboGodinaIzdanja.getSelectedItem();
+                udzbenik.setGodinaIzdanja(godinaIzdanja);
+
+                String stampa = jTxtStampa.getText().trim();
+                udzbenik.setStampa(stampa);
+
+                int rbrIzdanja = 0;
+
+                try {
+                    if (jTxtRedniBrojIzdanja.getText().trim().length() == 0) {
+                        udzbenik.setRbrIzdanja(0);
+                    } else {
+                        rbrIzdanja = Integer.parseInt(jTxtRedniBrojIzdanja.getText());
+                        udzbenik.setRbrIzdanja(rbrIzdanja);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Redni broj izdanja mora biti ceo broj</font></html>");
                     return;
                 }
-            }
 
-            String izdavac = jTxtIzdavac.getText().trim();
-            udzbenik.setIzdavac(izdavac);
-
-            int godinaIzdanja = (int) jComboGodinaIzdanja.getSelectedItem();
-            udzbenik.setGodinaIzdanja(godinaIzdanja);
-
-            String stampa = jTxtStampa.getText().trim();
-            udzbenik.setStampa(stampa);
-
-            int rbrIzdanja = 0;
-
-            try {
-                if (jTxtRedniBrojIzdanja.getText().trim().length() == 0) {
-                    udzbenik.setRbrIzdanja(0);
-                } else {
-                    rbrIzdanja = Integer.parseInt(jTxtRedniBrojIzdanja.getText());
-                    udzbenik.setRbrIzdanja(rbrIzdanja);
+                int tiraz = 0;
+                try {
+                    if (jTxtTiraz.getText().trim().length() == 0) {
+                        udzbenik.setTiraz(0);
+                    } else {
+                        tiraz = Integer.parseInt(jTxtTiraz.getText());
+                        udzbenik.setTiraz(tiraz);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Tiraz mora biti ceo broj</font></html>");
+                    return;
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Redni broj izdanja mora biti ceo broj</font></html>");
-                return;
-            }
 
-            int tiraz = 0;
-            try {
-                if (jTxtTiraz.getText().trim().length() == 0) {
-                    udzbenik.setTiraz(0);
-                } else {
-                    tiraz = Integer.parseInt(jTxtTiraz.getText());
-                    udzbenik.setTiraz(tiraz);
+                int isbn = 0;
+                try {
+                    if (jTxtIsbn.getText().trim().length() == 0) {
+                        udzbenik.setIsbn(0);
+                    } else {
+                        isbn = Integer.parseInt(jTxtIsbn.getText());
+                        udzbenik.setIsbn(isbn);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>ISBN mora biti ceo broj</font></html>");
+                    return;
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Tiraz mora biti ceo broj</font></html>");
-                return;
-            }
 
-            int isbn = 0;
-            try {
-                if (jTxtIsbn.getText().trim().length() == 0) {
-                    udzbenik.setIsbn(0);
-                } else {
-                    isbn = Integer.parseInt(jTxtIsbn.getText());
-                    udzbenik.setIsbn(isbn);
+                OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
+                List<OsobaUVeziSaUdzbenikom> autoriFromTbl = atm.vratiSveAutore();
+                if (autoriFromTbl.size() == 1 && (autoriFromTbl.get(0).getIme() == null || autoriFromTbl.get(0).getPrezime() == null || autoriFromTbl.get(0).getTitula() == null)) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas popunite sve podatke za autora!</font></html>");
+                    return;
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>ISBN mora biti ceo broj</font></html>");
-                return;
-            }
 
-            OsobaUdzbenikTableModel atm = (OsobaUdzbenikTableModel) jTblAutori.getModel();
-            List<OsobaUVeziSaUdzbenikom> autoriFromTbl = atm.vratiSveAutore();
-            if (autoriFromTbl.size() == 1 && (autoriFromTbl.get(0).getIme()==null || autoriFromTbl.get(0).getPrezime()==null || autoriFromTbl.get(0).getTitula() == null)) {
-                 JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas popunite sve podatke za autora!</font></html>");
-                 return;
-            }
-            
+                OsobaUdzbenikTableModel outm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
+                List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl = outm.vratiSveRecenzente();
 
-            OsobaUdzbenikTableModel outm = (OsobaUdzbenikTableModel) jTblRecenzenti.getModel();
-            List<OsobaUVeziSaUdzbenikom> recenzentiFromTbl = outm.vratiSveRecenzente();
-            
-            if (recenzentiFromTbl.size() == 1 && (recenzentiFromTbl.get(0)==null || recenzentiFromTbl.get(0).getPrezime()== null || recenzentiFromTbl.get(0).getTitula()==null)) {
-                 JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas popunite sve podatke za recenzenta!</font></html>");
-                 return;
-            }
+                if (recenzentiFromTbl.size() == 1 && (recenzentiFromTbl.get(0) == null || recenzentiFromTbl.get(0).getPrezime() == null || recenzentiFromTbl.get(0).getTitula() == null)) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas popunite sve podatke za recenzenta!</font></html>");
+                    return;
+                }
 
-            if (proveriDaLiJeUObeListe(autoriFromTbl, recenzentiFromTbl)) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Osoba ne moze biti recenzent i autor u isto vreme!</font></html>");
-                return;
-            }
+                if (proveriDaLiJeUObeListe(autoriFromTbl, recenzentiFromTbl)) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Osoba ne moze biti recenzent i autor u isto vreme!</font></html>");
+                    return;
+                }
 
-            List<OsobaUVeziSaUdzbenikom> list = new ArrayList<>();
-            list.addAll(autoriFromTbl);
-            list.addAll(recenzentiFromTbl);
+                List<OsobaUVeziSaUdzbenikom> list = new ArrayList<>();
+                list.addAll(autoriFromTbl);
+                list.addAll(recenzentiFromTbl);
 
-            udzbenik.setOsobeUVeziSaUdzbenikom(list);
-            Kontroler.getInstance().posaljiZahtev(IOperation.KREIRAJ_UDZBENIK, udzbenik);
-            Udzbenik udzbenikFromDB = (Udzbenik) Kontroler.getInstance().primiOdgovor();
-            if (udzbenikFromDB != null) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik je uspesno kreiran!</font></html>");
+                udzbenik.setOsobeUVeziSaUdzbenikom(list);
 
-                dispose();
+                Kontroler.getInstance().posaljiZahtev(IOperation.KREIRAJ_UDZBENIK, udzbenik);
+                Udzbenik udzbenikFromDB = (Udzbenik) Kontroler.getInstance().primiOdgovor();
+                if (udzbenikFromDB != null) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Udzbenik je uspesno kreiran!</font></html>");
 
-                JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
-                fSelectUdzbenik.setVisible(true);
+                    dispose();
+
+                    JDialog fSelectUdzbenik = new FSelectUdzbenik(FMain.getInstance(), true);
+                    fSelectUdzbenik.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom kreiranja  udzbenika!</font></html>");
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Doslo je do greske prilikom kreiranja  udzbenika!</font></html>");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas ulogujte se!</font></html>");
+                dispose();
             }
 
         } catch (Exception ex) {

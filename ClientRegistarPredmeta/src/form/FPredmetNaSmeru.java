@@ -18,6 +18,7 @@ import kontroler.Kontroler;
 import renderer.PredmetRenderer;
 import renderer.StatusRenderer;
 import renderer.StudijskiProgramRenderer;
+import session.Session;
 import transfer.util.IOperation;
 
 /**
@@ -169,37 +170,42 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
 
     private void jBtnAzurirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAzurirajActionPerformed
         try {
-            StudijskiProgram studijskiProgram = (StudijskiProgram) jComboSmerovi.getSelectedItem();
-            Predmet predmet = (Predmet) jComboPredmeti.getSelectedItem();
-            Status status = (Status) jComboStatus.getSelectedItem();
+            if (Session.getInstance().getMap().get("ulogovani_korisnik") != null) {
+                StudijskiProgram studijskiProgram = (StudijskiProgram) jComboSmerovi.getSelectedItem();
+                Predmet predmet = (Predmet) jComboPredmeti.getSelectedItem();
+                Status status = (Status) jComboStatus.getSelectedItem();
 
-            int espb;
+                int espb;
 
-            try {
-                jSpinnerESPB.commitEdit();
-                espb = (int) jSpinnerESPB.getValue();
+                try {
+                    jSpinnerESPB.commitEdit();
+                    espb = (int) jSpinnerESPB.getValue();
 
-                if (espb < 0) {
-                    throw new Exception();
+                    if (espb < 0) {
+                        throw new Exception();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dozvoljeno je unos samo celih nenegaticnih brojeva!</font></html>");
+                    return;
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dozvoljeno je unos samo celih nenegaticnih brojeva!</font></html>");
-                return;
-            }
 
-            PredmetNaStudijskomProgramu pnsp = new PredmetNaStudijskomProgramu(predmet, studijskiProgram, status, espb);
+                PredmetNaStudijskomProgramu pnsp = new PredmetNaStudijskomProgramu(predmet, studijskiProgram, status, espb);
 
-            Kontroler.getInstance().posaljiZahtev(IOperation.AZURIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU, pnsp);
-            PredmetNaStudijskomProgramu azuriranPredmetNaStudijskomProgramu = (PredmetNaStudijskomProgramu) Kontroler.getInstance().primiOdgovor();
+                Kontroler.getInstance().posaljiZahtev(IOperation.AZURIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU, pnsp);
+                PredmetNaStudijskomProgramu azuriranPredmetNaStudijskomProgramu = (PredmetNaStudijskomProgramu) Kontroler.getInstance().primiOdgovor();
 
-            if (azuriranPredmetNaStudijskomProgramu != null) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet: " + predmet.getNaziv() + " je uspesno azuriran na studijskom programu:" + azuriranPredmetNaStudijskomProgramu.getStudijskiProgram().getNaziv() + "</font></html>");
+                if (azuriranPredmetNaStudijskomProgramu != null) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet: " + predmet.getNaziv() + " je uspesno azuriran na studijskom programu:" + azuriranPredmetNaStudijskomProgramu.getStudijskiProgram().getNaziv() + "</font></html>");
 
-                dispose();
-                JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(FMain.getInstance(), true);
-                fSelectPredmetNaSmeru.setVisible(true);
+                    dispose();
+                    JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(FMain.getInstance(), true);
+                    fSelectPredmetNaSmeru.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom azuriranja!</font></html>");
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom azuriranja!</font></html>");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas ulogujte se!</font></html>");
+                dispose();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom azuriranja!</font></html>");
@@ -208,87 +214,98 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
 
     private void jBtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSacuvajActionPerformed
         try {
-            StudijskiProgram studijskiProgram = (StudijskiProgram) jComboSmerovi.getSelectedItem();
-            Predmet predmet = (Predmet) jComboPredmeti.getSelectedItem();
-            Status status = (Status) jComboStatus.getSelectedItem();
+            if (Session.getInstance().getMap().get("ulogovani_korisnik") != null) {
+                StudijskiProgram studijskiProgram = (StudijskiProgram) jComboSmerovi.getSelectedItem();
+                Predmet predmet = (Predmet) jComboPredmeti.getSelectedItem();
+                Status status = (Status) jComboStatus.getSelectedItem();
 
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM, studijskiProgram.getStudijskiProgramId());
-            List<PredmetNaStudijskomProgramu> list = (List<PredmetNaStudijskomProgramu>) Kontroler.getInstance().primiOdgovor();
+                Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM, studijskiProgram.getStudijskiProgramId());
+                List<PredmetNaStudijskomProgramu> list = (List<PredmetNaStudijskomProgramu>) Kontroler.getInstance().primiOdgovor();
 
-            for (PredmetNaStudijskomProgramu predmetNaStudijskomProgramu : list) {
-                if (predmetNaStudijskomProgramu.getPredmet().equals(predmet)) {
-                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet " + predmet.getNaziv() + " vec postoji na tom studijskom programu!</font></html>");
+                for (PredmetNaStudijskomProgramu predmetNaStudijskomProgramu : list) {
+                    if (predmetNaStudijskomProgramu.getPredmet().equals(predmet)) {
+                        JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet " + predmet.getNaziv() + " vec postoji na tom studijskom programu!</font></html>");
+                        return;
+                    }
+                }
+
+                int espb;
+
+                try {
+                    jSpinnerESPB.commitEdit();
+                    espb = (int) jSpinnerESPB.getValue();
+
+                    if (espb < 0 || espb > 50) {
+                        throw new Exception();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dozvoljeno je unos samo celih nenegaticnih brojeva!</font></html>");
                     return;
                 }
-            }
 
-            int espb;
+                PredmetNaStudijskomProgramu pnsp = new PredmetNaStudijskomProgramu(predmet, studijskiProgram, status, espb);
 
-            try {
-                jSpinnerESPB.commitEdit();
-                espb = (int) jSpinnerESPB.getValue();
+                Kontroler.getInstance().posaljiZahtev(IOperation.KREIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU, pnsp);
+                PredmetNaStudijskomProgramu kreiranPredmetNaStudijskomProgramu = (PredmetNaStudijskomProgramu) Kontroler.getInstance().primiOdgovor();
 
-                if (espb < 0 || espb > 50) {
-                    throw new Exception();
+                if (kreiranPredmetNaStudijskomProgramu != null) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Sistem je zapamtio predmet na studijskom programu!</font></html>");
+                    dispose();
+                    JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(FMain.getInstance(), true);
+                    fSelectPredmetNaSmeru.setVisible(true);
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom azuriranja!</font></html>");
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dozvoljeno je unos samo celih nenegaticnih brojeva!</font></html>");
-                return;
-            }
-
-            PredmetNaStudijskomProgramu pnsp = new PredmetNaStudijskomProgramu(predmet, studijskiProgram, status, espb);
-
-            Kontroler.getInstance().posaljiZahtev(IOperation.KREIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU, pnsp);
-            PredmetNaStudijskomProgramu kreiranPredmetNaStudijskomProgramu = (PredmetNaStudijskomProgramu) Kontroler.getInstance().primiOdgovor();
-
-            if (kreiranPredmetNaStudijskomProgramu != null) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Sistem je zapamtio predmet na studijskom programu!</font></html>");
-                dispose();
-                JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(FMain.getInstance(), true);
-                fSelectPredmetNaSmeru.setVisible(true);
-
             } else {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom azuriranja!</font></html>");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas ulogujte se!</font></html>");
+                dispose();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom kreiranja!</font></html>");
+            dispose();
         }
     }//GEN-LAST:event_jBtnSacuvajActionPerformed
 
     private void jBtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnObrisiActionPerformed
         try {
-            StudijskiProgram studijskiProgram = (StudijskiProgram) jComboSmerovi.getSelectedItem();
-            Predmet predmet = (Predmet) jComboPredmeti.getSelectedItem();
-            Status status = (Status) jComboStatus.getSelectedItem();
+            if (Session.getInstance().getMap().get("ulogovani_korisnik") != null) {
+                StudijskiProgram studijskiProgram = (StudijskiProgram) jComboSmerovi.getSelectedItem();
+                Predmet predmet = (Predmet) jComboPredmeti.getSelectedItem();
+                Status status = (Status) jComboStatus.getSelectedItem();
 
-            int espb;
+                int espb;
 
-            try {
-                jSpinnerESPB.commitEdit();
-                espb = (int) jSpinnerESPB.getValue();
+                try {
+                    jSpinnerESPB.commitEdit();
+                    espb = (int) jSpinnerESPB.getValue();
 
-                if (espb < 0 || espb > 50) {
-                    throw new Exception();
+                    if (espb < 0 || espb > 50) {
+                        throw new Exception();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dozvoljeno je unos samo celih nenegaticnih brojeva!</font></html>");
+                    return;
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dozvoljeno je unos samo celih nenegaticnih brojeva!</font></html>");
-                return;
-            }
 
-            PredmetNaStudijskomProgramu pnsp = new PredmetNaStudijskomProgramu(predmet, studijskiProgram, status, espb);
+                PredmetNaStudijskomProgramu pnsp = new PredmetNaStudijskomProgramu(predmet, studijskiProgram, status, espb);
 
-            Kontroler.getInstance().posaljiZahtev(IOperation.OBRISI_PREDMET_NA_STUDIJSKOM_PROGRAMU, pnsp);
-            PredmetNaStudijskomProgramu obrisanPredmetNaStdProgramu = (PredmetNaStudijskomProgramu) Kontroler.getInstance().primiOdgovor();
+                Kontroler.getInstance().posaljiZahtev(IOperation.OBRISI_PREDMET_NA_STUDIJSKOM_PROGRAMU, pnsp);
+                PredmetNaStudijskomProgramu obrisanPredmetNaStdProgramu = (PredmetNaStudijskomProgramu) Kontroler.getInstance().primiOdgovor();
 
-            if (obrisanPredmetNaStdProgramu != null) {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet: " + predmet.getNaziv() + " je uspesno obrisan  sa studijskog programa: " + studijskiProgram.getNaziv() + "</font></html>");
+                if (obrisanPredmetNaStdProgramu != null) {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Predmet: " + predmet.getNaziv() + " je uspesno obrisan  sa studijskog programa: " + studijskiProgram.getNaziv() + "</font></html>");
 
-                dispose();
-                JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(FMain.getInstance(), true);
-                fSelectPredmetNaSmeru.setVisible(true);
+                    dispose();
+                    JDialog fSelectPredmetNaSmeru = new FSelectPredmetNaSmeru(FMain.getInstance(), true);
+                    fSelectPredmetNaSmeru.setVisible(true);
 
+                } else {
+                    JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom brisanja!</font></html>");
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska prilikom brisanja!</font></html>");
+                JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Molim vas ulogujte se!</font></html>");
+                dispose();
             }
 
         } catch (Exception e) {

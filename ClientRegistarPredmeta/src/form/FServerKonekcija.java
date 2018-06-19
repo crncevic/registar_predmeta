@@ -156,7 +156,7 @@ public class FServerKonekcija extends javax.swing.JDialog {
 
     private boolean loadSettings() {
         try {
-            FileInputStream fis = new FileInputStream("user.properties");
+            FileInputStream fis = new FileInputStream("C:\\Users\\Petar\\Desktop\\Projektovanje softvera\\Seminarski_rad\\Projekat_PS\\ClientRegistarPredmeta\\user.properties");
             properties = new Properties();
             properties.load(fis);
             return true;
