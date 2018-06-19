@@ -3,22 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/StudijskiProgramDaoImpl.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/NastavnikNaPredmetuDaoImpl.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/TipNastaveDaoImpl.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/NastavnikDaoImpl.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/OsobaUVeziSaUdzbenikomDaoImpl.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/DbBroker.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/PredmetNaStudijskomProgramuDaoImpl.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/PredmetDaoImpl.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/VrstaINivoStudijaDaoImpl.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/AbstractDao.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/UdzbenikDaoImpl.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/thread/NitKlijent.java</file>
             <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/thread/NitServer.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/KorisnikDaoImpl.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/StatusDaoImpl.java</file>
-            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/UlogaUdzbenikDaoImpl.java</file>
+            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/SettingsLoader.java</file>
+            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/PredmetDaoImpl.java</file>
+            <file>file:/C:/Users/Petar/Desktop/Projektovanje%20softvera/Seminarski_rad/Projekat_PS/ServiceRegistarPredmeta/src/db/dao/AbstractDao.java</file>
         </group>
     </open-files>
 </project-private>

@@ -69,14 +69,14 @@ public class OsobaUdzbenikTableModel extends AbstractTableModel {
             case 1:
                 String ime = ((String) aValue).trim();
 
-                if (ime.length() == 0) {
+                if (ime.length() < 3) {
                     return;
                 }
 
                 char[] niz = ime.toCharArray();
 
                 for (char c : niz) {
-                    if (!Character.isAlphabetic(c) && c != '-') {
+                    if (!Character.isAlphabetic(c) && c != '-' && c != ' ') {
                         return;
                     }
                 }
@@ -87,14 +87,14 @@ public class OsobaUdzbenikTableModel extends AbstractTableModel {
 
                 String prezime = ((String) aValue).trim();
 
-                if (prezime.length() == 0) {
+                if (prezime.length() < 3) {
                     return;
                 }
 
                 char[] niz2 = prezime.toCharArray();
 
                 for (char c : niz2) {
-                    if (!Character.isAlphabetic(c) && c != '-') {
+                    if (!Character.isAlphabetic(c) && c != '-' && c != ' ') {
                         return;
                     }
                 }
@@ -103,14 +103,14 @@ public class OsobaUdzbenikTableModel extends AbstractTableModel {
             case 3:
                 String titula = ((String) aValue).trim();
 
-                if (titula.length() == 0) {
+                if (titula.length() < 3) {
                     return;
                 }
 
                 char[] niz3 = titula.toCharArray();
 
                 for (char c : niz3) {
-                    if (!Character.isAlphabetic(c) && c != '-') {
+                    if (!Character.isAlphabetic(c) && c != '-' && c != ' ') {
                         return;
                     }
                 }
