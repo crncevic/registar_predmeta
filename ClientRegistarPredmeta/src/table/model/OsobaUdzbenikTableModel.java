@@ -165,7 +165,9 @@ public class OsobaUdzbenikTableModel extends AbstractTableModel {
 
     public void dodajNovuOsobuZaUdzbenik(String uloga) throws Exception {
         OsobaUVeziSaUdzbenikom ouvsu = new OsobaUVeziSaUdzbenikom();
-        Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_ULOGU_UDZBENIK_PO_NAZIVU, uloga);
+        UlogaUdzbenik uu = new UlogaUdzbenik();
+        uu.setNaziv(uloga);
+        Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_ULOGU_UDZBENIK_PO_NAZIVU, uu);
         UlogaUdzbenik ulogaUdzbenik = (UlogaUdzbenik) Kontroler.getInstance().primiOdgovor();
         ouvsu.setUlogaUdzbenik(ulogaUdzbenik);
         if (osobe.isEmpty()) {

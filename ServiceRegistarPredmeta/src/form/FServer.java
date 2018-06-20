@@ -7,7 +7,6 @@ package form;
 
 import constants.Constants;
 import db.SettingsLoader;
-import db.dao.KorisnikDaoImpl;
 import domen.Korisnik;
 import java.awt.Color;
 import java.io.IOException;
@@ -20,6 +19,8 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.TableModel;
 import server.Server;
+import so.ApstraktnaGenerickaOperacija;
+import so.VratiSveKorisnike;
 import table.model.KorisnikStatusTableModel;
 import thread.NitKlijent;
 import thread.NitProveraStatusa;
@@ -205,7 +206,7 @@ public class FServer extends javax.swing.JFrame {
             jLabelStatus.setForeground(Color.GREEN);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska kod pokretanja servera! Greska: " + e.getMessage()+"</font></html>");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Dogodila se greska kod pokretanja servera! Greska: " + e.getMessage() + "</font></html>");
         }
     }//GEN-LAST:event_jBtnServerStartActionPerformed
 
@@ -278,7 +279,8 @@ public class FServer extends javax.swing.JFrame {
 
     private void postaviTableModel() {
         try {
-            List<Korisnik> korisnici = KorisnikDaoImpl.getInstance().vratiSveKorisnike();
+            ApstraktnaGenerickaOperacija vratiSveKorisnike = new VratiSveKorisnike();
+            List<Korisnik> korisnici = (List<Korisnik>) vratiSveKorisnike.opsteIzvrsenje(new Korisnik());
             for (Korisnik korisnik : korisnici) {
                 korisnik.setStatus("nije aktivan");
             }

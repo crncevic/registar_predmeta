@@ -501,7 +501,7 @@ public class FUdzbenik extends javax.swing.JDialog {
 
     private void jBtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnObrisiActionPerformed
         try {
-            if (Session.getInstance().getMap().get("ulogovani_korisnik")!=null) {
+            if (Session.getInstance().getMap().get("ulogovani_korisnik") != null) {
                 int udzbenikId = Integer.parseInt(jTxtUdbzenikId.getText());
                 Udzbenik u = new Udzbenik();
                 u.setUdzbenikId(udzbenikId);
@@ -538,7 +538,7 @@ public class FUdzbenik extends javax.swing.JDialog {
                     udzbenik.setNaziv(naziv);
                 }
 
-                Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, null);
+                Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, new Udzbenik());
                 List<Udzbenik> udzbenici = (List<Udzbenik>) Kontroler.getInstance().primiOdgovor();
 
                 for (Udzbenik udzbenik1 : udzbenici) {
@@ -788,7 +788,11 @@ public class FUdzbenik extends javax.swing.JDialog {
 
     private void pripremiFormuZaPregedanje(int udzbenikId) {
         try {
-            Kontroler.getInstance().posaljiZahtev(IOperation.PRONADJI_UDZBENIK_PO_ID, udzbenikId);
+            
+            Udzbenik u1 = new Udzbenik();
+            u1.setUdzbenikId(udzbenikId);
+
+            Kontroler.getInstance().posaljiZahtev(IOperation.PRONADJI_UDZBENIK_PO_ID, u1);
             Udzbenik udzbenik = (Udzbenik) Kontroler.getInstance().primiOdgovor();
             jTxtNaziv.setText(udzbenik.getNaziv());
             jTxtIzdavac.setText(udzbenik.getIzdavac());
@@ -814,12 +818,15 @@ public class FUdzbenik extends javax.swing.JDialog {
 
     private void postaviTableModelZaUdzbenik(int udzbenikId) {
         try {
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_AUTORE, udzbenikId);
+            Udzbenik udzbenik = new Udzbenik();
+            udzbenik.setUdzbenikId(udzbenikId);
+
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_AUTORE, udzbenik);
             List<OsobaUVeziSaUdzbenikom> autori = (List<OsobaUVeziSaUdzbenikom>) Kontroler.getInstance().primiOdgovor();
             TableModel atm = new OsobaUdzbenikTableModel(autori);
             jTblAutori.setModel(atm);
 
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_RECENZENTE, udzbenikId);
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_RECENZENTE, udzbenik);
             List<OsobaUVeziSaUdzbenikom> recenzenti = (List<OsobaUVeziSaUdzbenikom>) Kontroler.getInstance().primiOdgovor();
             TableModel rtm = new OsobaUdzbenikTableModel(recenzenti);
             jTblRecenzenti.setModel(rtm);

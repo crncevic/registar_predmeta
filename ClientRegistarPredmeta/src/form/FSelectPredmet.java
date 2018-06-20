@@ -152,7 +152,7 @@ public class FSelectPredmet extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>Niste selektovali nijedan predmet!</font></html>");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>"+ e.getMessage()+"</font></html>");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + e.getMessage() + "</font></html>");
         }
     }//GEN-LAST:event_jBtnPrikaziActionPerformed
 
@@ -178,22 +178,22 @@ public class FSelectPredmet extends javax.swing.JDialog {
 
     private void popuniTabelu() {
         try {
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_PREDMETE, null);
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_PREDMETE, new Predmet());
             List<Predmet> predmeti = (List<Predmet>) Kontroler.getInstance().primiOdgovor();
 
             TableModel ptm = new PredmetTableModel(predmeti);
             jTblPredmeti.setModel(ptm);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"<html><font color=#ffffff>" + e.getMessage()+"</font></html>");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + e.getMessage() + "</font></html>");
         }
     }
 
     private void postaviSirinuKolona() {
-        try{
-        jTblPredmeti.getColumnModel().getColumn(0).setPreferredWidth(20);
-        jTblPredmeti.getColumnModel().getColumn(1).setPreferredWidth(200);
-        }catch(Exception ex){
-            
+        try {
+            jTblPredmeti.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTblPredmeti.getColumnModel().getColumn(1).setPreferredWidth(200);
+        } catch (Exception ex) {
+
         }
     }
 
@@ -231,7 +231,7 @@ public class FSelectPredmet extends javax.swing.JDialog {
                 }
             });
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>"+e.getMessage()+"</font></html>");
+            JOptionPane.showMessageDialog(this, "<html><font color=#ffffff>" + e.getMessage() + "</font></html>");
         }
     }
 

@@ -558,7 +558,7 @@ public class FPredmet extends javax.swing.JFrame {
                     return;
                 }
 
-                Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_PREDMETE, null);
+                Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_PREDMETE, new Predmet());
                 List<Predmet> predmeti = (List<Predmet>) Kontroler.getInstance().primiOdgovor();
 
                 for (Predmet predmet : predmeti) {
@@ -858,7 +858,7 @@ public class FPredmet extends javax.swing.JFrame {
 
     private void popuniVrstaINivoStudijaCombo() {
         try {
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_VRSTE_I_NIVOE_STUDIJA, null);
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_VRSTE_I_NIVOE_STUDIJA, new VrstaINivoStudija());
             List<VrstaINivoStudija> vrsteStudija = (List<VrstaINivoStudija>) Kontroler.getInstance().primiOdgovor();
 
             for (VrstaINivoStudija vins : vrsteStudija) {
@@ -890,7 +890,7 @@ public class FPredmet extends javax.swing.JFrame {
 
     private void popuniUdzbeniciCombo() {
         try {
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, null);
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, new Udzbenik());
             List<Udzbenik> udzbenici = (List<Udzbenik>) Kontroler.getInstance().primiOdgovor();
 
             for (Udzbenik udzbenik : udzbenici) {
@@ -960,7 +960,10 @@ public class FPredmet extends javax.swing.JFrame {
     private void popuniFormuZaPredmet(int predmetId) {
         try {
 
-            Kontroler.getInstance().posaljiZahtev(IOperation.PRONADJI_PREDMET_PO_ID, predmetId);
+            Predmet p1 = new Predmet();
+            p1.setPredmetId(predmetId);
+
+            Kontroler.getInstance().posaljiZahtev(IOperation.PRONADJI_PREDMET_PO_ID, p1);
             Predmet predmet = (Predmet) Kontroler.getInstance().primiOdgovor();
 
             jTxtPredmetId.setText(String.valueOf(predmet.getPredmetId()));
@@ -998,7 +1001,7 @@ public class FPredmet extends javax.swing.JFrame {
 
         try {
 
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_TIPOVE_NASTAVE, null);
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_TIPOVE_NASTAVE, new TipNastave());
 
             List<TipNastave> tipoviNastave = (List<TipNastave>) Kontroler.getInstance().primiOdgovor();
 

@@ -219,7 +219,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
                 Predmet predmet = (Predmet) jComboPredmeti.getSelectedItem();
                 Status status = (Status) jComboStatus.getSelectedItem();
 
-                Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM, studijskiProgram.getStudijskiProgramId());
+                Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM, studijskiProgram);
                 List<PredmetNaStudijskomProgramu> list = (List<PredmetNaStudijskomProgramu>) Kontroler.getInstance().primiOdgovor();
 
                 for (PredmetNaStudijskomProgramu predmetNaStudijskomProgramu : list) {
@@ -336,7 +336,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
 
     private void popuniStudijskiProgramCombo() {
         try {
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_STUDIJSKE_PROGRAME, null);
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_STUDIJSKE_PROGRAME, new StudijskiProgram());
             List<StudijskiProgram> studijskiProgrami = (List<StudijskiProgram>) Kontroler.getInstance().primiOdgovor();
 
             for (StudijskiProgram studijskiProgram : studijskiProgrami) {
@@ -351,7 +351,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
 
     private void popuniPredmetiCombo() {
         try {
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_PREDMETE, null);
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_PREDMETE, new Predmet());
             List<Predmet> predmeti = (List<Predmet>) Kontroler.getInstance().primiOdgovor();
 
             for (Predmet predmet : predmeti) {
@@ -366,7 +366,7 @@ public class FPredmetNaSmeru extends javax.swing.JDialog {
 
     private void popuniStatusCombo() {
         try {
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_STATUSE, null);
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_STATUSE, new Status());
             List<Status> statusi = (List<Status>) Kontroler.getInstance().primiOdgovor();
 
             for (Status status : statusi) {

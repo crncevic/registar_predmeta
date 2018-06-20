@@ -190,7 +190,9 @@ public class FNastavnik extends javax.swing.JDialog {
 
     private void popuniFormu(int nastavnikId) {
         try {
-            Kontroler.getInstance().posaljiZahtev(IOperation.PRONADJI_NASTAVNIKA_PO_ID, nastavnikId);
+            Nastavnik n = new Nastavnik();
+            n.setNastavnikId(nastavnikId);
+            Kontroler.getInstance().posaljiZahtev(IOperation.PRONADJI_NASTAVNIKA_PO_ID, n);
             Nastavnik nastavnik = (Nastavnik) Kontroler.getInstance().primiOdgovor();
 
             jTxtId.setText(String.valueOf(nastavnik.getNastavnikId()));

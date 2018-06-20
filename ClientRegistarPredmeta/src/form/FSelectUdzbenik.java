@@ -167,7 +167,7 @@ public class FSelectUdzbenik extends javax.swing.JDialog {
 
     private void postaviTableModel() {
         try {
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, null);
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_UDZBENIKE, new Udzbenik());
             List<Udzbenik> udzbenici = (List<Udzbenik>) Kontroler.getInstance().primiOdgovor();
             TableModel utm = new UdzbenikTableModel(udzbenici);
             jTblUdzbenici.setModel(utm);

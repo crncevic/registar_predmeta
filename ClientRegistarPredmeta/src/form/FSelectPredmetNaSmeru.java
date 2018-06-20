@@ -162,7 +162,7 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
     private void jComboStudijskiProgramActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboStudijskiProgramActionPerformed
         try {
             StudijskiProgram sp = (StudijskiProgram) jComboStudijskiProgram.getSelectedItem();
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM, sp.getStudijskiProgramId());
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM, sp);
             List<PredmetNaStudijskomProgramu> predmetiNaStudijskomProgramu = (List<PredmetNaStudijskomProgramu>) Kontroler.getInstance().primiOdgovor();
 
             if (jTblPredmetiNaSmeru.getModel() instanceof PredmetNaStudijskomProgramuTableModel) {
@@ -220,7 +220,7 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
     private void postaviTableModel() {
         try {
             StudijskiProgram sp = (StudijskiProgram) jComboStudijskiProgram.getSelectedItem();
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM, sp.getStudijskiProgramId());
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM, sp);
             List<PredmetNaStudijskomProgramu> predmetiNaStudijskomProgramu = (List<PredmetNaStudijskomProgramu>) Kontroler.getInstance().primiOdgovor();
 
             TableModel pnsp = new PredmetNaStudijskomProgramuTableModel(predmetiNaStudijskomProgramu);
@@ -233,7 +233,7 @@ public class FSelectPredmetNaSmeru extends javax.swing.JDialog {
 
     private void popuniStudijskiProgramiCombo() {
         try {
-            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_STUDIJSKE_PROGRAME, null);
+            Kontroler.getInstance().posaljiZahtev(IOperation.VRATI_SVE_STUDIJSKE_PROGRAME, new StudijskiProgram());
             List<StudijskiProgram> studijskiProgrami = (List<StudijskiProgram>) Kontroler.getInstance().primiOdgovor();
 
             for (StudijskiProgram studijskiProgram : studijskiProgrami) {

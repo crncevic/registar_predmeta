@@ -1,17 +1,6 @@
 package thread;
 
-import db.DbBroker;
-import db.dao.KorisnikDaoImpl;
-import db.dao.NastavnikDaoImpl;
-import db.dao.OsobaUVeziSaUdzbenikomDaoImpl;
-import db.dao.PredmetDaoImpl;
-import db.dao.PredmetNaStudijskomProgramuDaoImpl;
-import db.dao.StatusDaoImpl;
-import db.dao.StudijskiProgramDaoImpl;
-import db.dao.TipNastaveDaoImpl;
-import db.dao.UdzbenikDaoImpl;
-import db.dao.UlogaUdzbenikDaoImpl;
-import db.dao.VrstaINivoStudijaDaoImpl;
+
 import domen.OsobaUVeziSaUdzbenikom;
 import domen.Korisnik;
 import domen.Nastavnik;
@@ -29,6 +18,34 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import session.Session;
+import so.ApstraktnaGenerickaOperacija;
+import so.AzurirajPredmet;
+import so.AzurirajPredmetNaStudisjkomProgramu;
+import so.AzurirajUdzbenik;
+import so.KreirajPredmet;
+import so.KreirajPredmetNaStudijskomProgramu;
+import so.KreirajUdzbenik;
+import so.ObrisiPredmet;
+import so.ObrisiPredmetNastudijskomProgramu;
+import so.ObrisiUdzbenik;
+import so.VratiKorisnika;
+import so.VratiNastavnikaZaId;
+import so.VratiOsobeZaUdzbenik;
+import so.VratiPredmetNaStudijskomPragramuZaId;
+import so.VratiPredmetZaId;
+import so.VratiPredmeteZaStudijskiProgram;
+import so.VratiStatusZaId;
+import so.VratiStudijskiProgramZaId;
+import so.VratiSveNastavnike;
+import so.VratiSvePredmete;
+import so.VratiSveStatuse;
+import so.VratiSveStudijskePrograme;
+import so.VratiSveTipoveNastave;
+import so.VratiSveUdzbenike;
+import so.VratiSveVrsteStudija;
+import so.VratiUdzbenikZaId;
+import so.VratiUdzbenikZaNaziv;
+import so.VratiUloguNaUdzbenikuZaNaziv;
 import transfer.request.RequestObject;
 import transfer.response.ResponseObject;
 import transfer.util.IOperation;
@@ -64,7 +81,8 @@ public class NitKlijent extends Thread {
                 switch (requestObject.getOperation()) {
                     case IOperation.VRATI_SVE_UDZBENIKE:
                         try {
-                            List<Udzbenik> udzbenici = UdzbenikDaoImpl.getInstance().vratiSveUdzbenike();
+                            ApstraktnaGenerickaOperacija vratiSveUdzbenike = new VratiSveUdzbenike();
+                            List<Udzbenik> udzbenici = (List<Udzbenik>) vratiSveUdzbenike.opsteIzvrsenje((Udzbenik) requestObject.getData());
                             responseObject.setData(udzbenici);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -74,7 +92,8 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.KREIRAJ_UDZBENIK:
                         try {
-                            Udzbenik kreiranUdzbenik = UdzbenikDaoImpl.getInstance().kreiraj((Udzbenik) requestObject.getData());
+                            ApstraktnaGenerickaOperacija kreirajUdzbenik = new KreirajUdzbenik();
+                            Udzbenik kreiranUdzbenik = (Udzbenik) kreirajUdzbenik.opsteIzvrsenje((Udzbenik) requestObject.getData());
                             responseObject.setData(kreiranUdzbenik);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -84,7 +103,8 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.AZURIRAJ_UDZBENIK:
                         try {
-                            Udzbenik azuriranUdzbenik = UdzbenikDaoImpl.getInstance().azuriraj((Udzbenik) requestObject.getData());
+                            ApstraktnaGenerickaOperacija azurirajUdzbenik = new AzurirajUdzbenik();
+                            Udzbenik azuriranUdzbenik = (Udzbenik) azurirajUdzbenik.opsteIzvrsenje((Udzbenik) requestObject.getData());
                             responseObject.setData(azuriranUdzbenik);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -94,7 +114,9 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.PRONADJI_UDZBENIK_PO_ID:
                         try {
-                            Udzbenik udzbenikFromDb = UdzbenikDaoImpl.getInstance().vratiPoId((int) requestObject.getData());
+                            ApstraktnaGenerickaOperacija vratiUdzbenikZaId = new VratiUdzbenikZaId();
+
+                            Udzbenik udzbenikFromDb = (Udzbenik) vratiUdzbenikZaId.opsteIzvrsenje((Udzbenik) requestObject.getData());
                             responseObject.setData(udzbenikFromDb);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -104,7 +126,8 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.PRONADJI_UDZBENIK_PO_NAZIVU:
                         try {
-                            Udzbenik udzbenikFromDb = UdzbenikDaoImpl.getInstance().pronadjiUdzbenikPoNazivu((String) requestObject.getData());
+                            ApstraktnaGenerickaOperacija vratiUdzbenikZaNaziv = new VratiUdzbenikZaNaziv();
+                            Udzbenik udzbenikFromDb = (Udzbenik) vratiUdzbenikZaNaziv.opsteIzvrsenje((Udzbenik) requestObject.getData());
                             responseObject.setData(udzbenikFromDb);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -114,7 +137,8 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.OBRISI_UDZBENIK:
                         try {
-                            Udzbenik obrisanUdzbenik = UdzbenikDaoImpl.getInstance().obrisi((Udzbenik) requestObject.getData());
+                            ApstraktnaGenerickaOperacija obrisiUdzbenik = new ObrisiUdzbenik();
+                            Udzbenik obrisanUdzbenik = (Udzbenik) obrisiUdzbenik.opsteIzvrsenje((Udzbenik) requestObject.getData());
                             responseObject.setData(obrisanUdzbenik);
                             responseObject.setCode(IStatus.OK);
                         } catch (Exception e) {
@@ -124,7 +148,8 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.VRATI_SVE_AUTORE:
                         try {
-                            List<OsobaUVeziSaUdzbenikom> osobe = OsobaUVeziSaUdzbenikomDaoImpl.getInstance().vratiOsobeZaUdzbenik((int) requestObject.getData());
+                            ApstraktnaGenerickaOperacija vratiSveOsobeZaUdzbenik = new VratiOsobeZaUdzbenik();
+                            List<OsobaUVeziSaUdzbenikom> osobe = (List<OsobaUVeziSaUdzbenikom>) vratiSveOsobeZaUdzbenik.opsteIzvrsenje((Udzbenik) requestObject.getData());
                             List<OsobaUVeziSaUdzbenikom> autori = new ArrayList<>();
                             for (OsobaUVeziSaUdzbenikom ouvsu : osobe) {
                                 if (ouvsu.getUlogaUdzbenik().getNaziv().equalsIgnoreCase("autor")) {
@@ -141,7 +166,8 @@ public class NitKlijent extends Thread {
 
                     case IOperation.VRATI_SVE_RECENZENTE:
                         try {
-                            List<OsobaUVeziSaUdzbenikom> osobe = OsobaUVeziSaUdzbenikomDaoImpl.getInstance().vratiOsobeZaUdzbenik((int) requestObject.getData());
+                            ApstraktnaGenerickaOperacija vratiOsobeZaUdzbenik = new VratiOsobeZaUdzbenik();
+                            List<OsobaUVeziSaUdzbenikom> osobe = (List<OsobaUVeziSaUdzbenikom>) vratiOsobeZaUdzbenik.opsteIzvrsenje((Udzbenik) requestObject.getData());
                             List<OsobaUVeziSaUdzbenikom> recenzenti = new ArrayList<>();
                             for (OsobaUVeziSaUdzbenikom ouvsu : osobe) {
                                 if (ouvsu.getUlogaUdzbenik().getNaziv().equalsIgnoreCase("recenzent")) {
@@ -159,8 +185,9 @@ public class NitKlijent extends Thread {
 
                     case IOperation.LOGIN:
                         try {
-                            Korisnik korisnikRequest = (Korisnik) requestObject.getData();
-                            Korisnik korisnikFromDb = KorisnikDaoImpl.getInstance().vratiKorisnika(korisnikRequest.getUsername(), korisnikRequest.getPassword());
+                            ApstraktnaGenerickaOperacija vratiKorisnika = new VratiKorisnika();
+                            Korisnik korisnikFromDb = (Korisnik) vratiKorisnika.opsteIzvrsenje((Korisnik) requestObject.getData());
+
                             if (korisnikFromDb != null) {
                                 Session.getInstance().getMap().put(korisnikFromDb.getUsername(), korisnikFromDb);
                             }
@@ -174,7 +201,8 @@ public class NitKlijent extends Thread {
 
                     case IOperation.PRONADJI_PREDMET_PO_ID:
                         try {
-                            Predmet predmet = PredmetDaoImpl.getInstance().vratiPoId((int) requestObject.getData());
+                            ApstraktnaGenerickaOperacija vratiPredmetZaId = new VratiPredmetZaId();
+                            Predmet predmet = (Predmet) vratiPredmetZaId.opsteIzvrsenje((Predmet) requestObject.getData());
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmet);
                         } catch (Exception e) {
@@ -184,7 +212,9 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.VRATI_SVE_VRSTE_I_NIVOE_STUDIJA:
                         try {
-                            List<VrstaINivoStudija> vrste = VrstaINivoStudijaDaoImpl.getInstance().vratiSveVrsteStudija();
+                            ApstraktnaGenerickaOperacija vratiSveVrsteStudija = new VratiSveVrsteStudija();
+
+                            List<VrstaINivoStudija> vrste = (List<VrstaINivoStudija>) vratiSveVrsteStudija.opsteIzvrsenje((VrstaINivoStudija) requestObject.getData());
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(vrste);
                         } catch (Exception e) {
@@ -194,7 +224,9 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.VRATI_SVE_TIPOVE_NASTAVE:
                         try {
-                            List<TipNastave> tipoviNastave = TipNastaveDaoImpl.getInstance().vratiSveTipoveNastave();
+                            ApstraktnaGenerickaOperacija vratiSveTipoveNastave = new VratiSveTipoveNastave();
+
+                            List<TipNastave> tipoviNastave = (List<TipNastave>) vratiSveTipoveNastave.opsteIzvrsenje((TipNastave) requestObject.getData());
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(tipoviNastave);
                         } catch (Exception e) {
@@ -205,7 +237,8 @@ public class NitKlijent extends Thread {
 
                     case IOperation.VRATI_SVE_NASTAVNIKE:
                         try {
-                            List<Nastavnik> nastavnici = NastavnikDaoImpl.getInstance().vratiSveNastavnike();
+                            ApstraktnaGenerickaOperacija vratiSveNastavnike = new VratiSveNastavnike();
+                            List<Nastavnik> nastavnici = (List<Nastavnik>) vratiSveNastavnike.opsteIzvrsenje(new Nastavnik());
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(nastavnici);
                         } catch (Exception e) {
@@ -216,7 +249,8 @@ public class NitKlijent extends Thread {
 
                     case IOperation.KREIRAJ_PREDMET:
                         try {
-                            Predmet predmet = PredmetDaoImpl.getInstance().kreiraj((Predmet) requestObject.getData());
+                            ApstraktnaGenerickaOperacija kreirajPredmet = new KreirajPredmet();
+                            Predmet predmet = (Predmet) kreirajPredmet.opsteIzvrsenje((Predmet) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmet);
@@ -228,7 +262,8 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.VRATI_ULOGU_UDZBENIK_PO_NAZIVU:
                         try {
-                            UlogaUdzbenik ulogaUdzbenik = UlogaUdzbenikDaoImpl.getInstance().vratiUloguNaUdzbenikuZaNaziv((String) requestObject.getData());
+                            ApstraktnaGenerickaOperacija vratuUloguNaUdzbenikuZaNaziv = new VratiUloguNaUdzbenikuZaNaziv();
+                            UlogaUdzbenik ulogaUdzbenik = (UlogaUdzbenik) vratuUloguNaUdzbenikuZaNaziv.opsteIzvrsenje((UlogaUdzbenik) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(ulogaUdzbenik);
@@ -240,7 +275,8 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.VRATI_SVE_PREDMETE:
                         try {
-                            List<Predmet> predmeti = PredmetDaoImpl.getInstance().vratiSvePredmete();
+                            ApstraktnaGenerickaOperacija vratiSvePredmete = new VratiSvePredmete();
+                            List<Predmet> predmeti = (List<Predmet>) vratiSvePredmete.opsteIzvrsenje((Predmet) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmeti);
@@ -252,7 +288,8 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.AZURIRAJ_PREDMET:
                         try {
-                            Predmet predmet = PredmetDaoImpl.getInstance().azuriraj((Predmet) requestObject.getData());
+                            ApstraktnaGenerickaOperacija azurirajPredmet = new AzurirajPredmet();
+                            Predmet predmet = (Predmet) azurirajPredmet.opsteIzvrsenje((Predmet) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmet);
@@ -264,7 +301,8 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.OBRISI_PREDMET:
                         try {
-                            Predmet predmet = PredmetDaoImpl.getInstance().obrisi((Predmet) requestObject.getData());
+                            ApstraktnaGenerickaOperacija obrisiPredmet = new ObrisiPredmet();
+                            Predmet predmet = (Predmet) obrisiPredmet.opsteIzvrsenje((Predmet) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmet);
@@ -277,7 +315,8 @@ public class NitKlijent extends Thread {
 
                     case IOperation.VRATI_SVE_STATUSE:
                         try {
-                            List<Status> statusi = StatusDaoImpl.getInstance().vratiSveStatuse();
+                            ApstraktnaGenerickaOperacija vratiSveStatuse = new VratiSveStatuse();
+                            List<Status> statusi = (List<Status>) vratiSveStatuse.opsteIzvrsenje((Status) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(statusi);
@@ -289,7 +328,8 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.PRONADJI_STATUS_PO_ID:
                         try {
-                            Status status = StatusDaoImpl.getInstance().vratiPoId((int) requestObject.getData());
+                            ApstraktnaGenerickaOperacija vratiStatusZaId = new VratiStatusZaId();
+                            Status status = (Status) vratiStatusZaId.opsteIzvrsenje((Status) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(status);
@@ -302,7 +342,8 @@ public class NitKlijent extends Thread {
 
                     case IOperation.VRATI_SVE_STUDIJSKE_PROGRAME:
                         try {
-                            List<StudijskiProgram> studijskiProgrami = StudijskiProgramDaoImpl.getInstance().vratiSveStudijskePrograme();
+                            ApstraktnaGenerickaOperacija vratiSveStudijskePrograme = new VratiSveStudijskePrograme();
+                            List<StudijskiProgram> studijskiProgrami = (List<StudijskiProgram>) vratiSveStudijskePrograme.opsteIzvrsenje((StudijskiProgram) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(studijskiProgrami);
@@ -315,7 +356,8 @@ public class NitKlijent extends Thread {
 
                     case IOperation.PRONADJI_STUDIJSKI_PROGRAM_PO_ID:
                         try {
-                            StudijskiProgram studijskiProgram = StudijskiProgramDaoImpl.getInstance().vratiPoId((int) requestObject.getData());
+                            ApstraktnaGenerickaOperacija vratiStudijskiProgramZaId = new VratiStudijskiProgramZaId();
+                            StudijskiProgram studijskiProgram = (StudijskiProgram) vratiStudijskiProgramZaId.opsteIzvrsenje((StudijskiProgram) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(studijskiProgram);
@@ -327,7 +369,8 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.KREIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU:
                         try {
-                            PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance().kreiraj((PredmetNaStudijskomProgramu) requestObject.getData());
+                            ApstraktnaGenerickaOperacija kreirajPredmetNaStudijskomProgramu = new KreirajPredmetNaStudijskomProgramu();
+                            PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = (PredmetNaStudijskomProgramu) kreirajPredmetNaStudijskomProgramu.opsteIzvrsenje((PredmetNaStudijskomProgramu) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmetNaStudijskomProgramu);
@@ -339,8 +382,8 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM:
                         try {
-                            List<PredmetNaStudijskomProgramu> predmetiNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance()
-                                    .vratiPredmetZaStudijskiProgram((int) requestObject.getData());
+                            ApstraktnaGenerickaOperacija vratiPredmeteZaStudijskiProgram = new VratiPredmeteZaStudijskiProgram();
+                            List<PredmetNaStudijskomProgramu> predmetiNaStudijskomProgramu = (List<PredmetNaStudijskomProgramu>) vratiPredmeteZaStudijskiProgram.opsteIzvrsenje((PredmetNaStudijskomProgramu) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmetiNaStudijskomProgramu);
@@ -353,8 +396,8 @@ public class NitKlijent extends Thread {
 
                     case IOperation.PRONADJI_PREDMET_NA_STUDIJSKOM_PROGRAMU_ZA_ID:
                         try {
-                            PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance()
-                                    .vratiPredmetNaStudijskomProgramuZaId(((PredmetNaStudijskomProgramu) requestObject.getData()).getPredmet().getPredmetId(), ((PredmetNaStudijskomProgramu) requestObject.getData()).getStudijskiProgram().getStudijskiProgramId());
+                            ApstraktnaGenerickaOperacija vratiPredmetNaStudijskomProgramuZaId = new VratiPredmetNaStudijskomPragramuZaId();
+                            PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = (PredmetNaStudijskomProgramu) vratiPredmetNaStudijskomProgramuZaId.opsteIzvrsenje((PredmetNaStudijskomProgramu) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmetNaStudijskomProgramu);
@@ -366,8 +409,8 @@ public class NitKlijent extends Thread {
                         break;
                     case IOperation.AZURIRAJ_PREDMET_NA_STUDIJSKOM_PROGRAMU:
                         try {
-                            PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance()
-                                    .azuriraj((PredmetNaStudijskomProgramu) requestObject.getData());
+                            ApstraktnaGenerickaOperacija azurirajPredmetNaStudijskomProgramu = new AzurirajPredmetNaStudisjkomProgramu();
+                            PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = (PredmetNaStudijskomProgramu) azurirajPredmetNaStudijskomProgramu.opsteIzvrsenje((PredmetNaStudijskomProgramu) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmetNaStudijskomProgramu);
@@ -380,8 +423,9 @@ public class NitKlijent extends Thread {
 
                     case IOperation.OBRISI_PREDMET_NA_STUDIJSKOM_PROGRAMU:
                         try {
-                            PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = PredmetNaStudijskomProgramuDaoImpl.getInstance()
-                                    .obrisi(((PredmetNaStudijskomProgramu) requestObject.getData()).getPredmet().getPredmetId(), ((PredmetNaStudijskomProgramu) requestObject.getData()).getStudijskiProgram().getStudijskiProgramId());
+                            ApstraktnaGenerickaOperacija obrisiPredmetNaStudijskomProgramu = new ObrisiPredmetNastudijskomProgramu();
+
+                            PredmetNaStudijskomProgramu predmetNaStudijskomProgramu = (PredmetNaStudijskomProgramu) obrisiPredmetNaStudijskomProgramu.opsteIzvrsenje((PredmetNaStudijskomProgramu) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmetNaStudijskomProgramu);
@@ -409,10 +453,11 @@ public class NitKlijent extends Thread {
                             responseObject.setMessage(e.getMessage());
                         }
                         break;
-                        
+
                     case IOperation.PRONADJI_NASTAVNIKA_PO_ID:
                         try {
-                            Nastavnik nastavnik = NastavnikDaoImpl.getInstance().vratiPoId((int)requestObject.getData());
+                            ApstraktnaGenerickaOperacija vratiNastavnikaZaId = new VratiNastavnikaZaId();
+                            Nastavnik nastavnik = (Nastavnik) vratiNastavnikaZaId.opsteIzvrsenje((Nastavnik) requestObject.getData());
                             if (nastavnik != null) {
 
                                 responseObject.setData(nastavnik);
@@ -437,7 +482,7 @@ public class NitKlijent extends Thread {
                 output.writeObject(responseObject);
                 output.flush();
             } catch (Exception ex) {
-              
+
             }
         }
     }

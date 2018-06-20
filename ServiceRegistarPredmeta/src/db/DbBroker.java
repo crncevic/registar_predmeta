@@ -133,10 +133,10 @@ public class DbBroker {
             if (brojRedova > 0) {
                 return true;
             } else {
-               return false;
+                return false;
             }
         } catch (Exception e) {
-           throw  new Exception("Dogodila se greska prilikom brisanja iz tabele "+odo.vratiImeKlase());
+            throw new Exception("Dogodila se greska prilikom brisanja iz tabele " + odo.vratiImeKlase());
         }
     }
 
