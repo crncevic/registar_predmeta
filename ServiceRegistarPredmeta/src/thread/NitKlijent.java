@@ -383,7 +383,7 @@ public class NitKlijent extends Thread {
                     case IOperation.VRATI_PREDMETE_ZA_STUDIJSKI_PROGRAM:
                         try {
                             ApstraktnaGenerickaOperacija vratiPredmeteZaStudijskiProgram = new VratiPredmeteZaStudijskiProgram();
-                            List<PredmetNaStudijskomProgramu> predmetiNaStudijskomProgramu = (List<PredmetNaStudijskomProgramu>) vratiPredmeteZaStudijskiProgram.opsteIzvrsenje((PredmetNaStudijskomProgramu) requestObject.getData());
+                            List<PredmetNaStudijskomProgramu> predmetiNaStudijskomProgramu = (List<PredmetNaStudijskomProgramu>) vratiPredmeteZaStudijskiProgram.opsteIzvrsenje((StudijskiProgram) requestObject.getData());
 
                             responseObject.setCode(IStatus.OK);
                             responseObject.setData(predmetiNaStudijskomProgramu);

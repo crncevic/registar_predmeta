@@ -24,6 +24,7 @@ public class VratiPredmeteZaStudijskiProgram extends ApstraktnaGenerickaOperacij
 
     @Override
     protected void izvrsiValidaciju(OpstiDomenskiObjekat odo) throws Exception {
+        
     }
 
     @Override

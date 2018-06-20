@@ -103,7 +103,7 @@ public class VratiPredmetZaId extends ApstraktnaGenerickaOperacija {
 
                     TipNastave tipNastave = new TipNastave();
                     tipNastave.setTipNastaveId(rs5.getInt("tipNastaveId"));
-                    nnp.setTipNastave((TipNastave) vratiNastavnikaZaId.opsteIzvrsenje(tipNastave));
+                    nnp.setTipNastave((TipNastave) vratiTipNastavezaId.opsteIzvrsenje(tipNastave));
 
                     nastavniciNaPredmetu.add(nnp);
                 }
